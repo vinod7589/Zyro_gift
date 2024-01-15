@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
+import '../../../util/services/shared_preferences.dart';
+import '../widgets/landingpage.dart';
 import 'mobile_number_page.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -13,6 +15,12 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPage extends State<OnboardingPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +45,19 @@ class _OnboardingPage extends State<OnboardingPage> {
               ),
               Row(
                 children: [
-                  Text(
-                    'Zyro Gifts',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => landingPage()));
+                    },
+                    child: Text(
+                      'Zyro Gifts',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -57,7 +73,7 @@ class _OnboardingPage extends State<OnboardingPage> {
                         text: 'Get exciting discounts, \n',
                         style: TextStyle(
                           color: Color(0xFF373737),
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.48,
@@ -67,7 +83,7 @@ class _OnboardingPage extends State<OnboardingPage> {
                         text: 'Always',
                         style: TextStyle(
                           color: Color(0xFF373737),
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.48,
@@ -86,7 +102,7 @@ class _OnboardingPage extends State<OnboardingPage> {
                     'save up to 10% on',
                     style: TextStyle(
                       color: Color(0xFF5801B7),
-                      fontSize: 14.61,
+                      fontSize: 14.61.sp,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.29,
@@ -122,7 +138,8 @@ class _OnboardingPage extends State<OnboardingPage> {
                                       'Login',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 15,
+                                        fontSize: 15.sp,
+                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w600,
                                       ),
                                     )),

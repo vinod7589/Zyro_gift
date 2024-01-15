@@ -1,29 +1,32 @@
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/payment_option_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../widget/Home_globalPage.dart';
 import 'apply_coupon_page.dart';
 
-class MyntraCardPAge extends StatelessWidget {
+class MyntraCardPAge extends ConsumerWidget {
   const MyntraCardPAge({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    var discountpage = ref.watch(HomeGlobalPage);
     return Scaffold(
-      backgroundColor: Color.fromRGBO(35, 35, 35, 1),
+      backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       appBar: AppBar(
         titleSpacing: 5,
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color.fromRGBO(35, 35, 35, 1),
-        title: Text(
+        backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+        title: const Text(
           'Myntra Card',
           style: TextStyle(
             color: Colors.white,
@@ -37,14 +40,14 @@ class MyntraCardPAge extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
             width: double.infinity,
             height: 174,
             decoration: BoxDecoration(
                 color: Colors.deepPurple.shade800.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Color(0xFF494949),
+                  color: const Color(0xFF494949),
                 )),
             child: Column(
               children: [
@@ -60,17 +63,17 @@ class MyntraCardPAge extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 0,
                 ),
                 Image.asset(
                   'assets/images/myntra-m-logo.png',
                   height: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
-                Text(
+                const Text(
                   'Card worth',
                   style: TextStyle(
                     color: Colors.white,
@@ -79,13 +82,13 @@ class MyntraCardPAge extends StatelessWidget {
                     letterSpacing: 0.24,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text.rich(
                   TextSpan(
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: ' ₹ ',
                         style: TextStyle(
                           color: Colors.white,
@@ -96,8 +99,9 @@ class MyntraCardPAge extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: '2,500',
-                        style: TextStyle(
+                        text:
+                            '${discountpage.getTotalamount().toString().replaceAll(discountpage.regex, '')}',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 23.14,
                           fontFamily: 'Urbanist',
@@ -108,13 +112,13 @@ class MyntraCardPAge extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, left: 20, right: 20),
+                        padding:
+                            EdgeInsets.only(bottom: 10, left: 20, right: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -144,10 +148,10 @@ class MyntraCardPAge extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -177,32 +181,22 @@ class MyntraCardPAge extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                ' ₹ ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13.88,
-                  fontFamily: 'Urbanist',
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.28,
-                ),
-              ),
-              Text(
-                '2500',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.38,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w400,
-                  height: 1.19,
-                  letterSpacing: 0.06,
-                ),
+                ' ₹ ' + '${discountpage.getTotalamount()}',
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13.88,
+                    fontFamily: 'Urbanist',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.28,
+                    decorationColor: Colors.white,
+                    decoration: TextDecoration.lineThrough),
               ),
             ],
           ),
@@ -212,7 +206,7 @@ class MyntraCardPAge extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: ' ',
                       style: TextStyle(
                         color: Colors.white,
@@ -223,8 +217,9 @@ class MyntraCardPAge extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: '2,375.5',
-                      style: TextStyle(
+                      text:
+                          '${discountpage.getTotalAmountWithDecreaseinPercentage()}',
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 23.14,
                         fontFamily: 'Urbanist',
@@ -237,7 +232,7 @@ class MyntraCardPAge extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -250,14 +245,14 @@ class MyntraCardPAge extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ApplyCouponPage()));
+                            builder: (context) => const ApplyCouponPage()));
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 22),
+                    padding: const EdgeInsets.symmetric(horizontal: 22),
                     height: 53,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Color(0xFF878787)),
+                        side: const BorderSide(color: Color(0xFF878787)),
                         borderRadius: BorderRadius.circular(34),
                       ),
                     ),
@@ -271,10 +266,10 @@ class MyntraCardPAge extends StatelessWidget {
                                 'assets/images/Ticket.png',
                                 height: 20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 18,
                               ),
-                              Text(
+                              const Text(
                                 'Apply Coupon Code',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -295,13 +290,14 @@ class MyntraCardPAge extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 28,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   decoration: ShapeDecoration(
-                    color: Color(0xFF2D2D2D),
+                    color: const Color(0xFF2D2D2D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -312,17 +308,17 @@ class MyntraCardPAge extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 1),
+                            margin: const EdgeInsets.only(top: 1),
                             child: Row(
                               children: [
                                 Image.asset(
                                   'assets/images/Paper.png',
                                   height: 20,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 18,
                                 ),
-                                Text(
+                                const Text(
                                   'Terms & Conditions',
                                   style: TextStyle(
                                     color: Colors.white,
@@ -341,13 +337,13 @@ class MyntraCardPAge extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Divider(
+                      const Divider(
                         color: Color(0xFF454545),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 14,
                       ),
                       Row(
@@ -356,10 +352,10 @@ class MyntraCardPAge extends StatelessWidget {
                             'assets/images/chekbox.png',
                             height: 18,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 13,
                           ),
-                          Text(
+                          const Text(
                             'Comes with 6 months validity.',
                             style: TextStyle(
                               color: Colors.white,
@@ -371,7 +367,7 @@ class MyntraCardPAge extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 9,
                       ),
                       Row(
@@ -380,10 +376,10 @@ class MyntraCardPAge extends StatelessWidget {
                             'assets/images/chekbox.png',
                             height: 18,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 13,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 289,
                             child: Text(
                               'You can use a maximum 10% of your accrued rewards when generating a voucher for this brand.',
@@ -398,7 +394,7 @@ class MyntraCardPAge extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 9,
                       ),
                       Row(
@@ -407,10 +403,10 @@ class MyntraCardPAge extends StatelessWidget {
                             'assets/images/chekbox.png',
                             height: 18,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 13,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 291,
                             child: Text(
                               'Max.    25,000/month can be loaded in Myntra wallet.',
@@ -425,7 +421,7 @@ class MyntraCardPAge extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                     ],
@@ -451,7 +447,7 @@ class MyntraCardPAge extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return Container(
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: Color(0xFF2C2C2C),
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(12),
@@ -466,10 +462,11 @@ class MyntraCardPAge extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 12),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 12),
                                                   decoration: BoxDecoration(
-                                                      color: Color(0xFF444444),
+                                                      color: const Color(
+                                                          0xFF444444),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               30)),
@@ -478,7 +475,7 @@ class MyntraCardPAge extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 20,
                                             ),
                                             Column(
@@ -487,83 +484,30 @@ class MyntraCardPAge extends StatelessWidget {
                                                   'assets/images/myntra-m-logo.png',
                                                   height: 20,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 14,
                                                 ),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    Text.rich(
-                                                      TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text: ' ',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16.20,
-                                                              fontFamily:
-                                                                  'Urbanist',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              letterSpacing:
-                                                                  0.32,
-                                                            ),
-                                                          ),
-                                                          TextSpan(
-                                                            text: '₹',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16.20,
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              letterSpacing:
-                                                                  0.32,
-                                                            ),
-                                                          ),
-                                                          TextSpan(
-                                                            text: ' ',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16.20,
-                                                              fontFamily:
-                                                                  'Urbanist',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              letterSpacing:
-                                                                  0.32,
-                                                            ),
-                                                          ),
-                                                          TextSpan(
-                                                            text: '2,500',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 16.20,
-                                                              fontFamily:
-                                                                  'Urbanist',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              letterSpacing:
-                                                                  0.32,
-                                                            ),
-                                                          ),
-                                                        ],
+                                                    Text(
+                                                      '₹ ' +
+                                                          '${discountpage.getTotalamount().toString().replaceAll(discountpage.regex, '')}',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16.20,
+                                                        fontFamily: 'Urbanist',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        height: 0,
+                                                        letterSpacing: 0.32,
                                                       ),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       width: 10,
                                                     ),
-                                                    Text(
+                                                    const Text(
                                                       'Brand Card',
                                                       style: TextStyle(
                                                         color: Colors.white,
@@ -576,42 +520,23 @@ class MyntraCardPAge extends StatelessWidget {
                                                     )
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
-                                                Text.rich(
-                                                  TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text: ' ₹ ',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 23.14,
-                                                          fontFamily:
-                                                              'Urbanist',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          letterSpacing: 0.46,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text: '2,500',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 23.14,
-                                                          fontFamily:
-                                                              'Urbanist',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          letterSpacing: 0.46,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                Text(
+                                                  '₹ ' +
+                                                      '${discountpage.getTotalAmountWithDecreaseinPercentage().toString().replaceAll(discountpage.regex, '')}',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 33.21,
+                                                    fontFamily: 'Urbanist',
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 0.66,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 40,
                                             ),
                                             Padding(
@@ -625,7 +550,7 @@ class MyntraCardPAge extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text(
+                                                      const Text(
                                                         'Brand Card',
                                                         style: TextStyle(
                                                           color: Colors.white,
@@ -636,40 +561,17 @@ class MyntraCardPAge extends StatelessWidget {
                                                           letterSpacing: 0.30,
                                                         ),
                                                       ),
-                                                      Text.rich(
-                                                        TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: ' ₹ ',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 16,
-                                                                fontFamily:
-                                                                    'Urbanist',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                letterSpacing:
-                                                                    0.32,
-                                                              ),
-                                                            ),
-                                                            TextSpan(
-                                                              text: '2,500',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 16,
-                                                                fontFamily:
-                                                                    'Urbanist',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                letterSpacing:
-                                                                    0.32,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                      Text(
+                                                        '₹ ' +
+                                                            '${discountpage.getTotalamount().toString().replaceAll(discountpage.regex, '')}',
+                                                        style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16,
+                                                          fontFamily:
+                                                              'Urbanist',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          letterSpacing: 0.32,
                                                         ),
                                                       )
                                                     ],
@@ -680,7 +582,7 @@ class MyntraCardPAge extends StatelessWidget {
                                                             .spaceBetween,
                                                     children: [
                                                       Container(
-                                                        child: Row(
+                                                        child: const Row(
                                                           children: [
                                                             Text(
                                                               'Discount',
@@ -721,7 +623,7 @@ class MyntraCardPAge extends StatelessWidget {
                                                       Text.rich(
                                                         TextSpan(
                                                           children: [
-                                                            TextSpan(
+                                                            const TextSpan(
                                                               text: ' -₹',
                                                               style: TextStyle(
                                                                 color: Colors
@@ -737,8 +639,10 @@ class MyntraCardPAge extends StatelessWidget {
                                                               ),
                                                             ),
                                                             TextSpan(
-                                                              text: '125',
-                                                              style: TextStyle(
+                                                              text:
+                                                                  '${discountpage.getDiscountDecreaseAmount(discountpage.amount).toString().replaceAll(discountpage.regex, '')}',
+                                                              style:
+                                                                  const TextStyle(
                                                                 color: Colors
                                                                     .white,
                                                                 fontSize: 16,
@@ -756,13 +660,13 @@ class MyntraCardPAge extends StatelessWidget {
                                                       )
                                                     ],
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 20,
                                                   ),
-                                                  Divider(
+                                                  const Divider(
                                                     color: Color(0xFF363636),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 12,
                                                   ),
                                                   Row(
@@ -770,7 +674,7 @@ class MyntraCardPAge extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text(
+                                                      const Text(
                                                         'Amount to pay',
                                                         style: TextStyle(
                                                           color: Colors.white,
@@ -781,40 +685,17 @@ class MyntraCardPAge extends StatelessWidget {
                                                           letterSpacing: 0.34,
                                                         ),
                                                       ),
-                                                      Text.rich(
-                                                        TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: ' ₹ ',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 23.14,
-                                                                fontFamily:
-                                                                    'Urbanist',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                letterSpacing:
-                                                                    0.46,
-                                                              ),
-                                                            ),
-                                                            TextSpan(
-                                                              text: '2,375',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 23.14,
-                                                                fontFamily:
-                                                                    'Urbanist',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                letterSpacing:
-                                                                    0.46,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                      Text(
+                                                        '₹ ' +
+                                                            '${discountpage.getTotalAmountWithDecreaseinPercentage().toString().replaceAll(discountpage.regex, '')}',
+                                                        style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 23.14,
+                                                          fontFamily:
+                                                              'Urbanist',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          letterSpacing: 0.46,
                                                         ),
                                                       )
                                                     ],
@@ -822,20 +703,21 @@ class MyntraCardPAge extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 30,
                                             ),
                                             Row(
                                               children: [
                                                 Expanded(
                                                   child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 20,
-                                                        left: 25,
-                                                        right: 25),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 20,
+                                                            left: 25,
+                                                            right: 25),
                                                     height: 51,
                                                     child: ElevatedButton(
-                                                        style: ButtonStyle(
+                                                        style: const ButtonStyle(
                                                             backgroundColor:
                                                                 MaterialStatePropertyAll(
                                                                     Colors
@@ -846,9 +728,9 @@ class MyntraCardPAge extends StatelessWidget {
                                                               MaterialPageRoute(
                                                                   builder:
                                                                       (context) =>
-                                                                          PaymentOptionPage()));
+                                                                          const PaymentOptionPage()));
                                                         },
-                                                        child: Text(
+                                                        child: const Text(
                                                           'Pay ₹2350',
                                                           style: TextStyle(
                                                             color: Color(
@@ -873,7 +755,7 @@ class MyntraCardPAge extends StatelessWidget {
                                   },
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 'Get This Card',
                                 style: TextStyle(
                                   color: Color(0xFF2C2C2C),

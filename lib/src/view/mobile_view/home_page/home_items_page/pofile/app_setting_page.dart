@@ -1,3 +1,6 @@
+import 'package:abc/src/infrastructure/repository/auth_repo.dart';
+import 'package:abc/src/util/services/shared_preferences.dart';
+import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -112,14 +115,24 @@ class _AppSettingPageState extends State<AppSettingPage> {
                       SizedBox(
                         width: 20,
                       ),
-                      Text(
-                        'Log out',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.20,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          height: 1.38,
+                      InkWell(
+                        onTap: () {
+                          // UserPreferences.clearUserData();
+                          // print(UserPreferences.clearUserData());
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => MobileNumberPage()));
+                        },
+                        child: Text(
+                          'Log out',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.20,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            height: 1.38,
+                          ),
                         ),
                       )
                     ],

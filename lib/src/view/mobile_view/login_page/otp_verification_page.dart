@@ -1,18 +1,14 @@
 import 'dart:async';
 
 import 'package:abc/src/infrastructure/repository/auth_repo.dart';
-import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/widgets/dialogs/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../util/services/shared_preferences.dart';
-import 'customer_enter_details.dart';
 
 class OtpVerificationPage extends StatefulWidget {
-  // final Function(String) onFieldSubmitted;
-
   const OtpVerificationPage();
 
   @override
@@ -27,6 +23,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
   @override
   void initState() {
+    resentEnabled = false;
     super.initState();
     _focusNodes = List.generate(4, (index) => FocusNode());
     _otpControllers = List.generate(4, (index) => TextEditingController());
@@ -44,6 +41,18 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         }
       });
     }
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
+      if (secondsRemaining != 0) {
+        setState(() {
+          secondsRemaining--;
+        });
+      } else {
+        setState(() {
+          resentEnabled = true;
+          timer.cancel();
+        });
+      }
+    });
   }
 
   @override
@@ -52,7 +61,40 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       _focusNodes[i].dispose();
       _otpControllers[i].dispose();
     }
+    timer.cancel();
     super.dispose();
+  }
+
+  void clearOtpField() {
+    for (var controller in _otpControllers) {
+      controller.text = "";
+    }
+  }
+
+  int secondsRemaining = 30;
+  bool resentEnabled = true;
+  late Timer timer;
+
+  void _count() {
+    secondsRemaining = 30;
+
+    resentEnabled = false;
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
+      if (secondsRemaining != 0) {
+        setState(() {
+          secondsRemaining--;
+        });
+      } else {
+        setState(() {});
+        resentEnabled = true;
+        timer.cancel();
+      }
+    });
+    //other code here
+    // setState(() {
+    //   // secondsRemaining = 30;
+    //   resentEnabled = true;
+    // });
   }
 
   @override
@@ -136,7 +178,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     ),
                                   ),
                                   Text(
-                                    UserPreferences.mobileNoForOtp,
+                                    UserPreferences.userMobile,
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -202,12 +244,6 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: const BorderSide(
                                         color: Color(0xFFC7C7C7)))),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return '';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                       ),
@@ -216,7 +252,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 ),
               ),
               // 6.verticalSpace,
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Row(
                   children: [
@@ -228,13 +264,27 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Text(
-                      'Resend OTP',
-                      style: TextStyle(
-                        color: Color(0xFF676767),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline,
+                    InkWell(
+                      onTap: resentEnabled
+                          ? () {
+                              AuthRepo().resendOtp(context);
+                              _count();
+
+                              clearOtpField();
+                            }
+                          : null,
+                      child: Text(
+                        resentEnabled
+                            ? 'Resend OTP '
+                            : secondsRemaining.toString(),
+                        style: TextStyle(
+                          color: Color(0xFF676767),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          decoration: resentEnabled
+                              ? TextDecoration.underline
+                              : TextDecoration.none,
+                        ),
                       ),
                     )
                   ],
@@ -263,6 +313,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                   'Verify',
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontFamily: 'Poppins',
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -284,17 +335,53 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   }
 
   submitOtp() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      for (var element in _otpControllers) {
-        String tempOtp = element.text;
-        otp = "${otp}$tempOtp";
-        tempOtp = "";
+    bool isOtpFilled = true;
+
+    // Check if any OTP field is empty
+    for (var element in _otpControllers) {
+      if (element.text.isEmpty) {
+        isOtpFilled = false;
+        break;
       }
-      showLoading(context);
-      await AuthRepo().verifyOTP(
-          otp: otp, smstoken: UserPreferences.otpTempId, context: context);
-      otp = "";
-    } else {}
+    }
+
+    if (isOtpFilled) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        for (var element in _otpControllers) {
+          String tempOtp = element.text;
+          otp = "$otp$tempOtp";
+          tempOtp = "";
+        }
+        showLoading(context);
+        await AuthRepo.verifyOTP(
+          otp: otp,
+          refId: UserPreferences.otpTempId,
+          context: context,
+        );
+        otp = "";
+      } else {
+        // Handle form validation errors if needed
+      }
+    } else {
+      // OTP fields are not filled
+      // You can display an error message or handle it according to your UI flow
+      print('Please fill all OTP fields');
+    }
   }
+
+  // submitOtp() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     _formKey.currentState!.save();
+  //     for (var element in _otpControllers) {
+  //       String tempOtp = element.text;
+  //       otp = "${otp}$tempOtp";
+  //       tempOtp = "";
+  //     }
+  //     showLoading(context);
+  //     await AuthRepo().verifyOTP(
+  //         otp: otp, refId: UserPreferences.otpTempId, context: context);
+  //     otp = "";
+  //   } else {}
+  // }
 }

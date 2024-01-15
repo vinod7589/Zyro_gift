@@ -7,19 +7,24 @@ class UserPreferences {
   static late SharedPreferences _preferences;
 
   static const _otpRefId = 'ref_id';
-  static const _mobileNo = 'mobile_No';
+  static const _userMobile = 'userMobile';
   static const _token = 'token';
   static const _fullName = 'full_Name';
   static const _email = 'email';
   static const _dob = 'date_Of_Birth';
+  static const _userId = 'user_Id';
   static const _referalCode = 'referalCode';
 
   static Future setTempOtpId({required String id}) async {
     await _preferences.setString(_otpRefId, id);
   }
 
-  static Future setMobileNoForOtp({required String mobile}) async {
-    await _preferences.setString(_mobileNo, mobile);
+  static Future setUserId({required String userId}) async {
+    await _preferences.setString(_userId, userId);
+  }
+
+  static Future setUserMobile({String? mobileNumber}) async {
+    await _preferences.setString(_userMobile, mobileNumber ?? "");
   }
 
   static Future setTokenId({required String token}) async {
@@ -46,15 +51,31 @@ class UserPreferences {
     await _preferences.remove(_otpRefId);
   }
 
-  static Future removeMobileNoForOtp() async {
-    await _preferences.remove(_mobileNo);
+  static Future removeMobileNo() async {
+    await _preferences.remove(_userMobile);
+  }
+
+  static Future removeUserId() async {
+    await _preferences.remove(_userId);
   }
 
   static String get otpTempId => _preferences.getString(_otpRefId) ?? "";
-  static String get mobileNoForOtp => _preferences.getString(_mobileNo) ?? "";
   static String get tokenId => _preferences.getString(_token) ?? "";
   static String get fullName => _preferences.getString(_fullName) ?? "";
   static String get email => _preferences.getString(_email) ?? "";
   static String get dob => _preferences.getString(_dob) ?? "";
   static String get referalCode => _preferences.getString(_referalCode) ?? "";
+  static String get userMobile => _preferences.getString(_userMobile) ?? "";
+  static String get userId => _preferences.getString(_userId) ?? "";
+
+  static Future clearUserData() async {
+    await _preferences.remove(_otpRefId);
+    await _preferences.remove(_userMobile);
+    await _preferences.remove(_token);
+    await _preferences.remove(_fullName);
+    await _preferences.remove(_email);
+    await _preferences.remove(_dob);
+    await _preferences.remove(_userId);
+    await _preferences.remove(_referalCode);
+  }
 }

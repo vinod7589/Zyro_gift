@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 
-
 class WalletPage extends StatelessWidget {
   const WalletPage({super.key});
 
@@ -110,7 +109,7 @@ class WalletPage extends StatelessWidget {
                           ],
                         ),
                         Image.asset(
-                          'assets/images/WalletPage2.png',
+                          'assets/images/wallet2.png',
                           height: 112,
                         )
                       ],
@@ -160,7 +159,7 @@ class WalletPage extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Add money to your WalletPageflutter pub get',
+                    'Add money to your',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.80,

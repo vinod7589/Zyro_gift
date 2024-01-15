@@ -1,18 +1,19 @@
-import 'package:abc/src/infrastructure/repository/auth_repo.dart';
 import 'package:abc/src/view/widgets/textfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../constants/page_padding.dart';
+import '../../../infrastructure/repository/auth_repo.dart';
+import '../../../model/auth/registration_model.dart';
 import '../../Utility/validator.dart';
 import '../widgets/landingpage.dart';
 
-class customer_enter_details extends StatefulWidget {
-  customer_enter_details({super.key});
+class CustomerEnterDetails extends StatefulWidget {
+  CustomerEnterDetails({super.key});
 
   @override
-  State<customer_enter_details> createState() => _customer_enter_detailsState();
+  State<CustomerEnterDetails> createState() => _CustomerEnterDetailsState();
 }
 
 final _formKey = GlobalKey<FormState>();
@@ -22,7 +23,7 @@ TextEditingController _email = TextEditingController();
 TextEditingController _referralCode = TextEditingController();
 TextEditingController _dateOfBirth = TextEditingController();
 
-class _customer_enter_detailsState extends State<customer_enter_details> {
+class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
   @override
   void dispose() {
     // TODO: implement dispose
@@ -206,21 +207,30 @@ class _customer_enter_detailsState extends State<customer_enter_details> {
                                   style: const ButtonStyle(
                                       backgroundColor: MaterialStatePropertyAll(
                                           Colors.black)),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
                                       _formKey.currentState!.save();
-                                      AuthRepo().signUp(
+                                      Signup? res = await AuthRepo.signUp(
                                           _fullName.text,
                                           _email.text,
                                           _dateOfBirth.text,
                                           _referralCode.text,
                                           context);
+                                      if (res?.status == 'success') {
+                                        await AuthRepo.getUserDetail();
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    landingPage()));
+                                      }
                                     }
                                   },
                                   child: const Text(
                                     'Continue',
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontFamily: 'Poppins',
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                     ),

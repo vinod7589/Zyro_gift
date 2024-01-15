@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PaymentOptionPage extends StatelessWidget {
-  const PaymentOptionPage({super.key});
+import '../widget/Home_globalPage.dart';
+
+class PaymentOptionPage extends ConsumerWidget {
+  const PaymentOptionPage();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    var paymentOption = ref.watch(HomeGlobalPage);
     return Scaffold(
       backgroundColor: Color.fromRGBO(35, 35, 35, 1),
       appBar: AppBar(
@@ -38,7 +42,7 @@ class PaymentOptionPage extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'Total : 2,375',
+                  'Total : ${paymentOption.getTotalAmountWithDecreaseinPercentage()}',
                   style: TextStyle(
                     color: Color(0xFFE0E0E0),
                     fontSize: 15,

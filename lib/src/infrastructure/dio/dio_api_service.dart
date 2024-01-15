@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'encryptdecrypt.dart';
+import '../../util/services/shared_preferences.dart';
 
 final dio = Dio();
 
@@ -19,7 +19,8 @@ class DioApiService {
       final jsonResponse = json.decode(response.data);
       return jsonResponse;
     } else {
-      print(response);
+      log(response.toString());
+      // print(response);
       throw Exception('Failed to load data');
     }
   }
@@ -29,12 +30,11 @@ class DioApiService {
     final url = Uri.parse(baseUrl + endpoint);
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('REQUEST: ${options.method} ${options.uri}');
+        log('REQUEST: ${options.method} ${options.uri}');
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        print(
-            'RESPONSE: ${response.statusCode} ${response.requestOptions.uri}');
+        log('RESPONSE: ${response.statusCode} ${response.requestOptions.uri}');
         return handler.next(response);
       },
     ));
@@ -46,73 +46,47 @@ class DioApiService {
       return response.data;
     } else if (response.statusCode == 400) {
       print('Bad request');
-      print('Response body: ${response.data}');
+      log('Response body: ${response.data}');
+      // print('Response body: ${response.data}');
       return response.data;
     } else {
       print('Request successful');
-      print('Response body: ${response.data}');
+      log('Response body: ${response.data}');
+      // print('Response body: ${response.data}');
       return response.data;
     }
   }
 
-  static Future<String> construct_token() async {
-    try {
-      final SharedPreferences storage = await SharedPreferences.getInstance();
-      if (storage.containsKey('access_token') == true &&
-          storage.containsKey('user_info') == true) {
-        String accessToken = await storage.getString('access_token').toString();
-        String UserInfo = await storage.getString('user_info').toString();
-
-        var plain_token =
-            EncryptDecrpytService.DecryptStatic(data: accessToken);
-
-        var plain_info = EncryptDecrpytService.DecryptStatic(data: UserInfo);
-
-        print(plain_info);
-
-        print(plain_token);
-
-        return plain_token;
-      } else {
-        return "";
-      }
-    } catch (e) {
-      print(e);
-      return "";
-    }
-  }
-
-  static Future<Map<String, dynamic>> AuthPost(
-      String endpoint, dynamic body) async {
+  static Future<Map<String, dynamic>> AuthPost(String endpoint, dynamic body,
+      {Map<String, dynamic>? queryParameters}) async {
     final url = Uri.parse(baseUrl + endpoint);
 
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('REQUEST: ${options.method} ${options.uri}');
+        log('REQUEST: ${options.method} ${options.uri}');
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        print(
-            'RESPONSE: ${response.statusCode} ${response.requestOptions.uri}');
+        // log('RESPONSE: ${response.statusCode} ${response.requestOptions.uri}');
         return handler.next(response);
       },
     ));
 
-    String token = await construct_token();
-    dio.options.headers['Authorization'] = 'bearer ' + token.toString();
+    dio.options.headers['Authorization'] = 'bearer ' + UserPreferences.tokenId;
     dio.options.headers['Content-Type'] = 'application/json';
-    final response = await dio.post(url.toString(), data: body);
-    print(response);
+    final response = await dio.post(url.toString(),
+        queryParameters: queryParameters, data: body);
+    log(response.toString());
 
     if (response.statusCode == 200) {
       return response.data;
     } else if (response.statusCode == 400) {
-      print('Bad request');
-      print('Response body: ${response.data}');
+      log('Bad request');
+      log('Response body: ${response.data}');
       return response.data;
     } else {
-      print('Request successful');
-      print('Response body: ${response.data}');
+      log('Request successful');
+      log('Response body: ${response.data}');
       return response.data;
     }
   }

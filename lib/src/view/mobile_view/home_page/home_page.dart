@@ -1,11 +1,13 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
-import 'package:abc/src/view/mobile_view/home_page/widget/bottomsheet.dart';
+import 'package:abc/src/infrastructure/repository/homePage_repo/getAll_brand_list_repo.dart';
+import 'package:abc/src/model/homePage/add_money_model.dart';
+import 'package:abc/src/model/homePage/getAll_brand_list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
@@ -21,13 +23,26 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  int _selectedIndex = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetch();
+  }
+
+  List<AllBrandList> allBrandList = [];
+  Future<void> fetch() async {
+    allBrandList = await HomePageService.getAllBrandList("") ?? [];
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var homePage = ref.watch(HomeGlobalPage);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
         titleSpacing: 5,
         leading: IconButton(
@@ -58,7 +73,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: Column(children: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
-            height: 140,
+            height: 150,
             child: Stack(
               children: [
                 InkWell(
@@ -79,7 +94,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     options: CarouselOptions(
                       scrollPhysics: const BouncingScrollPhysics(),
                       autoPlay: true,
-                      height: 110,
+                      height: 120.h,
                       aspectRatio: 2,
                       viewportFraction: 1,
                       onPageChanged: (index, reason) {
@@ -91,7 +106,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ),
                 Positioned(
-                  top: 120,
+                  top: 135.h,
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -124,7 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             height: 22,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -158,71 +173,69 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   BorderRadius.all(Radius.circular(50)),
                               borderSide: BorderSide(color: Colors.white)))),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 18),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset('assets/images/Discount.svg'),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Text(
-                        'save up to',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.61,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.29,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                10.verticalSpace,
-                Container(
-                  height: 33,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              _selectedIndex = index;
-                              log(homePage.discount[_selectedIndex]);
-                              setState(() {});
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 70,
-                              height: 33,
-                              // padding: EdgeInsets.symmetric(
-                              //     vertical: 8, horizontal: 15.w),
-                              decoration: BoxDecoration(
-                                  color: _selectedIndex == index
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  border: Border.all(
-                                    color: _selectedIndex == index
-                                        ? Colors.black54
-                                        : Colors.white,
-                                  ),
-                                  borderRadius: BorderRadius.circular(30)),
-                              child: Text(
-                                homePage.discount[index],
-                                style: TextStyle(
-                                  color: _selectedIndex == index
-                                      ? Colors.black
-                                      : Colors.white,
-                                  fontSize: 13,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.06,
-                                ),
-                              ),
-                            ),
-                          ),
-                      separatorBuilder: (context, index) => 10.horizontalSpace,
-                      itemCount: homePage.discount.length),
-                ),
+                // 18.verticalSpace,
+                // Row(
+                //   children: [
+                //     SvgPicture.asset('assets/images/Discount.svg'),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     const Text(
+                //       'save up to',
+                //       style: TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 14.61,
+                //         fontWeight: FontWeight.w500,
+                //         letterSpacing: 0.29,
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // 10.verticalSpace,
+                // Container(
+                //   height: 33,
+                //   child: ListView.separated(
+                //       scrollDirection: Axis.horizontal,
+                //       shrinkWrap: true,
+                //       itemBuilder: (context, index) => GestureDetector(
+                //             onTap: () {
+                //               _selectedIndex = index;
+                //               log(homePage.discount[_selectedIndex]);
+                //               setState(() {});
+                //             },
+                //             child: Container(
+                //               alignment: Alignment.center,
+                //               width: 70,
+                //               height: 33,
+                //               // padding: EdgeInsets.symmetric(
+                //               //     vertical: 8, horizontal: 15.w),
+                //               decoration: BoxDecoration(
+                //                   color: _selectedIndex == index
+                //                       ? Colors.white
+                //                       : Colors.transparent,
+                //                   border: Border.all(
+                //                     color: _selectedIndex == index
+                //                         ? Colors.black54
+                //                         : Colors.white,
+                //                   ),
+                //                   borderRadius: BorderRadius.circular(30)),
+                //               child: Text(
+                //                 homePage.discount[index],
+                //                 style: TextStyle(
+                //                   color: _selectedIndex == index
+                //                       ? Colors.black
+                //                       : Colors.white,
+                //                   fontSize: 13,
+                //                   fontFamily: 'Poppins',
+                //                   fontWeight: FontWeight.w500,
+                //                   letterSpacing: 0.06,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //       separatorBuilder: (context, index) => 10.horizontalSpace,
+                //       itemCount: homePage.discount.length),
+                // ),
                 35.verticalSpace,
                 const Text(
                   'Save your routine spends',
@@ -239,6 +252,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
+                    // scrollDirection: Axis.horizontal,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, // Number of columns
@@ -248,198 +262,208 @@ class _HomePageState extends ConsumerState<HomePage> {
                             ),
                     itemCount: homePage.bannerGridList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(17),
-                        onTap: () {
-                          showModalBottomSheet(
-                            elevation: 0,
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: const Color(0xFF2C2C2C),
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(30),
-                            )),
-                            builder: (context) =>
-                                Consumer(builder: (context, ref, child) {
-                              var homePage = ref.watch(HomeGlobalPage);
-                              return DraggableScrollableSheet(
-                                  initialChildSize: 0.7,
-                                  minChildSize: 0.5,
-                                  maxChildSize: 0.7,
-                                  // snapSizes: [0.4, 0.7],
-                                  // snap: true,
+                      if (index < allBrandList.length) {
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(17),
+                          onTap: () {
+                            showModalBottomSheet(
+                              elevation: 0,
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: const Color(0xFF2C2C2C),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(30),
+                              )),
+                              builder: (context) =>
+                                  Consumer(builder: (context, ref, child) {
+                                var homePage = ref.watch(HomeGlobalPage);
+                                return DraggableScrollableSheet(
+                                    initialChildSize: 0.7,
+                                    minChildSize: 0.5,
+                                    maxChildSize: 0.7,
+                                    // snapSizes: [0.4, 0.7],
+                                    // snap: true,
 
-                                  expand: false,
-                                  builder: (context, scrollController) {
-                                    return SingleChildScrollView(
-                                      controller: scrollController,
-                                      child: ListView.separated(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemCount: 1,
-                                          separatorBuilder: (context, index) =>
-                                              const Divider(
-                                                color: Color(0xFFEFEFEF),
-                                                thickness: 2,
-                                              ),
-                                          itemBuilder: (context, index) =>
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      24.verticalSpace,
-                                                      Container(
-                                                        width: 76,
-                                                        height: 5,
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          color: const Color(
-                                                              0xFF444444),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        91),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 20,
-                                                            right: 20,
-                                                            top: 15),
-                                                    width: double.infinity,
-                                                    height: 200,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors
-                                                            .deepPurple.shade800
-                                                            .withOpacity(0.1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        border: Border.all(
-                                                          color: const Color(
-                                                              0xFF494949),
-                                                        )),
-                                                    child: Column(
+                                    expand: false,
+                                    builder: (context, scrollController) {
+                                      return SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: ListView.separated(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: 1,
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const Divider(
+                                                      color: Color(0xFFEFEFEF),
+                                                      thickness: 2,
+                                                    ),
+                                            itemBuilder:
+                                                (context, index) => Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
                                                       children: [
-                                                        const SizedBox(
-                                                          height: 34,
-                                                        ),
-                                                        Image.asset(
-                                                          'assets/images/myntra-m-logo.png',
-                                                          height: 20,
-                                                        ),
-                                                        14.verticalSpace,
-                                                        const Text(
-                                                          'Card worth',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.06,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            letterSpacing: 0.24,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        const Text.rich(
-                                                          TextSpan(
-                                                            children: [
-                                                              TextSpan(
-                                                                text: ' ₹ ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      23.14,
-                                                                  fontFamily:
-                                                                      'Urbanist',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  letterSpacing:
-                                                                      0.46,
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            24.verticalSpace,
+                                                            Container(
+                                                              width: 76,
+                                                              height: 5,
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                color: const Color(
+                                                                    0xFF444444),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              91),
                                                                 ),
                                                               ),
-                                                              TextSpan(
-                                                                text: '2500',
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 20,
+                                                                  right: 20,
+                                                                  top: 15),
+                                                          width:
+                                                              double.infinity,
+                                                          height: 200,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  color: Colors
+                                                                      .deepPurple
+                                                                      .shade800
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: const Color(
+                                                                        0xFF494949),
+                                                                  )),
+                                                          child: Column(
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 34,
+                                                              ),
+                                                              Image.asset(
+                                                                'assets/images/myntra-m-logo.png',
+                                                                height: 20,
+                                                              ),
+                                                              14.verticalSpace,
+                                                              const Text(
+                                                                'Card worth',
                                                                 style:
                                                                     TextStyle(
                                                                   color: Colors
                                                                       .white,
                                                                   fontSize:
-                                                                      23.14,
-                                                                  fontFamily:
-                                                                      'Urbanist',
+                                                                      12.06,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
                                                                   letterSpacing:
-                                                                      0.46,
+                                                                      0.24,
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        const Expanded(
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            10,
-                                                                        left:
-                                                                            20,
-                                                                        right:
-                                                                            20),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              Text.rich(
+                                                                TextSpan(
                                                                   children: [
-                                                                    Text(
-                                                                      '. . . .',
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontSize:
-                                                                              20,
-                                                                          fontWeight:
-                                                                              FontWeight.w700),
-                                                                    ),
-                                                                    Text(
-                                                                      'Zyro Gifts',
+                                                                    const TextSpan(
+                                                                      text:
+                                                                          ' ₹ ',
                                                                       style:
                                                                           TextStyle(
                                                                         color: Colors
                                                                             .white,
                                                                         fontSize:
-                                                                            12.50,
+                                                                            23.14,
+                                                                        fontFamily:
+                                                                            'Urbanist',
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        letterSpacing:
+                                                                            0.46,
+                                                                      ),
+                                                                    ),
+                                                                    TextSpan(
+                                                                      text:
+                                                                          '${homePage.getTotalamount().toString().replaceAll(homePage.regex, '')}',
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            23.14,
                                                                         fontFamily:
                                                                             'Urbanist',
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         letterSpacing:
-                                                                            0.25,
+                                                                            0.46,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const Expanded(
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          bottom:
+                                                                              10,
+                                                                          left:
+                                                                              20,
+                                                                          right:
+                                                                              20),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            '. . . .',
+                                                                            style: TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 20,
+                                                                                fontWeight: FontWeight.w700),
+                                                                          ),
+                                                                          Text(
+                                                                            'Zyro Gifts',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: 12.50,
+                                                                              fontFamily: 'Urbanist',
+                                                                              fontWeight: FontWeight.w600,
+                                                                              letterSpacing: 0.25,
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                     ),
                                                                   ],
@@ -448,252 +472,280 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                             ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  15.verticalSpace,
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 30),
-                                                    child: Column(
-                                                      children: [
-                                                        bottomSheets(
-                                                            price: "200"
-                                                                .toString(),
-                                                            addNumber:
-                                                                homePage.number,
-                                                            decreaseNumber: homePage
-                                                                .decreaseNumber,
-                                                            increaseNumber: homePage
-                                                                .increaseNumber),
-                                                        20.verticalSpace,
-                                                        bottomSheets(
-                                                            price: "500"
-                                                                .toString(),
-                                                            addNumber:
-                                                                homePage.number,
-                                                            decreaseNumber: homePage
-                                                                .decreaseNumber,
-                                                            increaseNumber: homePage
-                                                                .increaseNumber),
-                                                        20.verticalSpace,
-                                                        bottomSheets(
-                                                            price: "1,000"
-                                                                .toString(),
-                                                            addNumber: homePage
-                                                                .number
-                                                                .toInt(),
-                                                            decreaseNumber: () {
-                                                              homePage
-                                                                  .decreaseNumber;
-                                                              setState(() {});
+                                                        15.verticalSpace,
+                                                        ListView.separated(
+                                                            shrinkWrap: true,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              AddMoney
+                                                                  addMoney =
+                                                                  homePage.amount[
+                                                                      index];
+                                                              return Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        30),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  //
+                                                                  children: [
+                                                                    Text(
+                                                                      '₹ ' +
+                                                                          addMoney
+                                                                              .amountName
+                                                                              .toString(),
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontFamily:
+                                                                            'Poppins',
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        letterSpacing:
+                                                                            0.08,
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                        height:
+                                                                            35,
+                                                                        width:
+                                                                            113,
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .center,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(7),
+                                                                            border: Border.all(color: Colors.white)),
+                                                                        child: Row(
+                                                                          children: [
+                                                                            IconButton(
+                                                                                padding: const EdgeInsets.only(right: 0),
+                                                                                onPressed: () {
+                                                                                  homePage.decreaseNumber(double, index);
+                                                                                },
+                                                                                icon: const Icon(
+                                                                                  Icons.remove,
+                                                                                  color: Colors.white,
+                                                                                )),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(right: 0),
+                                                                              child: SizedBox(
+                                                                                width: 15,
+                                                                                child: Text(
+                                                                                  addMoney.quantity.toString(),
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: TextStyle(
+                                                                                    color: addMoney.quantity > 0 ? const Color(0xFFAD62FF) : Colors.white,
+                                                                                    fontSize: 16,
+                                                                                    fontFamily: 'Poppins',
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    letterSpacing: 0.27,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            IconButton(
+                                                                                padding: const EdgeInsets.only(),
+                                                                                onPressed: () {
+                                                                                  homePage.increaseNumber(double, index);
+                                                                                },
+                                                                                icon: const Icon(
+                                                                                  Icons.add,
+                                                                                  color: Colors.white,
+                                                                                )),
+                                                                          ],
+                                                                        ))
+                                                                  ],
+                                                                ),
+                                                              );
                                                             },
-                                                            increaseNumber: () {
-                                                              homePage
-                                                                  .increaseNumber;
-                                                              setState(() {});
-                                                            }),
-                                                        20.verticalSpace,
-                                                        bottomSheets(
-                                                            price: "2,000"
-                                                                .toString(),
-                                                            addNumber: homePage
-                                                                .number
-                                                                .toInt(),
-                                                            decreaseNumber: () {
-                                                              homePage
-                                                                  .decreaseNumber;
-                                                              setState(() {});
-                                                            },
-                                                            increaseNumber: () {
-                                                              homePage
-                                                                  .increaseNumber;
-                                                              setState(() {});
-                                                            }),
-                                                        20.verticalSpace,
-                                                        bottomSheets(
-                                                            price: "5,000"
-                                                                .toString(),
-                                                            addNumber: homePage
-                                                                .number
-                                                                .toInt(),
-                                                            decreaseNumber: () {
-                                                              homePage
-                                                                  .decreaseNumber;
-                                                              setState(() {});
-                                                            },
-                                                            increaseNumber: () {
-                                                              homePage
-                                                                  .increaseNumber;
-                                                              setState(() {});
-                                                            })
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  10.verticalSpace,
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          MyntraCardPAge()));
-                                                        },
-                                                        child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 314,
-                                                          height: 51,
-                                                          decoration:
-                                                              ShapeDecoration(
-                                                            color: Colors.white,
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              side: BorderSide(
-                                                                  width: 1,
-                                                                  color: Color(
-                                                                      0xFF8C8C8C)),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          66),
+                                                            separatorBuilder:
+                                                                (context,
+                                                                        index) =>
+                                                                    const SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                            itemCount: homePage
+                                                                .amount.length),
+                                                        10.verticalSpace,
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                const MyntraCardPAge()));
+                                                              },
+                                                              child: Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                width: 314,
+                                                                height: 51,
+                                                                decoration:
+                                                                    ShapeDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    side: const BorderSide(
+                                                                        width:
+                                                                            1,
+                                                                        color: Color(
+                                                                            0xFF8C8C8C)),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            66),
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                  'Proceed',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xFF2C2C2C),
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    letterSpacing:
+                                                                        0.08,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                          child: Text(
-                                                            'Proceed',
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF2C2C2C),
-                                                              fontSize: 16,
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              letterSpacing:
-                                                                  0.08,
-                                                            ),
-                                                          ),
+                                                          ],
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  20.verticalSpace,
-                                                ],
-                                              )),
-                                    );
-                                  });
-                            }),
-                          );
-                        },
-                        child: Container(
-                          // padding: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(17),
-                            gradient: LinearGradient(
-                              colors: [
-                                homePage.bannerGridList[index].color1 ??
-                                    const Color.fromRGBO(167, 0, 0, 0.04),
-                                homePage.bannerGridList[index].color2 ??
-                                    const Color.fromRGBO(208, 75, 75, 0.29),
-                              ],
+                                                        20.verticalSpace,
+                                                      ],
+                                                    )),
+                                      );
+                                    });
+                              }),
+                            );
+                          },
+                          child: Container(
+                            // padding: EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17),
+                              gradient: LinearGradient(
+                                colors: [
+                                  homePage.bannerGridList[index].color1 ??
+                                      const Color.fromRGBO(155, 234, 5, 1.0),
+                                  homePage.bannerGridList[index].color2 ??
+                                      const Color.fromRGBO(
+                                          255, 0, 0, 0.2901960784313726),
+                                ],
+                              ),
                             ),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 15, left: 13),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, left: 10),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 55,
+                                        width: 55,
                                         child: Image.asset(
                                           homePage.bannerGridList[index]
                                                   .companyImages ??
                                               "",
-                                          height: 54,
-                                        )),
-                                    21.horizontalSpace,
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          homePage.bannerGridList[index]
-                                                  .title ??
-                                              "",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1.19,
-                                            letterSpacing: 0.06,
-                                          ),
+                                          // fit: BoxFit.cover,
                                         ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              homePage.bannerGridList[index]
-                                                      .discount ??
-                                                  "",
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18.95,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                                height: 1.19,
-                                                letterSpacing: 0.09,
-                                              ),
+                                      ),
+                                      10.horizontalSpace,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            allBrandList[index].brandName,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              height: 1.19,
+                                              letterSpacing: 0.06,
                                             ),
-                                            const Text(
-                                              '% off',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.19,
-                                                letterSpacing: 0.06,
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                allBrandList[index]
+                                                    .discount
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.95,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1.19,
+                                                  letterSpacing: 0.09,
+                                                ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
+                                              const Text(
+                                                '% off',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  height: 1.19,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Spacer(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                          bottomRight: Radius.circular(17)),
+                                      child: Image.asset(
+                                        homePage.bannerGridList[index]
+                                                .productImages ??
+                                            "",
+                                        height: 80.h,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              const Spacer(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                        bottomRight: Radius.circular(17)),
-                                    child: Image.asset(
-                                      homePage.bannerGridList[index]
-                                              .productImages ??
-                                          "",
-                                      height: 56,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                   ),
                 ),

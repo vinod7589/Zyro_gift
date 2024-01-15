@@ -78,7 +78,7 @@ class AppTextField extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return SizedBox(
-      height: 70,
+      height: 70.h,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: padding.h),
         child: TextFormField(

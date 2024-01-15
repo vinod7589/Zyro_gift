@@ -1,178 +1,156 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:abc/src/infrastructure/dio/dio_api_service.dart';
 import 'package:abc/src/model/auth/registration_model.dart';
 import 'package:abc/src/model/auth/generate_otp_model.dart';
 import 'package:abc/src/model/auth/verify_otp_model.dart';
+import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
 import 'package:abc/src/view/mobile_view/widgets/landingpage.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/auth/get_user_detail_model.dart';
 import '../../util/services/shared_preferences.dart';
-import '../../view/Utility/constants.dart';
 import '../../view/mobile_view/login_page/customer_enter_details.dart';
 import '../../view/mobile_view/login_page/otp_verification_page.dart';
-import '../../view/widgets/dialogs/loading_dialog.dart';
 
 class AuthRepo {
-  // String base64String = '${UserPreferences.otpTempId}';
   Future<Generateotp?> generateOTP(String mobile, context) async {
     try {
-      final response = await dio.post(
-        '$baseUrl/api/UserManagement/GenerateOtp?mobile_number=$mobile',
-      );
-
-      print(response.data);
-      if (response.statusCode == 200) {
+      var request = {
+        "mobile_number": mobile,
+      };
+      final response = await DioApiService.post(
+          '/api/UserManagement/GenerateOtp?mobile_number=$mobile', request);
+      // print(response);
+      Generateotp res = Generateotp.fromJson(response);
+      if (res.success == true) {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Send Otp successfully"),
-          dismissDirection: DismissDirection.up,
-          backgroundColor: constants.success_notification_color_code,
-        ));
-        print(response.data["ref_id"]);
-        print(response.data["success"]);
-        print(response.data["message"]);
-        if (response.data["success"] == true) {
-          UserPreferences.setTempOtpId(id: response.data["ref_id"]);
-          UserPreferences.setMobileNoForOtp(mobile: mobile);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => OtpVerificationPage()));
-        }
-        print(UserPreferences.otpTempId);
-        print(UserPreferences.mobileNoForOtp);
+        UserPreferences.setTempOtpId(id: res.refId.toString());
+        UserPreferences.setUserMobile(mobileNumber: mobile);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => OtpVerificationPage()));
+        print(UserPreferences.otpTempId + " refID");
+        print(UserPreferences.userMobile + ' UserMobileNumber');
       } else {
-// Handle error scenarios
-        print('Failed to generate OTP. Status code: ${response.statusCode}');
-        return null;
+        showToast(message: 'error');
       }
+      return res;
     } catch (error) {
-// Handle network errors or exceptions
-      print('Error: $error');
-      Navigator.pop(context);
-
-      return null;
+      return Generateotp(success: false, message: 'Internal server error');
     }
   }
 
-  Future<VerifyOtp?> verifyOTP(
-      {required String otp, required String smstoken, context}) async {
+  static Future<VerifyOtpModel?> verifyOTP(
+      {required String otp, required String refId, context}) async {
     try {
-      // List<int> decodedBytes = base64.decode(base64String);
-      // String decodedString = utf8.decode(decodedBytes);
-      print(
-          '$baseUrl/api/UserManagement/VerifyOtp?Ref_Id=${smstoken.toString()}&OTP=$otp&mobile_number=${UserPreferences.mobileNoForOtp}');
-      final response = await dio.post(
-        '$baseUrl/api/UserManagement/VerifyOtp?Ref_Id=$smstoken&OTP=$otp&mobile_number=${UserPreferences.mobileNoForOtp}',
-      );
-      final res = VerifyOtp();
+      var request = {
+        'OTP': otp,
+        'Ref_Id': refId,
+      };
+      final response = await DioApiService.post(
+          '/api/UserManagement/VerifyOtp?Ref_Id=$refId&OTP=$otp&mobile_number=${UserPreferences.userMobile}',
+          request);
+      print("sdasfdsdf$response");
+      VerifyOtpModel res = VerifyOtpModel.fromJson(response);
       print(res);
-      print(response.data);
-      if (response.statusCode == 200) {
-        if (response.data["success"] == true) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text("Verify successfully"),
-            dismissDirection: DismissDirection.up,
-            backgroundColor: constants.success_notification_color_code,
-          ));
-
-          UserPreferences.setTokenId(token: response.data['token']);
-
-          Navigator.pop(context);
+      if (res.success == true) {
+        // showToast(message: 'Verify successfully');
+        UserPreferences.setTokenId(token: res.token.toString());
+        Navigator.pop(context);
+        if (res.isRegistered == true) {
+          await getUserDetail();
           Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => customer_enter_details()));
-          UserPreferences.removeMobileNoForOtp();
-          UserPreferences.removeMobileNoForOtp();
+              context, MaterialPageRoute(builder: (context) => landingPage()));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${response.data["message"]}'),
-            dismissDirection: DismissDirection.up,
-            backgroundColor: constants.failed_notification_color_code,
-          ));
-          Timer(const Duration(seconds: 2), () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          });
-          Navigator.pop(context);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => CustomerEnterDetails()));
         }
-        print(response.data["success"]);
-        print(response.data["message"]);
-        print(response.data["token"]);
-        print(UserPreferences.tokenId);
       } else {
-// Handle error scenarios
-        print('Failed to verify OTP. Status code: ${response.statusCode}');
-        return null;
+        showToast(message: 'Invalid Otp');
+        Navigator.pop(context);
       }
+      print(response);
+      return res;
     } catch (error) {
 // Handle network errors or exceptions
       print('Error: $error');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          'Error: $error',
-        ),
-        dismissDirection: DismissDirection.up,
-        backgroundColor: constants.failed_notification_color_code,
-      ));
-      Timer(const Duration(seconds: 2), () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      });
-      return null;
+      return VerifyOtpModel(success: false, message: 'Internal server error');
     }
   }
 
-  Future<Signup?> signUp(String fullName, String email, String dob,
+  Future<Generateotp?> resendOtp(context) async {
+    try {
+      final response = await DioApiService.post(
+          '/api/UserManagement/GenerateOtp?mobile_number=${UserPreferences.userMobile}',
+          {});
+      Generateotp res = Generateotp.fromJson(response);
+      if (res.success == true) {
+        UserPreferences.removeRefId();
+        UserPreferences.setTempOtpId(id: res.refId.toString());
+      } else {
+        showToast(message: 'error');
+      }
+      return res;
+    } catch (error) {
+      return Generateotp(success: false, message: 'Internal server error');
+    }
+  }
+
+  static Future<Signup?> signUp(String fullName, String email, String dob,
       String referalCode, context) async {
     try {
-      final response = await dio.post('$baseUrl/api/UserManagement/SignUp',
-          data: {
-            "name": fullName,
-            "email": email,
-            "dob": dob,
-            "referralCode": referalCode,
-          },
-          options: Options(validateStatus: (status) => true, headers: {
-            'accept': '*/*',
-            'Content-Type': 'application/json; charset=utf-8',
-            "Authorization": "Bearer ${UserPreferences.tokenId}"
-          }));
+      var request = {
+        "name": fullName,
+        "email": email,
+        "dob": dob,
+        "referralCode": referalCode,
+      };
+      final response =
+          await DioApiService.AuthPost('/api/UserManagement/SignUp', request);
+      Signup res = Signup.fromJson(response);
+      print(request);
 
-      print(response.data);
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("SignUp successfully"),
-            dismissDirection: DismissDirection.up,
-            backgroundColor: constants.success_notification_color_code,
-          ),
-        );
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => landingPage()));
-        if (response.data['success'] == true) {
-          UserPreferences.setFullName(fullName: fullName);
-          UserPreferences.setEmail(email: email);
-          UserPreferences.setDob(dob: dob);
-          UserPreferences.setReferalCole(referaCode: referalCode);
-          print(UserPreferences.fullName);
-          print(UserPreferences.email);
-          print(UserPreferences.dob);
-          print(UserPreferences.referalCode);
-        } else {
-          print("Signup failed: ${response.statusCode}");
-        }
-      } else {
-// Handle error scenarios
-        print('Failed to generate OTP. Status code: ${response.statusCode}');
-        return null;
-      }
+      if (res.status == 'success') {
+      } else {}
+      return res;
+    } catch (error) {
+      print('Error: $error');
+      return Signup(status: 'failed', description: 'Internal server error');
+    }
+  }
+
+  static Future<void> getUserDetail() async {
+    try {
+      final response = await DioApiService.AuthPost(
+          '/api/UserManagement/GetUserDetails', {});
+      GetUserDetailModel res = GetUserDetailModel.fromJson(response);
+
+      if (res.status == 'success') {
+        UserPreferences.setFullName(fullName: res.data?.name ?? "");
+        UserPreferences.setEmail(email: res.data?.email ?? "");
+        UserPreferences.setUserMobile(
+            mobileNumber: res.data?.mobileNumber ?? "");
+        UserPreferences.setDob(dob: res.data?.dob ?? "");
+        UserPreferences.setUserId(userId: res.data?.userId ?? "");
+        print(UserPreferences.userId + ' customer UserId');
+      } else {}
+      // return res;
+      print(response);
     } catch (error) {
 // Handle network errors or exceptions
       print('Error: $error');
-      return null;
+      // return Signup(status: 'failed', description: 'Internal server error');
     }
   }
+
+  // static Future<void> signOut(context) async {
+  //   try {
+  //     await Navigator.pushR(
+  //         context, MaterialPageRoute(builder: (context) => MobileNumberPage()));
+  //     print('User signed out successfully');
+  //   } catch (error) {
+  //     print('Error during sign out: $error');
+  //     // Handle errors if needed
+  //   }
+  // }
 }

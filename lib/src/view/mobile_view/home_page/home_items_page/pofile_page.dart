@@ -1,3 +1,4 @@
+import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/My%20Card_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/account_details_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/app_setting_page.dart';
@@ -45,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     bottomRight: Radius.circular(30),
                                     bottomLeft: Radius.circular(30)),
                                 child: Image.asset(
-                                    'assets/images/ProfilePageimage.png')),
+                                    'assets/images/profileimage.png')),
                           ),
                         )
                       ],
@@ -56,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Row(
                       children: [
                         Text(
-                          'Raza Rameez',
+                          UserPreferences.fullName,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22.10,
@@ -73,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Row(
                       children: [
                         Text(
-                          '9876543210',
+                          UserPreferences.userMobile,
                           style: TextStyle(
                             color: Color(0xFF979797),
                             fontSize: 14,
@@ -118,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Row(
                                 children: [
                                   Image.asset(
-                                    'assets/images/ProfilePage.png',
+                                    'assets/images/Profile.png',
                                     height: 25,
                                   ),
                                   SizedBox(

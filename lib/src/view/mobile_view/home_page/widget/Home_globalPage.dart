@@ -1,9 +1,11 @@
+import 'package:abc/src/model/homePage/add_money_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Packages/carousel_slider/carousel_controller.dart';
 import '../../../../model/homePage/categories_model.dart';
+import '../../../../model/homePage/getAll_brand_list_model.dart';
 import '../../../../model/homePage/popular_brands.dart';
 import '../../../../model/homePage/save_your_routine_spends.dart';
 
@@ -16,6 +18,10 @@ class homeGlobalPAge extends ChangeNotifier {
   homeGlobalPAge(this._reader);
 
   final Reader _reader;
+
+  //{// .0 remove that
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  //}//
   List imageList = [
     {"id": 1, "image_path": 'assets/images/myntrabanner2.png'},
     {"id": 2, "image_path": 'assets/images/myntrabanner2.png'},
@@ -30,45 +36,45 @@ class homeGlobalPAge extends ChangeNotifier {
   List<ProductBanner> bannerGridList = [
     ProductBanner(
         discount: '6.5',
-        companyImages: 'assets/images/Zomato_logo.jpg',
-        productImages: 'assets/images/pizza1.png',
-        color1: Color.fromRGBO(167, 0, 0, 0.04),
-        color2: Color.fromRGBO(208, 75, 75, 0.29),
+        companyImages: 'assets/images/GLAM_STUDIO-2.png',
+        productImages: 'assets/images/glam-studios-product.png',
+        color1: Colors.black87.withOpacity(0.5),
+        color2: Colors.pink.shade800,
         title: 'Zomato'),
     ProductBanner(
         discount: '10.5',
-        companyImages: 'assets/images/uber.png',
-        productImages: 'assets/images/handmobile1.png',
-        color1: Color.fromRGBO(215, 215, 215, 0.04),
-        color2: Color.fromRGBO(118, 118, 118, 0.29),
+        companyImages: 'assets/images/apollo.png',
+        productImages: 'assets/images/apollo-product-2.png',
+        color1: Colors.black87.withOpacity(0.5),
+        color2: Color(0xFF02D5A0),
         title: 'Uber'),
     ProductBanner(
         discount: '6.5',
-        companyImages: 'assets/images/amazon.png',
-        productImages: 'assets/images/laptop.png',
-        color1: Color.fromRGBO(215, 215, 215, 0.04),
-        color2: Color.fromRGBO(118, 118, 118, 0.29),
+        companyImages: 'assets/images/costa.png',
+        productImages: 'assets/images/costa-product-image-1.png',
+        color1: Colors.black87.withOpacity(0.5),
+        color2: Color(0x4AFF0000),
         title: 'Amazon'),
     ProductBanner(
         discount: '6.5',
-        companyImages: 'assets/images/myntra.png',
-        productImages: 'assets/images/myntra-girl.png',
-        color1: Color.fromRGBO(84, 69, 99, 1),
-        color2: Color.fromRGBO(255, 25, 148, 1.0),
+        companyImages: 'assets/images/Pizza_Hut-product.png',
+        productImages: 'assets/images/pizza.png',
+        color1: Colors.black87.withOpacity(0.5),
+        color2: Colors.red.shade800,
         title: 'Zomato'),
     ProductBanner(
         discount: '6.5',
-        companyImages: 'assets/images/bigbasket.png',
-        productImages: 'assets/images/vegetable.png',
-        color1: Color.fromRGBO(168, 168, 168, 0.04),
-        color2: Color.fromRGBO(4, 198, 0, 0.29),
+        companyImages: 'assets/images/bata.png',
+        productImages: 'assets/images/bata-product.png',
+        color1: Colors.black87.withOpacity(0.5),
+        color2: Color.fromRGBO(191, 128, 64, 1.0),
         title: 'Bigbasket'),
     ProductBanner(
         discount: '6.5',
-        companyImages: 'assets/images/flipkart.png',
-        productImages: 'assets/images/mixer.png',
-        color1: Color.fromRGBO(215, 215, 215, 0.04),
-        color2: Color.fromRGBO(118, 118, 118, 0.29),
+        companyImages: 'assets/images/kfc-2.png',
+        productImages: 'assets/images/kfc-product-1.png',
+        color1: Colors.black87.withOpacity(0.5),
+        color2: Colors.red.shade600,
         title: 'Flipkart'),
   ];
   List<PopularBrands> redeemCode = [
@@ -142,15 +148,46 @@ class homeGlobalPAge extends ChangeNotifier {
     "2.5% off",
   ];
 
-  void increaseNumber() {
-    _number++;
+  ////////Cart page work///////
+
+  List<AddMoney> amount = [
+    AddMoney(amountName: '200', amount: 200.0, quantity: 0),
+    AddMoney(amountName: '500', amount: 500.0, quantity: 0),
+    AddMoney(amountName: '1,000', amount: 1000.0, quantity: 0),
+    AddMoney(amountName: '2,000', amount: 2000.0, quantity: 0),
+    AddMoney(amountName: '5,000', amount: 5000.0, quantity: 0),
+    // Add more items as needed
+  ];
+
+  void increaseNumber(double, index) {
+    amount[index].quantity++;
     notifyListeners();
   }
 
-  void decreaseNumber() {
-    if (_number > 0) {
-      _number--;
+  void decreaseNumber(double, index) {
+    if (amount[index].quantity > 0) {
+      amount[index].quantity--;
     }
     notifyListeners();
+  }
+
+  double getTotalamount() {
+    return amount.fold(0, (total, item) => total + item.amount * item.quantity);
+  }
+
+  double getTotalAmountWithDecreaseinPercentage() {
+    double totalAmount =
+        amount.fold(0, (total, item) => total + item.amount * item.quantity);
+    double decreaseAmount = totalAmount * 0.05; // 5% decrease
+    return totalAmount - decreaseAmount;
+  }
+
+  double _decreaseAmount = 0;
+
+  double getDiscountDecreaseAmount(List<AddMoney> items) {
+    double totalAmount =
+        items.fold(0, (total, item) => total + item.amount * item.quantity);
+    _decreaseAmount = totalAmount * 0.05; // 5% decrease
+    return _decreaseAmount;
   }
 }

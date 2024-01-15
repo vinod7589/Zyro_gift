@@ -1,17 +1,14 @@
 import 'package:abc/src/constants/page_padding.dart';
-import 'package:abc/src/infrastructure/repository/auth_repo.dart';
-import 'package:abc/src/view/widgets/textfield_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
+import '../../../infrastructure/repository/auth_repo.dart';
 import '../../../util/text_validation/text_validation.dart';
 import '../../widgets/dialogs/loading_dialog.dart';
 
 class MobileNumberPage extends ConsumerStatefulWidget {
-  MobileNumberPage({super.key});
+  const MobileNumberPage({super.key});
 
   @override
   ConsumerState<MobileNumberPage> createState() => _MobileNumberPageState();
@@ -30,8 +27,13 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // var MobileNumberPageauth = ref.watch();
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
@@ -75,8 +77,8 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                     ),
                                     color: Colors.white,
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 40, left: 10),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 30, left: 10),
                                     child: Text.rich(
                                       TextSpan(
                                         children: [
@@ -84,7 +86,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                             text: 'Welcome to\n',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 28.58,
+                                              fontSize: 26.58.sp,
                                               fontWeight: FontWeight.w500,
                                               letterSpacing: 0.57,
                                             ),
@@ -93,7 +95,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                             text: 'Zyro Gifts',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 20,
+                                              fontSize: 20.sp,
                                               fontWeight: FontWeight.w500,
                                               letterSpacing: 0.40,
                                             ),
@@ -125,44 +127,64 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Mobile number',
                       style: TextStyle(
                         color: Color(0xFF7A7A7A),
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     7.verticalSpace,
-                    AppTextField(
+                    TextFormField(
                       keyboardType: TextInputType.number,
-                      auoFocus: true,
+                      autofocus: true,
+                      // maxLength: 10,
+                      onTapOutside: (e) => FocusScope.of(context).unfocus(),
                       onChanged: (text) {
                         if (text.length == 10) {
-                          // If the input has 10 digits, unfocus the text field to hide the keyboard.
                           FocusScope.of(context).unfocus();
                         }
                       },
-                      textController: _phoneNumerController,
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(top: 14, left: 15),
-                        child: Text(
-                          '+91',
-                          style: TextStyle(
-                            color: Color(0xFF676767),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
+                      controller: _phoneNumerController,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 17.sp),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Color(0xFFC7C7C7)),
+                        ),
+                        prefixIcon: Padding(
+                          padding:
+                              EdgeInsets.only(top: 12.7, left: 15, right: 9),
+                          child: Text(
+                            '+91',
+                            style: TextStyle(
+                              color: Color(0xFF676767),
+                              fontSize: 16.8.sp,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      hintText: "10 Digit Number",
-                      hintstyle: TextStyle(
-                        color: Color(0xFFBEBEBE),
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(8)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFC7C7C7)),
+                            borderRadius: BorderRadius.circular(8)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFC7C7C7)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        hintText: "10 Digit Number",
+                        hintStyle: TextStyle(
+                          color: Color(0xFFBEBEBE),
+                          fontSize: 16.sp,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       validator: (value) => Validate.phone(value!),
                     ),
@@ -185,6 +207,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                               text: 'By continuing, I agree ',
                               style: TextStyle(
                                 fontSize: 12,
+                                fontFamily: 'Poppins',
                                 color: Color(0xFF676767),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -192,6 +215,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                             TextSpan(
                               text: 'terms & condition',
                               style: TextStyle(
+                                fontFamily: 'Poppins',
                                 color: Color(0xFF676767),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -201,6 +225,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                             TextSpan(
                               text: ' and ',
                               style: TextStyle(
+                                fontFamily: 'Poppins',
                                 fontSize: 12,
                                 color: Color(0xFF676767),
                                 fontWeight: FontWeight.w500,
@@ -209,6 +234,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                             TextSpan(
                               text: 'privacy policies',
                               style: TextStyle(
+                                fontFamily: 'Poppins',
                                 fontSize: 12,
                                 color: Color(0xFF676767),
                                 fontWeight: FontWeight.w500,
@@ -218,6 +244,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                             TextSpan(
                               text: ' ',
                               style: TextStyle(
+                                fontFamily: 'Poppins',
                                 fontSize: 12,
                                 color: Color(0xFF676767),
                                 fontWeight: FontWeight.w500,
@@ -242,6 +269,7 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                 child: const Text(
                                   'Continue',
                                   style: TextStyle(
+                                    fontFamily: 'Poppins',
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,

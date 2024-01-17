@@ -1,10 +1,9 @@
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class TransactionsHistory {
   final List<Transaction> data;
-  final String status;
-  final String description;
+  final String? status;
+  final String? description;
 
   TransactionsHistory({
     required this.data,
@@ -30,8 +29,10 @@ class TransactionsHistory {
 
   factory TransactionsHistory.fromJson(Map<String, dynamic> json) =>
       TransactionsHistory(
-        data: List<Transaction>.from(
-            json["data"].map((x) => Transaction.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<Transaction>.from(
+                json["data"].map((x) => Transaction.fromJson(x))),
         status: json["status"],
         description: json["description"],
       );

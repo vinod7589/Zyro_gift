@@ -28,8 +28,10 @@ class MyCardModel {
   String toRawJson() => json.encode(toJson());
 
   factory MyCardModel.fromJson(Map<String, dynamic> json) => MyCardModel(
-        data: List<MyCardList>.from(
-            json["data"].map((x) => MyCardList.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<MyCardList>.from(
+                json["data"].map((x) => MyCardList.fromJson(x))),
         status: json["status"],
         description: json["description"],
       );

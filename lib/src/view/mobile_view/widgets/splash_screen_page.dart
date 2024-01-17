@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../util/services/shared_preferences.dart';
@@ -51,7 +52,13 @@ class splashScreenState extends State<splashScreen> {
       body: SafeArea(
           child: Container(
         child: Center(
-          child: SvgPicture.asset('assets/images/giftimage.svg'),
+          child: Text(
+            'Zyro Gift',
+            style: TextStyle(
+                fontSize: 40.sp,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600),
+          ),
         ),
       )),
     );

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../util/services/shared_preferences.dart';
+import '../../widgets/dialogs/loader.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   const OtpVerificationPage();

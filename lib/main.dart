@@ -2,6 +2,7 @@ import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/widgets/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,14 +27,13 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (_, child) {
           return MaterialApp(
-            debugShowCheckedModeBanner: isDebugMode,
-            title: 'abc',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
-            home: const splashScreen(),
-          );
+              debugShowCheckedModeBanner: isDebugMode,
+              title: 'abc',
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+              ),
+              home: splashScreen());
         });
   }
 }

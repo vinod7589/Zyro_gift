@@ -1,12 +1,16 @@
 import 'package:abc/src/model/homePage/add_money_model.dart';
+import 'package:abc/src/model/homePage/all_categories_model.dart';
+import 'package:abc/src/model/homePage/top_trending_model.dart';
+import 'package:abc/src/model/homePage/trip_travel_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Packages/carousel_slider/carousel_controller.dart';
 import '../../../../model/homePage/categories_model.dart';
+import '../../../../model/homePage/entertainment_with _hot _deals_model.dart';
 import '../../../../model/homePage/getAll_brand_list_model.dart';
-import '../../../../model/homePage/popular_brands.dart';
+import '../../../../model/homePage/popular_brands_model.dart';
 import '../../../../model/homePage/save_your_routine_spends.dart';
 
 final HomeGlobalPage =
@@ -141,11 +145,98 @@ class homeGlobalPAge extends ChangeNotifier {
       color1: Color.fromRGBO(245, 245, 245, 1),
     ),
   ];
+
+  List<AllCategorysList> allCategoriesList = [
+    AllCategorysList(
+        title: 'All Brands', categoriesImage: 'assets/images/allBrands.png'),
+    AllCategorysList(title: 'Food', categoriesImage: 'assets/images/foods.png'),
+    AllCategorysList(
+        title: 'Grocery', categoriesImage: 'assets/images/grocery.png'),
+    AllCategorysList(
+        title: 'Fashion', categoriesImage: 'assets/images/fashion.png'),
+    AllCategorysList(title: 'Food', categoriesImage: 'assets/images/foods.png'),
+    AllCategorysList(
+        title: 'Grocery', categoriesImage: 'assets/images/grocery.png'),
+    AllCategorysList(
+        title: 'Fashion', categoriesImage: 'assets/images/fashion.png'),
+  ];
+  List<TopTrendingModel> topTrending = [
+    TopTrendingModel(
+        brandImage: 'assets/images/zomato-group.png',
+        brandName: 'Zomato',
+        discount: 6.5,
+        type: 'Food'),
+    TopTrendingModel(
+        brandImage: 'assets/images/uber-group.png',
+        brandName: 'Uber',
+        discount: 8.5,
+        type: 'Travel'),
+    TopTrendingModel(
+        brandImage: 'assets/images/myntra-group.png',
+        brandName: 'Myntra',
+        discount: 3.5,
+        type: 'Fashion'),
+    TopTrendingModel(
+        brandImage: 'assets/images/bigbasket-group.png',
+        brandName: 'Bigbasket',
+        discount: 5.5,
+        type: 'Grocery'),
+  ];
   List<String> discount = [
     "10% off",
     "6.5% off",
     "5% off",
     "2.5% off",
+  ];
+
+  List<TripTravelModel> tripTravel = [
+    TripTravelModel(
+      brandImage: 'assets/images/makemytrip.png',
+      brandName: 'Make My Trip',
+      discount: 6.5,
+    ),
+    TripTravelModel(
+      brandImage: 'assets/images/yatra1.png',
+      brandName: 'Yatra',
+      discount: 4.5,
+    ),
+    TripTravelModel(
+      brandImage: 'assets/images/hotels.png',
+      brandName: 'Make My Trip Hotels',
+      discount: 3.0,
+    ),
+    TripTravelModel(
+      brandImage: 'assets/images/irctc.png',
+      brandName: 'IRCTC',
+      discount: 7.5,
+    ),
+    TripTravelModel(
+      brandImage: 'assets/images/viewall.png',
+      brandName: 'view all',
+      discount: 0,
+    ),
+  ];
+  List<entertainmentwithhotdeals> entertainmentHotDeals = [
+    entertainmentwithhotdeals(
+        brandImage: 'assets/images/bookmyshow.png',
+        brandName: 'Book My Show',
+        discount: 6.5,
+        type: 'Entertainment'),
+    entertainmentwithhotdeals(
+        brandImage: 'assets/images/pvr.png',
+        brandName: 'PVR',
+        discount: 8.5,
+        type: 'Entertainment'),
+    entertainmentwithhotdeals(
+        brandImage: 'assets/images/shemaroo.png',
+        brandName: 'Shemaroo',
+        discount: 3.5,
+        type: 'Entertainment'),
+    entertainmentwithhotdeals(
+        brandImage: 'assets/images/hoichoi.png',
+        brandName: 'Hoichoi',
+        discount: 5.5,
+        type: 'Entertainment'),
   ];
 
   ////////Cart page work///////

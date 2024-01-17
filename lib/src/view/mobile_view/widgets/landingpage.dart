@@ -1,10 +1,11 @@
-import 'package:abc/src/model/homePage/add_money_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../home_page/home_items_page/pofile_page.dart';
+import '../../../../customicon_icons.dart';
+import '../bottomNavigationBar_tabs/mycard_tab.dart';
+import '../bottomNavigationBar_tabs/pofile_page.dart';
 import '../home_page/home_page.dart';
-import '../home_page/wallet_page.dart';
 
 class landingPage extends StatefulWidget {
   landingPage({super.key});
@@ -19,7 +20,7 @@ class _landingPage extends State<landingPage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    WalletPage(),
+    MyCardTab(),
     ProfilePage(),
   ];
 
@@ -40,25 +41,34 @@ class _landingPage extends State<landingPage> {
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.white,
         selectedLabelStyle: TextStyle(
-            color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+            color: Colors.white,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Poppins'),
         unselectedLabelStyle: TextStyle(
-            color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
-        items: const <BottomNavigationBarItem>[
+            fontFamily: 'Poppins',
+            color: Colors.grey,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_outlined,
+              Customicon.home,
+              size: 24.h,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.account_balance_wallet_outlined,
+              size: 26.h,
             ),
-            label: 'Wallet',
+            label: 'My Cards',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.manage_accounts_outlined,
+              Customicon.profile,
+              size: 24.h,
             ),
             label: 'Profile',
           ),

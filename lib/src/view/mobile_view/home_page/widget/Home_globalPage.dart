@@ -1,7 +1,9 @@
 import 'package:abc/src/model/homePage/add_money_model.dart';
 import 'package:abc/src/model/homePage/all_categories_model.dart';
+import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
+import 'package:abc/src/model/homePage/beauty_budget_model.dart';
+import 'package:abc/src/model/homePage/new_brands_model.dart';
 import 'package:abc/src/model/homePage/top_trending_model.dart';
-import 'package:abc/src/model/homePage/trip_travel_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +12,7 @@ import '../../../../Packages/carousel_slider/carousel_controller.dart';
 import '../../../../model/homePage/categories_model.dart';
 import '../../../../model/homePage/entertainment_with _hot _deals_model.dart';
 import '../../../../model/homePage/getAll_brand_list_model.dart';
+import '../../../../model/homePage/gifting_and_love_model.dart';
 import '../../../../model/homePage/popular_brands_model.dart';
 import '../../../../model/homePage/save_your_routine_spends.dart';
 
@@ -154,11 +157,21 @@ class homeGlobalPAge extends ChangeNotifier {
         title: 'Grocery', categoriesImage: 'assets/images/grocery.png'),
     AllCategorysList(
         title: 'Fashion', categoriesImage: 'assets/images/fashion.png'),
-    AllCategorysList(title: 'Food', categoriesImage: 'assets/images/foods.png'),
     AllCategorysList(
-        title: 'Grocery', categoriesImage: 'assets/images/grocery.png'),
+        title: 'Travel', categoriesImage: 'assets/images/travel.png'),
     AllCategorysList(
-        title: 'Fashion', categoriesImage: 'assets/images/fashion.png'),
+        title: 'Entertainment',
+        categoriesImage: 'assets/images/entertainment.png'),
+    AllCategorysList(
+        title: 'Beauty', categoriesImage: 'assets/images/beauty.png'),
+    AllCategorysList(
+        title: 'Electronics', categoriesImage: 'assets/images/electronice.png'),
+    AllCategorysList(
+        title: 'Pharmacy', categoriesImage: 'assets/images/pharmacy.png'),
+    AllCategorysList(
+        title: 'Home Decor', categoriesImage: 'assets/images/homedecor.png'),
+    AllCategorysList(
+        title: 'Watches', categoriesImage: 'assets/images/watches.png'),
   ];
   List<TopTrendingModel> topTrending = [
     TopTrendingModel(
@@ -189,33 +202,6 @@ class homeGlobalPAge extends ChangeNotifier {
     "2.5% off",
   ];
 
-  List<TripTravelModel> tripTravel = [
-    TripTravelModel(
-      brandImage: 'assets/images/makemytrip.png',
-      brandName: 'Make My Trip',
-      discount: 6.5,
-    ),
-    TripTravelModel(
-      brandImage: 'assets/images/yatra1.png',
-      brandName: 'Yatra',
-      discount: 4.5,
-    ),
-    TripTravelModel(
-      brandImage: 'assets/images/hotels.png',
-      brandName: 'Make My Trip Hotels',
-      discount: 3.0,
-    ),
-    TripTravelModel(
-      brandImage: 'assets/images/irctc.png',
-      brandName: 'IRCTC',
-      discount: 7.5,
-    ),
-    TripTravelModel(
-      brandImage: 'assets/images/viewall.png',
-      brandName: 'view all',
-      discount: 0,
-    ),
-  ];
   List<entertainmentwithhotdeals> entertainmentHotDeals = [
     entertainmentwithhotdeals(
         brandImage: 'assets/images/bookmyshow.png',
@@ -237,6 +223,33 @@ class homeGlobalPAge extends ChangeNotifier {
         brandName: 'Hoichoi',
         discount: 5.5,
         type: 'Entertainment'),
+  ];
+  List<GiftingLoveModel> giftLoveList = [
+    GiftingLoveModel(
+      brandname: 'Hamleys',
+      discount: '3.5',
+      image: 'assets/images/gift1.png',
+    ),
+    GiftingLoveModel(
+      brandname: 'Hamleys',
+      discount: '3.5',
+      image: 'assets/images/gift1.png',
+    ),
+    GiftingLoveModel(
+      brandname: 'Hamleys',
+      discount: '3.5',
+      image: 'assets/images/gift1.png',
+    ),
+    GiftingLoveModel(
+      brandname: 'Hamleys',
+      discount: '3.5',
+      image: 'assets/images/gift1.png',
+    ),
+    // GiftingLoveModel(
+    //   brandname: '',
+    //   discount: '',
+    //   image: 'assets/images/viewall-gift.png',
+    // ),
   ];
 
   ////////Cart page work///////

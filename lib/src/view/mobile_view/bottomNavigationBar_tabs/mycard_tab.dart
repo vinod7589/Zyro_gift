@@ -56,7 +56,7 @@ class _MyCardTabState extends State<MyCardTab> {
             ),
           )),
       body: isLoading
-          ? Center(child: GiftLoader())
+          ? Center(child: CircularProgressIndicator())
           : (myCardListItems.isEmpty)
               ? Center(
                   child: Text(

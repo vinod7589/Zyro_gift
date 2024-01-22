@@ -43,7 +43,7 @@ class UserPreferences {
     await _preferences.setString(_dob, dob);
   }
 
-  static Future setReferalCole({required String referaCode}) async {
+  static Future setReferalCode({required String referaCode}) async {
     await _preferences.setString(_referalCode, referaCode);
   }
 

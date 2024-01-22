@@ -44,6 +44,8 @@ dependencies:
   flutter_spinkit: ^5.1.0
   shimmer: ^3.0.0
   flutter_no_internet_widget: ^0.0.9+17
+  intl: ^0.17.0
+  skeletonizer: ^1.0.1
   flutter:
     sdk: flutter
 
@@ -81,7 +83,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/
-  #   - images/a_dot_ham.jpeg
+     - assets/images/animation-images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

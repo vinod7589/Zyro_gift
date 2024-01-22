@@ -1,23 +1,27 @@
-import 'dart:developer';
-import 'dart:typed_data';
+import 'dart:math';
 
-import 'package:abc/src/infrastructure/repository/homePage_repo/getAll_brand_list_repo.dart';
+import 'package:abc/src/infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
+import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/model/homePage/add_money_model.dart';
-import 'package:abc/src/model/homePage/getAll_brand_list_model.dart';
+import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
+import 'package:abc/src/model/homePage/beauty_budget_model.dart';
+import 'package:abc/src/model/homePage/tripTravel_Model.dart';
 import 'package:abc/src/view/Utility/constants.dart';
-import 'package:abc/src/view/widgets/dialogs/toast.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/test_file.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../testfile/custom_keyboard.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
-import 'widget/Home_globalPage.dart';
-import 'home_items_page/myntra_card_page.dart';
+import '../../../model/homePage/getbrand_details_model.dart';
+import '../../../model/homePage/new_brands_model.dart';
+import '../../widgets/dialogs/loader.dart';
 import '../bottomNavigationBar_tabs/pofile_page.dart';
+import 'home_items_page/myntra_card_page.dart';
+import 'widget/Home_globalPage.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -26,17 +30,71 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
+class RangeModel {
+  int start = 0;
+  int end = 0;
+}
+
 class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    fetch();
+    getPopularBrands();
+    travelTrip();
+    NewBrand();
+    fashion();
+    beauty();
   }
 
-  List<AllBrandList> allBrandList = [];
-  Future<void> fetch() async {
-    allBrandList = await HomePageService.getAllBrandList("") ?? [];
+  List<GetAllPopularBrandList> allPopularBrands = [];
+
+  Future<void> getPopularBrands() async {
+    isLoading = true;
+
+    allPopularBrands =
+        await HomePageService.getAllPopularBrandsService("") ?? [];
+    isLoading = false;
+    setState(() {});
+
+    print(isLoading);
+  }
+
+  List<TravelTrip> tripTravelList = [];
+
+  Future<void> travelTrip() async {
+    isLoading = true;
+    tripTravelList = await HomePageService.travelTripService("") ?? [];
+    isLoading = false;
+
+    setState(() {});
+  }
+
+  List<NewBrandList> newBrandList = [];
+
+  Future<void> NewBrand() async {
+    isLoading = true;
+    newBrandList = await HomePageService.newBrandListService("") ?? [];
+    isLoading = false;
+
+    setState(() {});
+  }
+
+  List<FashionList> fashionList = [];
+
+  Future<void> fashion() async {
+    isLoading = true;
+    fashionList = await HomePageService.fashionService("") ?? [];
+    isLoading = false;
+
+    setState(() {});
+  }
+
+  List<BeautyList> beautyList = [];
+
+  Future<void> beauty() async {
+    isLoading = true;
+    beautyList = await HomePageService.beautyService("") ?? [];
+    isLoading = false;
 
     setState(() {});
   }
@@ -44,9 +102,545 @@ class _HomePageState extends ConsumerState<HomePage> {
   TextEditingController searchBarTextEditingController =
       TextEditingController();
   bool isEnable = true;
+  bool isLoading = true;
+
+  final TextEditingController _numKeyboardTextEditingController =
+      TextEditingController();
+
+  RangeModel manageDenomition(denomination, range) {
+    RangeModel currentRange = RangeModel();
+    if (denomination != '') {
+      List<String> parts = range.split('-');
+      // List<String> parts = range.split(RegExp(r'[-,]'));
+      if (parts.length == 2) {
+        currentRange.start = int.tryParse(parts[0].trim()) ?? 0;
+        currentRange.end = int.tryParse(parts[1].trim()) ?? 0;
+      }
+    }
+    return currentRange;
+  }
+
+  List<int> priceList = [];
+
+////////GetBrandsDetails////////////
+
+  String brandCode = '';
+
+  getBrandDetails(brandCode) async {
+    try {
+      GetBrandDetailsList? brandDetails =
+          await HomePageService.getBrandDetailsService(brandCode);
+
+      if (brandDetails != null) {
+        if (brandDetails.brandtype == 'Variable') {
+          var res = manageDenomition(
+              brandDetails.denominationList, brandDetails.denominationList);
+          print('start:' + res.start.toString());
+          print('end:' + res.end.toString());
+          showModalBottomSheet(
+            elevation: 0,
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: const Color(0xFF2C2C2C),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30),
+            )),
+            builder: (context) => Consumer(builder: (context, ref, child) {
+              var homePage = ref.watch(HomeGlobalPage);
+              return SingleChildScrollView(
+                // controller: scrollController,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 1,
+                    separatorBuilder: (context, index) => const Divider(
+                          color: Color(0xFFEFEFEF),
+                          thickness: 2,
+                        ),
+                    itemBuilder: (context, index) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                24.verticalSpace,
+                                Container(
+                                  width: 76,
+                                  height: 5,
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFF444444),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(91),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 15),
+                              width: double.infinity,
+                              height: 210.h,
+                              decoration: BoxDecoration(
+                                  color: Colors.deepPurple.shade800
+                                      .withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: const Color(0xFF494949),
+                                  )),
+                              child: Column(
+                                children: [
+                                  28.verticalSpace,
+                                  Image.asset(
+                                    'assets/images/myntra-m-logo.png',
+                                    height: 20,
+                                  ),
+                                  14.verticalSpace,
+                                  const Text(
+                                    'Card worth',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.06,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.24,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    // color:
+                                    //     Colors.red,
+                                    width: 140.w,
+                                    height: 36.h,
+                                    child: Center(
+                                      child: TextFormField(
+                                        controller:
+                                            _numKeyboardTextEditingController,
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(6),
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                        ],
+                                        onTapOutside: (e) =>
+                                            FocusScope.of(context).unfocus(),
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.none,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 23.sp,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w600),
+                                        decoration: const InputDecoration(
+                                            // prefixIcon: Padding(
+                                            //   padding: const EdgeInsets.only(
+                                            //       left: 20,
+                                            //       right: 0),
+                                            //   child: Text(
+                                            //       '₹',
+                                            //       style: TextStyle(fontSize: 25.sp, fontFamily: 'Poppins', fontWeight: FontWeight.w600)),
+                                            // ),
+                                            contentPadding: EdgeInsets.only(
+                                                left: 0, top: 1, bottom: 7),
+                                            border: UnderlineInputBorder(
+                                                borderSide: BorderSide.none),
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide.none),
+                                            hintStyle:
+                                                TextStyle(color: Colors.white),
+                                            hintText: '0'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 10, left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '. . . .',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20.sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                'Zyro Gifts',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12.50.sp,
+                                                  fontFamily: 'Urbanist',
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.25,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            15.verticalSpace,
+                            NumericKeypad(
+                                controller: _numKeyboardTextEditingController),
+                            20.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyntraCardPAge()));
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 320.w,
+                                    height: 51.h,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1, color: Color(0xFF8C8C8C)),
+                                        borderRadius: BorderRadius.circular(66),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Proceed',
+                                      style: TextStyle(
+                                        color: Color(0xFF2C2C2C),
+                                        fontSize: 16,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.08,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            20.verticalSpace,
+                          ],
+                        )),
+              );
+            }),
+          );
+          //////////////////
+        } else if (brandDetails.brandtype == 'Fixed') {
+          final denominationList = brandDetails.denominationList;
+          if (denominationList != null) {
+            List<String> array = denominationList.split(',');
+            priceList = array.map((e) => int.parse(e)).toList();
+            print(priceList);
+          }
+          showModalBottomSheet(
+            elevation: 0,
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: const Color(0xFF2C2C2C),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30),
+            )),
+            builder: (context) => Consumer(builder: (context, ref, child) {
+              var homePage = ref.watch(HomeGlobalPage);
+              return SingleChildScrollView(
+                // controller: scrollController,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 1,
+                    separatorBuilder: (context, index) => const Divider(
+                          color: Color(0xFFEFEFEF),
+                          thickness: 2,
+                        ),
+                    itemBuilder: (context, index) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                24.verticalSpace,
+                                Container(
+                                  width: 76,
+                                  height: 5,
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFF444444),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(91),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 15),
+                              width: double.infinity,
+                              height: 210.h,
+                              decoration: BoxDecoration(
+                                  color: Colors.deepPurple.shade800
+                                      .withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: const Color(0xFF494949),
+                                  )),
+                              child: Column(
+                                children: [
+                                  28.verticalSpace,
+                                  Image.asset(
+                                    'assets/images/myntra-m-logo.png',
+                                    height: 20,
+                                  ),
+                                  14.verticalSpace,
+                                  const Text(
+                                    'Card worth',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.06,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.24,
+                                    ),
+                                  ),
+                                  5.verticalSpace,
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: ' ₹ ',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 23.14,
+                                            fontFamily: 'Urbanist',
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.46,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              '${homePage.getTotalamount().toString().replaceAll(homePage.regex, '')}',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 23.14,
+                                            fontFamily: 'Urbanist',
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.46,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 10, left: 20, right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '. . . .',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20.sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                'Zyro Gifts',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12.50.sp,
+                                                  fontFamily: 'Urbanist',
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.25,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            15.verticalSpace,
+                            ListView.separated(
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  AddMoney addMoney = homePage.amount[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      //
+                                      children: [
+                                        Text(
+                                          '₹ ' + addMoney.amountName.toString(),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 0.08,
+                                          ),
+                                        ),
+                                        Container(
+                                            height: 35,
+                                            width: 113,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                                border: Border.all(
+                                                    color: Colors.white)),
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 0),
+                                                    onPressed: () {
+                                                      homePage.decreaseNumber(
+                                                          double, index);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.remove,
+                                                      color: Colors.white,
+                                                    )),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 0),
+                                                  child: SizedBox(
+                                                    width: 15,
+                                                    child: Text(
+                                                      addMoney.quantity
+                                                          .toString(),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color:
+                                                            addMoney.quantity >
+                                                                    0
+                                                                ? const Color(
+                                                                    0xFFAD62FF)
+                                                                : Colors.white,
+                                                        fontSize: 16,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        letterSpacing: 0.27,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                    padding:
+                                                        const EdgeInsets.only(),
+                                                    onPressed: () {
+                                                      homePage.increaseNumber(
+                                                          double, index);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.add,
+                                                      color: Colors.white,
+                                                    )),
+                                              ],
+                                            ))
+                                      ],
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                itemCount: 5),
+                            20.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyntraCardPAge()));
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 320.w,
+                                    height: 51.h,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1, color: Color(0xFF8C8C8C)),
+                                        borderRadius: BorderRadius.circular(66),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'Proceed',
+                                      style: TextStyle(
+                                        color: Color(0xFF2C2C2C),
+                                        fontSize: 16,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.08,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            20.verticalSpace,
+                          ],
+                        )),
+              );
+            }),
+          );
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => TestFile()));
+        }
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => TestFile()));
+      }
+    } catch (error) {
+      // Handle any errors that occur during the service call
+      print('Error: $error');
+    }
+  }
+
+////////GetBrandsDetails////////////
 
   @override
   Widget build(BuildContext context) {
+    // List<int> splitValues =
+    //     values.split(',').map((value) => int.parse(value)).toList();
     var homePage = ref.watch(HomeGlobalPage);
 
     return Scaffold(
@@ -54,45 +648,55 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: SafeArea(
         child: CustomScrollView(slivers: [
           SliverAppBar(
+            leading: IconButton(
+                onPressed: () {
+                  setState(() {});
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: const ProfilePage()));
+                },
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.transparent,
+                  size: 34,
+                )),
             // snap: true,
             // floating: true,
             scrolledUnderElevation: 0,
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-            titleSpacing: 5,
-            toolbarHeight: 60.h,
-            flexibleSpace: Column(
+
+            // toolbarHeight: 60.h,
+            flexibleSpace: Row(
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.leftToRight,
-                                  child: const ProfilePage()));
-                        },
-                        icon: const Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                          size: 34,
-                        )),
-                    const Text(
-                      'Zyro Gifts',
-                      style: TextStyle(
-                        fontSize: 24.14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.48,
-                      ),
-                    ),
-                  ],
-                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {});
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: const ProfilePage()));
+                    },
+                    icon: const Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                      size: 34,
+                    )),
+                Text(
+                  'Zyro Gift',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                      color: Colors.white),
+                )
               ],
             ),
           ),
           SliverAppBar(
-            toolbarHeight: 137.h,
+            leading: Text(''),
+            toolbarHeight: 65,
             pinned: true,
             scrolledUnderElevation: 0,
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
@@ -115,13 +719,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   BorderRadius.all(Radius.circular(50))),
                           contentPadding: const EdgeInsets.only(
                             left: 2,
-                            top: 8,
+                            top: 10,
                             bottom: 8,
                           ),
                           suffixIcon: searchBarTextEditingController
                                   .text.isNotEmpty
                               ? Padding(
-                                  padding: EdgeInsets.only(right: 8),
+                                  padding: const EdgeInsets.only(right: 8),
                                   child: IconButton(
                                       onPressed: () {
                                         // isEnable = true;
@@ -129,14 +733,14 @@ class _HomePageState extends ConsumerState<HomePage> {
 
                                         FocusScope.of(context).unfocus();
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.clear,
                                         color: Colors.white,
                                       )),
                                 )
                               : null,
                           prefixIcon: Container(
-                            padding: EdgeInsets.all(13),
+                            padding: const EdgeInsets.all(13),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 0),
@@ -156,45 +760,46 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   BorderRadius.all(Radius.circular(50)),
                               borderSide: BorderSide(color: Colors.white)))),
                 ),
-                20.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.only(left: 15.w),
-                  child: Container(
-                    height: 68.h,
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) => SizedBox(
-                        width: 30,
-                      ),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: homePage.allCategoriesList.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Image.asset(
-                              homePage.allCategoriesList[index].categoriesImage
-                                  .toString(),
-                              height: 40,
-                            ),
-                            10.verticalSpace,
-                            Text(
-                              homePage.allCategoriesList[index].title
-                                  .toString(),
-                              style: TextStyle(
-                                color: Color(0xFFFAFAFA),
-                                fontSize: 12.07.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                height: 0.09,
-                                letterSpacing: 0.06,
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                )
+                // 20.verticalSpace,
+                // Padding(
+                //   padding: EdgeInsets.only(left: 15.w),
+                //   child: Container(
+                //     height: 68.h,
+                //     child: ListView.separated(
+                //       separatorBuilder: (context, index) => const SizedBox(
+                //         width: 30,
+                //       ),
+                //       shrinkWrap: true,
+                //       scrollDirection: Axis.horizontal,
+                //       itemCount: homePage.allCategoriesList.length,
+                //       itemBuilder: (context, index) {
+                //         return Column(
+                //           children: [
+                //             Image.asset(
+                //               homePage.allCategoriesList[index].categoriesImage
+                //                   .toString(),
+                //               height: 40,
+                //             ),
+                //             10.verticalSpace,
+                //             Text(
+                //               homePage.allCategoriesList[index].title
+                //                   .toString(),
+                //               style: TextStyle(
+                //                 color: const Color(0xFFFAFAFA),
+                //                 fontSize: 12.07.sp,
+                //                 fontFamily: 'Poppins',
+                //                 fontWeight: FontWeight.w500,
+                //                 height: 0.09,
+                //                 letterSpacing: 0.06,
+                //               ),
+                //             )
+                //           ],
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // )
+                // 10.verticalSpace,
               ],
             ),
           ),
@@ -283,511 +888,152 @@ class _HomePageState extends ConsumerState<HomePage> {
                         letterSpacing: 0.29,
                       ),
                     ),
-                    15.5.verticalSpace,
-                    Container(
-                      height: 323.h,
-                      child: GridView.builder(
-                          // physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, // Number of columns
-                                  crossAxisSpacing:
-                                      10.0, // Spacing between columns
-                                  mainAxisSpacing: 10.0,
-                                  childAspectRatio: 0.9 // Spacing between rows
-                                  ),
-                          itemCount: homePage.bannerGridList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index < allBrandList.length) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(17),
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    elevation: 0,
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: const Color(0xFF2C2C2C),
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(30),
-                                    )),
-                                    builder: (context) => Consumer(
-                                        builder: (context, ref, child) {
-                                      var homePage = ref.watch(HomeGlobalPage);
-                                      return SingleChildScrollView(
-                                        // controller: scrollController,
-                                        child: ListView.separated(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: 1,
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const Divider(
-                                                      color: Color(0xFFEFEFEF),
-                                                      thickness: 2,
-                                                    ),
-                                            itemBuilder:
-                                                (context, index) => Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
+                    15.verticalSpace,
+                    isLoading
+                        ? Center(child: GiftLoader())
+                        : Container(
+                            height: 340,
+                            child: GridView.builder(
+                                // physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2, // Number of columns
+                                        crossAxisSpacing:
+                                            10.0, // Spacing between columns
+                                        mainAxisSpacing: 10.0,
+                                        childAspectRatio:
+                                            0.9 // Spacing between rows
+                                        ),
+                                itemCount: allPopularBrands.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index < allPopularBrands.length) {
+                                    return InkWell(
+                                      borderRadius: BorderRadius.circular(17),
+                                      onTap: () {
+                                        getBrandDetails(
+                                            allPopularBrands[index].brandCode);
+                                      },
+                                      child: Container(
+                                        // padding: EdgeInsets.symmetric(vertical: 5),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Stack(children: [
+                                              Image.network(
+                                                baseUrl +
+                                                    allPopularBrands[index]
+                                                        .additionalImage,
+                                                // height: 145.h,
+                                              ),
+                                              Positioned(
+                                                top: 20,
+                                                child: Container(
+                                                  // color: Colors.red,
+                                                  width: 165,
+                                                  height: 60,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
                                                           children: [
-                                                            24.verticalSpace,
-                                                            Container(
-                                                              width: 76,
-                                                              height: 5,
-                                                              decoration:
-                                                                  ShapeDecoration(
-                                                                color: const Color(
-                                                                    0xFF444444),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              91),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 20,
-                                                                  right: 20,
-                                                                  top: 15),
-                                                          width:
-                                                              double.infinity,
-                                                          height: 200,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .deepPurple
-                                                                      .shade800
-                                                                      .withOpacity(
-                                                                          0.1),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: const Color(
-                                                                        0xFF494949),
-                                                                  )),
-                                                          child: Column(
-                                                            children: [
-                                                              const SizedBox(
-                                                                height: 34,
-                                                              ),
-                                                              Image.asset(
-                                                                'assets/images/myntra-m-logo.png',
-                                                                height: 20,
-                                                              ),
-                                                              14.verticalSpace,
-                                                              const Text(
-                                                                'Card worth',
+                                                            SizedBox(
+                                                              width: 80,
+                                                              child: Text(
+                                                                maxLines: 1,
+                                                                allPopularBrands[
+                                                                        index]
+                                                                    .brandName,
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Colors
-                                                                      .white,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .visible,
+                                                                  color: Color(
+                                                                      0xFFF5F5F5),
                                                                   fontSize:
-                                                                      12.06,
+                                                                      13.49.sp,
+                                                                  fontFamily:
+                                                                      'Poppins',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
                                                                   letterSpacing:
-                                                                      0.24,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 5,
-                                                              ),
-                                                              Text.rich(
-                                                                TextSpan(
-                                                                  children: [
-                                                                    const TextSpan(
-                                                                      text:
-                                                                          ' ₹ ',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            23.14,
-                                                                        fontFamily:
-                                                                            'Urbanist',
-                                                                        fontWeight:
-                                                                            FontWeight.w400,
-                                                                        letterSpacing:
-                                                                            0.46,
-                                                                      ),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text:
-                                                                          '${homePage.getTotalamount().toString().replaceAll(homePage.regex, '')}',
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            23.14,
-                                                                        fontFamily:
-                                                                            'Urbanist',
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        letterSpacing:
-                                                                            0.46,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              const Expanded(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: EdgeInsets.only(
-                                                                          bottom:
-                                                                              10,
-                                                                          left:
-                                                                              20,
-                                                                          right:
-                                                                              20),
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Text(
-                                                                            '. . . .',
-                                                                            style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontSize: 20,
-                                                                                fontWeight: FontWeight.w700),
-                                                                          ),
-                                                                          Text(
-                                                                            'Zyro Gifts',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.white,
-                                                                              fontSize: 12.50,
-                                                                              fontFamily: 'Urbanist',
-                                                                              fontWeight: FontWeight.w600,
-                                                                              letterSpacing: 0.25,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        15.verticalSpace,
-                                                        ListView.separated(
-                                                            shrinkWrap: true,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
-                                                              AddMoney
-                                                                  addMoney =
-                                                                  homePage.amount[
-                                                                      index];
-                                                              return Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        30),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  //
-                                                                  children: [
-                                                                    Text(
-                                                                      '₹ ' +
-                                                                          addMoney
-                                                                              .amountName
-                                                                              .toString(),
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontFamily:
-                                                                            'Poppins',
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        letterSpacing:
-                                                                            0.08,
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                        height:
-                                                                            35,
-                                                                        width:
-                                                                            113,
-                                                                        alignment:
-                                                                            Alignment
-                                                                                .center,
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(7),
-                                                                            border: Border.all(color: Colors.white)),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            IconButton(
-                                                                                padding: const EdgeInsets.only(right: 0),
-                                                                                onPressed: () {
-                                                                                  homePage.decreaseNumber(double, index);
-                                                                                },
-                                                                                icon: const Icon(
-                                                                                  Icons.remove,
-                                                                                  color: Colors.white,
-                                                                                )),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.only(right: 0),
-                                                                              child: SizedBox(
-                                                                                width: 15,
-                                                                                child: Text(
-                                                                                  addMoney.quantity.toString(),
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                    color: addMoney.quantity > 0 ? const Color(0xFFAD62FF) : Colors.white,
-                                                                                    fontSize: 16,
-                                                                                    fontFamily: 'Poppins',
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    letterSpacing: 0.27,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            IconButton(
-                                                                                padding: const EdgeInsets.only(),
-                                                                                onPressed: () {
-                                                                                  homePage.increaseNumber(double, index);
-                                                                                },
-                                                                                icon: const Icon(
-                                                                                  Icons.add,
-                                                                                  color: Colors.white,
-                                                                                )),
-                                                                          ],
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                              );
-                                                            },
-                                                            separatorBuilder:
-                                                                (context,
-                                                                        index) =>
-                                                                    const SizedBox(
-                                                                      height:
-                                                                          20,
-                                                                    ),
-                                                            itemCount: homePage
-                                                                .amount.length),
-                                                        20.verticalSpace,
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                                const MyntraCardPAge()));
-                                                              },
-                                                              child: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                width: 314,
-                                                                height: 51,
-                                                                decoration:
-                                                                    ShapeDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    side: const BorderSide(
-                                                                        width:
-                                                                            1,
-                                                                        color: Color(
-                                                                            0xFF8C8C8C)),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            66),
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Text(
-                                                                  'Proceed',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2C2C2C),
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontFamily:
-                                                                        'Poppins',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    letterSpacing:
-                                                                        0.08,
-                                                                  ),
+                                                                      0.06,
                                                                 ),
                                                               ),
                                                             ),
+                                                            SizedBox(
+                                                                width: 80,
+                                                                child: RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text: allPopularBrands[
+                                                                            index]
+                                                                        .discount
+                                                                        .toString(),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color(
+                                                                          0xFFF5F5F5),
+                                                                      fontSize:
+                                                                          17.49
+                                                                              .sp,
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      letterSpacing:
+                                                                          0.06,
+                                                                    ),
+                                                                    children: [
+                                                                      TextSpan(
+                                                                        text:
+                                                                            ' % off',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Color(0xFFFEFEFE),
+                                                                          fontSize:
+                                                                              12.49,
+                                                                          fontFamily:
+                                                                              'Poppins',
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          letterSpacing:
+                                                                              0.06,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )),
                                                           ],
                                                         ),
-                                                        20.verticalSpace,
-                                                      ],
-                                                    )),
-                                      );
-                                    }),
-                                  );
-                                },
-                                child: Container(
-                                  // padding: EdgeInsets.symmetric(vertical: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(17),
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        homePage.bannerGridList[index].color1 ??
-                                            const Color.fromRGBO(
-                                                155, 234, 5, 1.0),
-                                        homePage.bannerGridList[index].color2 ??
-                                            const Color.fromRGBO(
-                                                255, 0, 0, 0.2901960784313726),
-                                      ],
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(top: 15, left: 10),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 55,
-                                              width: 55,
-                                              child: Image.asset(
-                                                homePage.bannerGridList[index]
-                                                        .companyImages ??
-                                                    "",
-                                                // fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            10.horizontalSpace,
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: 85,
-                                                  child: Text(
-                                                    // 'Kalyan Jewellers dqweqd',
-                                                    allBrandList[index]
-                                                        .brandName,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      height: 1.19,
-                                                      letterSpacing: 0.06,
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 4,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      allBrandList[index]
-                                                          .discount
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18.95,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        height: 1.19,
-                                                        letterSpacing: 0.09,
-                                                      ),
-                                                    ),
-                                                    const Text(
-                                                      '% off',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        height: 1.19,
-                                                        letterSpacing: 0.06,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                              // Positioned(child: )
+                                            ])
                                           ],
                                         ),
                                       ),
-                                      const Spacer(),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(17)),
-                                            child: Image.asset(
-                                              homePage.bannerGridList[index]
-                                                      .productImages ??
-                                                  "",
-                                              height: 80.h,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                          }),
-                    ),
+                                    );
+                                  }
+                                }),
+                          ),
                     14.verticalSpace,
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.end,
@@ -969,7 +1215,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     15.verticalSpace,
                     Container(
                       // margin: const EdgeInsets.symmetric(horizontal: 5),
-                      height: 150,
+                      height: 170.h,
                       child: Stack(
                         children: [
                           InkWell(
@@ -1038,239 +1284,346 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ),
                     10.verticalSpace,
-                    Row(
-                      children: [
-                        Text(
-                          'Top Trending',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.sp,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 1.65,
-                          ),
-                        ),
-                        Expanded(
-                            child: Container(
-                          margin: EdgeInsets.only(left: 10),
-                          width: 205,
-                          decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                  color: Colors
-                                      .transparent, // Set border color to transparent
-                                ),
-                              ),
-                              gradient: LinearGradient(
-                                begin: Alignment(1.00, 0.01),
-                                end: Alignment(-1, -0.01),
-                                colors: [Color(0x00EDEDED), Color(0xFFE6E6E6)],
-                              )),
-                        )),
-                      ],
-                    ),
-                    30.verticalSpace,
-                    ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Image.asset(
-                                homePage.topTrending[index].brandImage
-                                    .toString(),
-                                height: 140.h,
-                              ),
-                              20.horizontalSpace,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    homePage.topTrending[index].brandName
-                                        .toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18.95.sp,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.09,
-                                    ),
-                                  ),
-                                  3.verticalSpace,
-                                  Row(
-                                    children: [
-                                      Text(
-                                        homePage.topTrending[index].type
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.sp,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.06,
-                                        ),
-                                      ),
-                                      Text(
-                                        ' . Online',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.sp,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.06,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  9.verticalSpace,
-                                  Row(
-                                    children: [
-                                      Text(
-                                        homePage.topTrending[index].discount
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: Color(0xFF00A91B),
-                                          fontSize: 18.95,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 0.09,
-                                        ),
-                                      ),
-                                      Text(
-                                        '% off',
-                                        style: TextStyle(
-                                          color: Color(0xFF00A91B),
-                                          fontSize: 12,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.06,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
-                          );
-                        },
-                        separatorBuilder: (context, index) => 20.verticalSpace,
-                        itemCount: 4),
+
+                    /////Top Trending brands//////
+
+                    // Row(
+                    //   children: [
+                    //     Text(
+                    //       'Top Trending',
+                    //       style: TextStyle(
+                    //         color: Colors.white,
+                    //         fontSize: 15.sp,
+                    //         fontFamily: 'Poppins',
+                    //         fontWeight: FontWeight.w400,
+                    //         letterSpacing: 1.65,
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //         child: Container(
+                    //       margin: const EdgeInsets.only(left: 10),
+                    //       width: 205,
+                    //       decoration: const ShapeDecoration(
+                    //           shape: RoundedRectangleBorder(
+                    //             side: BorderSide(
+                    //               width: 0.50,
+                    //               strokeAlign: BorderSide.strokeAlignCenter,
+                    //               color: Colors
+                    //                   .transparent, // Set border color to transparent
+                    //             ),
+                    //           ),
+                    //           gradient: LinearGradient(
+                    //             begin: Alignment(1.00, 0.01),
+                    //             end: Alignment(-1, -0.01),
+                    //             colors: [Color(0x00EDEDED), Color(0xFFE6E6E6)],
+                    //           )),
+                    //     )),
+                    //   ],
+                    // ),
+                    // 30.verticalSpace,
+                    // ListView.separated(
+                    //     physics: const NeverScrollableScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     itemBuilder: (context, index) {
+                    //       return Row(
+                    //         children: [
+                    //           Image.asset(
+                    //             homePage.topTrending[index].brandImage
+                    //                 .toString(),
+                    //             height: 140.h,
+                    //           ),
+                    //           20.horizontalSpace,
+                    //           Column(
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: [
+                    //               Text(
+                    //                 homePage.topTrending[index].brandName
+                    //                     .toString(),
+                    //                 style: TextStyle(
+                    //                   color: Colors.white,
+                    //                   fontSize: 18.95.sp,
+                    //                   fontFamily: 'Poppins',
+                    //                   fontWeight: FontWeight.w600,
+                    //                   letterSpacing: 0.09,
+                    //                 ),
+                    //               ),
+                    //               3.verticalSpace,
+                    //               Row(
+                    //                 children: [
+                    //                   Text(
+                    //                     homePage.topTrending[index].type
+                    //                         .toString(),
+                    //                     style: TextStyle(
+                    //                       color: Colors.white,
+                    //                       fontSize: 13.sp,
+                    //                       fontFamily: 'Poppins',
+                    //                       fontWeight: FontWeight.w400,
+                    //                       letterSpacing: 0.06,
+                    //                     ),
+                    //                   ),
+                    //                   Text(
+                    //                     ' . Online',
+                    //                     style: TextStyle(
+                    //                       color: Colors.white,
+                    //                       fontSize: 13.sp,
+                    //                       fontFamily: 'Poppins',
+                    //                       fontWeight: FontWeight.w400,
+                    //                       letterSpacing: 0.06,
+                    //                     ),
+                    //                   )
+                    //                 ],
+                    //               ),
+                    //               9.verticalSpace,
+                    //               Row(
+                    //                 children: [
+                    //                   Text(
+                    //                     homePage.topTrending[index].discount
+                    //                         .toString(),
+                    //                     style: const TextStyle(
+                    //                       color: Color(0xFF00A91B),
+                    //                       fontSize: 18.95,
+                    //                       fontFamily: 'Poppins',
+                    //                       fontWeight: FontWeight.w600,
+                    //                       letterSpacing: 0.09,
+                    //                     ),
+                    //                   ),
+                    //                   const Text(
+                    //                     '% off',
+                    //                     style: TextStyle(
+                    //                       color: Color(0xFF00A91B),
+                    //                       fontSize: 12,
+                    //                       fontFamily: 'Poppins',
+                    //                       fontWeight: FontWeight.w400,
+                    //                       letterSpacing: 0.06,
+                    //                     ),
+                    //                   )
+                    //                 ],
+                    //               )
+                    //             ],
+                    //           )
+                    //         ],
+                    //       );
+                    //     },
+                    //     separatorBuilder: (context, index) => 20.verticalSpace,
+                    //     itemCount: 4),
                   ],
                 ),
               ),
-              40.verticalSpace,
+
+              // 40.verticalSpace,
               // 20.verticalSpace,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      padding: EdgeInsets.only(right: 10, left: 10),
-                      // width: 300,
-                      color: Colors.white,
-                      height: 295.h,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 15),
-                            child: Text(
-                              'Enjoy the trip, not the costs \ntravel wisely',
-                              style: TextStyle(
-                                color: Color(0xFF232323),
-                                fontSize: 15.sp,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.30,
-                              ),
+                    color: Color(0xFF313131),
+                    height: 300,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.w, top: 20),
+                          child: Text(
+                            'New Brands',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.61.sp,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.29,
                             ),
                           ),
-                          20.verticalSpace,
-                          Expanded(
-                            child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Image.asset(
-                                          homePage.tripTravel[index].brandImage
-                                              .toString(),
-                                          height: 160.h,
-                                        ),
-                                        5.verticalSpace,
-                                        SizedBox(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                        ),
+                        12.verticalSpace,
+                        isLoading
+                            ? Center(
+                                child: GiftLoader(),
+                              )
+                            : Container(
+                                height: 200,
+                                child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      if (index < newBrandList.length) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(left: 15.w),
+                                          child: Stack(
                                             children: [
-                                              // Image.asset('assets/images/'),
-                                              Text(
-                                                homePage
-                                                    .tripTravel[index].brandName
-                                                    .toString(),
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 13.sp,
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                              SizedBox(
+                                                child: Image.network(baseUrl +
+                                                    newBrandList[index]
+                                                        .additionalImage
+                                                        .toString()),
                                               ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    homePage.tripTravel[index]
-                                                        .discount
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      color: Color(0xFF00A91B),
-                                                      fontSize: 16.sp,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      letterSpacing: 0.08,
+                                              Positioned(
+                                                top: 30,
+                                                // left: 20,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding: EdgeInsets.only(
+                                                          left: 48),
+                                                      width: 140,
+                                                      height: 40,
+                                                      // color: Colors.red,
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            'Get' +
+                                                                newBrandList[
+                                                                        index]
+                                                                    .discount
+                                                                    .toString() +
+                                                                '% OFF',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 16.sp,
+                                                              fontFamily:
+                                                                  'Poppins',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    '% off',
-                                                    style: TextStyle(
-                                                      color: Color(0xFF00A91B),
-                                                      fontSize: 12.sp,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      letterSpacing: 0.06,
-                                                    ),
-                                                  )
-                                                ],
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) => SizedBox(
-                                      width: 0,
-                                    ),
-                                itemCount: 5),
-                          ),
-                        ],
-                      )),
-                  25.verticalSpace,
+                                        );
+                                      }
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(),
+                                    itemCount: newBrandList.length),
+                              ),
+                      ],
+                    ),
+                  ),
+                  isLoading
+                      ? Center(
+                          child: GiftLoader(),
+                        )
+                      : Container(
+                          padding: const EdgeInsets.only(right: 10, left: 10),
+                          // width: 300,
+                          color: Colors.white.withOpacity(0.9),
+                          height: 300.h,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 15.w, top: 15),
+                                child: Text(
+                                  'Enjoy the trip, not the costs \ntravel wisely',
+                                  style: TextStyle(
+                                    color: const Color(0xFF232323),
+                                    fontSize: 15.sp,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: -0.30,
+                                  ),
+                                ),
+                              ),
+                              20.verticalSpace,
+                              Expanded(
+                                child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      // if (index < tripTravelList.length)
+                                      return Padding(
+                                        padding: EdgeInsets.only(left: 15.w),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Image.network(
+                                              baseUrl +
+                                                  tripTravelList[index]
+                                                      .additionalImage
+                                                      .toString(),
+                                              height: 160.h,
+                                            ),
+                                            5.verticalSpace,
+                                            SizedBox(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  // Image.asset('assets/images/'),
+                                                  Text(
+                                                    tripTravelList[index]
+                                                        .brandName
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13.sp,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        tripTravelList[index]
+                                                            .discount
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: const Color(
+                                                              0xFF00A91B),
+                                                          fontSize: 16.sp,
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          letterSpacing: 0.08,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '% off',
+                                                        style: TextStyle(
+                                                          color: const Color(
+                                                              0xFF00A91B),
+                                                          fontSize: 12.sp,
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          letterSpacing: 0.06,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                          width: 0,
+                                        ),
+                                    itemCount: tripTravelList.length),
+                              ),
+                            ],
+                          )),
+                  40.verticalSpace,
                   Padding(
                     padding: EdgeInsets.only(left: 15.w, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Ignite your entertainment',
+                        const Text(
+                          'Amazing Fashion',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 17.80,
@@ -1282,8 +1635,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                         3.verticalSpace,
                         Row(
                           children: [
-                            Text(
-                              'with hot deals',
+                            const Text(
+                              'Discount',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13.35,
@@ -1294,8 +1647,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                             ),
                             Expanded(
                                 child: Container(
-                              margin: EdgeInsets.only(left: 10),
-                              decoration: ShapeDecoration(
+                              margin: const EdgeInsets.only(left: 10),
+                              decoration: const ShapeDecoration(
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
                                       width: 0.50,
@@ -1317,7 +1670,415 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                         20.verticalSpace,
                         ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              String originalString =
+                                  fashionList[index].brandName.toString();
+
+                              // Initialize trimmedString with the original string
+                              String trimmedString = originalString;
+                              bool isannual = false;
+                              bool iscontain = false;
+                              // Check if the string contains "- Annual" or "- Luxe"
+                              if (originalString.contains('- Annual') ||
+                                  originalString.contains('- Luxe')) {
+                                // Split the string based on the separator '- Annual' or '- Luxe'
+                                if (originalString.contains('- Annual')) {
+                                  List<String> parts =
+                                      originalString.split('- Annual').toList();
+                                  isannual = true;
+                                  // Take the first part, which is everything before '- Annual' or '- Luxe'
+                                  trimmedString = parts[0];
+                                } else if (originalString.contains('- Luxe')) {
+                                  List<String> parts =
+                                      originalString.split('- Luxe').toList();
+                                  // Take the first part, which is everything before '- Annual' or '- Luxe'
+                                  trimmedString = parts[0];
+                                }
+
+                                iscontain = true;
+                              }
+                              return Row(
+                                children: [
+                                  Image.network(
+                                    baseUrl +
+                                        fashionList[index]
+                                            .defaultImage
+                                            .toString(),
+                                    height: 140.h,
+                                  ),
+                                  20.horizontalSpace,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            // width: 160,
+                                            child: Text(
+                                              trimmedString,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18.sp,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.09,
+                                              ),
+                                            ),
+                                          ),
+                                          3.verticalSpace,
+                                          iscontain == false
+                                              ? SizedBox()
+                                              : SizedBox(
+                                                  child: Text(
+                                                    isannual == true
+                                                        ? '(Annual Subscription)'
+                                                        : '(Luxe Gift Card)',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 9.95.sp,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      letterSpacing: 0.09,
+                                                    ),
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                      3.verticalSpace,
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Fashion',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 13.sp,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.06,
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            height: 3.h,
+                                            width: 3.w,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle),
+                                          ),
+                                          Text(
+                                            fashionList[index]
+                                                .redemptionProcess
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10.sp,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.06,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      9.verticalSpace,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            fashionList[index]
+                                                .discount
+                                                .toString(),
+                                            style: const TextStyle(
+                                              color: Color(0xFF00A91B),
+                                              fontSize: 18.95,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.09,
+                                            ),
+                                          ),
+                                          const Text(
+                                            '% off',
+                                            style: TextStyle(
+                                              color: Color(0xFF00A91B),
+                                              fontSize: 12,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400,
+                                              letterSpacing: 0.06,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                20.verticalSpace,
+                            itemCount: fashionList.length),
+                      ],
+                    ),
+                  ),
+                  20.verticalSpace,
+                  // Padding(
+                  //   padding: EdgeInsets.only(left: 17.w),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         'View all ',
+                  //         style: TextStyle(
+                  //           color: Colors.white,
+                  //           fontSize: 15.sp,
+                  //           fontFamily: 'Poppins',
+                  //           fontWeight: FontWeight.w500,
+                  //           letterSpacing: -0.30,
+                  //         ),
+                  //       ),
+                  //       5.horizontalSpace,
+                  //       Container(
+                  //         alignment: Alignment.center,
+                  //         width: 22.w,
+                  //         height: 22.h,
+                  //         decoration: ShapeDecoration(
+                  //           color: Color(0xFF76546B),
+                  //           shape: OvalBorder(),
+                  //         ),
+                  //         child: Icon(
+                  //           Icons.arrow_forward_ios,
+                  //           color: Colors.white,
+                  //           size: 13.h,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+                  20.verticalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.w),
+                        child: const Text(
+                          'Beauty on a budget',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.80,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.36,
+                          ),
+                        ),
+                      ),
+                      3.verticalSpace,
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.w),
+                        child: Row(
+                          children: [
+                            const Text(
+                              'fantastic discounts!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.35,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.27,
+                              ),
+                            ),
+                            Expanded(
+                                child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              decoration: const ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 0.50,
+                                      strokeAlign: BorderSide.strokeAlignCenter,
+                                      color: Colors
+                                          .transparent, // Set border color to transparent
+                                    ),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment(1.00, 0.01),
+                                    end: Alignment(-1, -0.01),
+                                    colors: [
+                                      Color(0x00EDEDED),
+                                      Color(0xFFE6E6E6)
+                                    ],
+                                  )),
+                            )),
+                          ],
+                        ),
+                      ),
+                      20.verticalSpace,
+                      Container(
+                        height: 270,
+                        child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            // physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              if (index < beautyList.length)
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 15.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.network(
+                                        baseUrl +
+                                            beautyList[index]
+                                                .additionalImage
+                                                .toString(),
+                                        height: 140.h,
+                                      ),
+                                      20.horizontalSpace,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          12.verticalSpace,
+                                          Text(
+                                            beautyList[index]
+                                                .brandName
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.95.sp,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.09,
+                                            ),
+                                          ),
+                                          // 3.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                // homePage.beautyBudgetList[index]
+                                                //         .brandName
+                                                //         .toString() +
+                                                'Beauty . ',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13.sp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              ),
+                                              Text(
+                                                'offline',
+                                                // homePage
+                                                //     .beautyBudgetList[index].type
+                                                //     .toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13.sp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          3.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                beautyList[index]
+                                                    .discount
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  color: Color(0xFF00A91B),
+                                                  fontSize: 18.95,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.09,
+                                                ),
+                                              ),
+                                              const Text(
+                                                '% off',
+                                                style: TextStyle(
+                                                  color: Color(0xFF00A91B),
+                                                  fontSize: 12,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(),
+                            itemCount: 7),
+                      ),
+                    ],
+                  ),
+                  // 25.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.w, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Ignite your entertainment',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.80,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.36,
+                          ),
+                        ),
+                        3.verticalSpace,
+                        Row(
+                          children: [
+                            const Text(
+                              'with hot deals',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.35,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.27,
+                              ),
+                            ),
+                            Expanded(
+                                child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              decoration: const ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 0.50,
+                                      strokeAlign: BorderSide.strokeAlignCenter,
+                                      color: Colors
+                                          .transparent, // Set border color to transparent
+                                    ),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment(1.00, 0.01),
+                                    end: Alignment(-1, -0.01),
+                                    colors: [
+                                      Color(0x00EDEDED),
+                                      Color(0xFFE6E6E6)
+                                    ],
+                                  )),
+                            )),
+                          ],
+                        ),
+                        20.verticalSpace,
+                        ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return Row(
@@ -1381,7 +2142,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                 .entertainmentHotDeals[index]
                                                 .discount
                                                 .toString(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF00A91B),
                                               fontSize: 18.95,
                                               fontFamily: 'Poppins',
@@ -1389,7 +2150,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               letterSpacing: 0.09,
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             '% off',
                                             style: TextStyle(
                                               color: Color(0xFF00A91B),
@@ -1412,6 +2173,105 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ],
                     ),
                   ),
+
+                  /////Easy Gifting//////
+                  // 30.verticalSpace,
+                  // Container(
+                  //   height: 330,
+                  //   color: Color(0xFF313131),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Padding(
+                  //         padding:
+                  //             EdgeInsets.only(left: 15.w, top: 15, bottom: 20),
+                  //         child: Text(
+                  //           'Easy gifting\nfor your loved ones',
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: 15.sp,
+                  //             fontFamily: 'Poppins',
+                  //             fontWeight: FontWeight.w400,
+                  //             letterSpacing: -0.30,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         height: 240,
+                  //         child: ListView.separated(
+                  //             scrollDirection: Axis.horizontal,
+                  //             // physics: const NeverScrollableScrollPhysics(),
+                  //             shrinkWrap: true,
+                  //             itemBuilder: (context, index) {
+                  //               return Padding(
+                  //                 padding: EdgeInsets.only(left: 15.w),
+                  //                 child: Column(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     Image.asset(
+                  //                       homePage.giftLoveList[index].image
+                  //                           .toString(),
+                  //                       height: 140.h,
+                  //                     ),
+                  //                     20.horizontalSpace,
+                  //                     Column(
+                  //                       crossAxisAlignment:
+                  //                           CrossAxisAlignment.start,
+                  //                       children: [
+                  //                         5.verticalSpace,
+                  //                         Text(
+                  //                           homePage
+                  //                               .giftLoveList[index].brandname
+                  //                               .toString(),
+                  //                           style: TextStyle(
+                  //                             color: Colors.white,
+                  //                             fontSize: 18.95.sp,
+                  //                             fontFamily: 'Poppins',
+                  //                             fontWeight: FontWeight.w600,
+                  //                             letterSpacing: 0.09,
+                  //                           ),
+                  //                         ),
+                  //                         // 3.verticalSpace,
+                  //                         3.verticalSpace,
+                  //                         Row(
+                  //                           children: [
+                  //                             Text(
+                  //                               homePage.beautyBudgetList[index]
+                  //                                   .discount
+                  //                                   .toString(),
+                  //                               style: const TextStyle(
+                  //                                 color: Color(0xFF00A91B),
+                  //                                 fontSize: 18.95,
+                  //                                 fontFamily: 'Poppins',
+                  //                                 fontWeight: FontWeight.w600,
+                  //                                 letterSpacing: 0.09,
+                  //                               ),
+                  //                             ),
+                  //                             const Text(
+                  //                               '% off',
+                  //                               style: TextStyle(
+                  //                                 color: Color(0xFF00A91B),
+                  //                                 fontSize: 12,
+                  //                                 fontFamily: 'Poppins',
+                  //                                 fontWeight: FontWeight.w400,
+                  //                                 letterSpacing: 0.06,
+                  //                               ),
+                  //                             )
+                  //                           ],
+                  //                         )
+                  //                       ],
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //               );
+                  //             },
+                  //             separatorBuilder: (context, index) => SizedBox(),
+                  //             itemCount: 4),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   30.verticalSpace,
                   Container(
                     margin: const EdgeInsets.only(left: 30),

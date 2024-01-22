@@ -137,7 +137,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
           )),
       body: isLoading
           ? Center(
-              child: GiftLoader(),
+              child: CircularProgressIndicator(),
             )
           : (transactionList.isEmpty)
               ? Center(
@@ -215,20 +215,17 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                     ],
                                   ),
                                 ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: '₹ ',
-                                        style: TextStyle(
-                                          color: Color(0xFFF0F0F0),
-                                          fontSize: 16,
-                                          fontFamily: 'Urbanist',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.32,
-                                        ),
-                                      ),
-                                    ],
+                                Text(
+                                  '₹ ' +
+                                      transactionList[index]
+                                          .totalTransAmount
+                                          .toString(),
+                                  style: TextStyle(
+                                    color: Color(0xFFF0F0F0),
+                                    fontSize: 16,
+                                    fontFamily: 'Urbanist',
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: 0.32,
                                   ),
                                 )
                               ],

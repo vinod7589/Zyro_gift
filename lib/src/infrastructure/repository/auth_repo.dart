@@ -4,6 +4,7 @@ import 'package:abc/src/model/auth/registration_model.dart';
 import 'package:abc/src/model/auth/generate_otp_model.dart';
 import 'package:abc/src/model/auth/verify_otp_model.dart';
 import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
+import 'package:abc/src/view/mobile_view/login_page/onboarding_page.dart';
 import 'package:abc/src/view/mobile_view/widgets/landingpage.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class AuthRepo {
         Navigator.pop(context);
         UserPreferences.setTempOtpId(id: res.refId.toString());
         UserPreferences.setUserMobile(mobileNumber: mobile);
-        Navigator.push(context,
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => OtpVerificationPage()));
         print(UserPreferences.otpTempId + " refID");
         print(UserPreferences.userMobile + ' UserMobileNumber');
@@ -109,7 +110,6 @@ class AuthRepo {
           await DioApiService.AuthPost('/api/UserManagement/SignUp', request);
       Signup res = Signup.fromJson(response);
       print(request);
-
       if (res.status == 'success') {
       } else {}
       return res;
@@ -143,14 +143,18 @@ class AuthRepo {
     }
   }
 
-  // static Future<void> signOut(context) async {
-  //   try {
-  //     await Navigator.pushR(
-  //         context, MaterialPageRoute(builder: (context) => MobileNumberPage()));
-  //     print('User signed out successfully');
-  //   } catch (error) {
-  //     print('Error during sign out: $error');
-  //     // Handle errors if needed
-  //   }
-  // }
+  static Future<void> signOut(context) async {
+    try {
+      UserPreferences.clearUserData();
+      await Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => OnboardingPage()),
+        (route) => false, // Clear the navigation stack
+      );
+      print('User signed out successfully');
+    } catch (error) {
+      print('Error during sign out: $error');
+      // Handle errors if needed
+    }
+  }
 }

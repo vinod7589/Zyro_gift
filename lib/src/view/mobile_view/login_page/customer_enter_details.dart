@@ -2,10 +2,13 @@ import 'package:abc/src/view/widgets/textfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/page_padding.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
+import '../../../model/auth/get_user_detail_model.dart';
 import '../../../model/auth/registration_model.dart';
+import '../../../util/services/shared_preferences.dart';
 import '../../Utility/validator.dart';
 import '../widgets/landingpage.dart';
 
@@ -28,10 +31,28 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _fullName.clear();
-    _email.clear();
-    _referralCode.clear();
-    _dateOfBirth.clear();
+    // _fullName.clear();
+    // _email.clear();
+    // _referralCode.clear();
+    // _dateOfBirth.clear();
+  }
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _dateOfBirth.text = '${selectedDate.toLocal()}'.split(' ')[0];
+      });
+    }
   }
 
   @override
@@ -147,6 +168,15 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                     ),
                     6.verticalSpace,
                     AppTextField(
+                      readOnly: true,
+
+                      // onChanged: () => selectDate(context),
+                      prefixIcon: GestureDetector(
+                        onTap: () => _selectDate(context),
+                        child: Icon(Icons.calendar_today),
+                      ),
+                      // onChanged: _selectDate(context),
+                      // readOnly: true,
                       textController: _dateOfBirth,
                       hintstyle: TextStyle(
                         color: Color(0xFFBEBEBE),

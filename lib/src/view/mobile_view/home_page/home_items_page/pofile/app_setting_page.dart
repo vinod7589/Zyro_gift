@@ -101,30 +101,25 @@ class _AppSettingPageState extends State<AppSettingPage> {
                 )
               ],
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/Logout.png',
-                        height: 27,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // UserPreferences.clearUserData();
-                          // print(UserPreferences.clearUserData());
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => MobileNumberPage()));
-                        },
-                        child: Text(
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    AuthRepo.signOut(context);
+                  },
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/Logout.png',
+                          height: 27,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
                           'Log out',
                           style: TextStyle(
                             color: Colors.white,
@@ -133,12 +128,12 @@ class _AppSettingPageState extends State<AppSettingPage> {
                             fontWeight: FontWeight.w500,
                             height: 1.38,
                           ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
             SizedBox(
               height: 50,

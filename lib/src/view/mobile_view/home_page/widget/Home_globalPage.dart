@@ -15,7 +15,7 @@ import '../../../../model/homePage/getAll_brand_list_model.dart';
 import '../../../../model/homePage/gifting_and_love_model.dart';
 import '../../../../model/homePage/popular_brands_model.dart';
 import '../../../../model/homePage/save_your_routine_spends.dart';
-
+RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
 final HomeGlobalPage =
     ChangeNotifierProvider.autoDispose<homeGlobalPAge>((ref) {
   return homeGlobalPAge(ref.read);
@@ -27,7 +27,7 @@ class homeGlobalPAge extends ChangeNotifier {
   final Reader _reader;
 
   //{// .0 remove that
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+
   //}//
   List imageList = [
     {"id": 1, "image_path": 'assets/images/myntrabanner2.png'},

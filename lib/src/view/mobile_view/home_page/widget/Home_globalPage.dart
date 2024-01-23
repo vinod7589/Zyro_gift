@@ -1,4 +1,4 @@
-import 'package:abc/src/model/homePage/add_money_model.dart';
+import 'package:abc/src/model/homePage/price_list_model.dart';
 import 'package:abc/src/model/homePage/all_categories_model.dart';
 import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
 import 'package:abc/src/model/homePage/beauty_budget_model.dart';

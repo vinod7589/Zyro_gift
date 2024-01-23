@@ -183,8 +183,8 @@ class MyntraCardPAge extends ConsumerWidget {
                                             ),
                                           ),
                                           TextSpan(
-                                            text:
-                                                '${discountpage.getDiscountDecreaseAmount(discountpage.amount).toString().replaceAll(discountpage.regex, '')}',
+                                            text: '',
+                                            // '${discountpage.getDiscountDecreaseAmount(discountpage.amount).toString().replaceAll(discountpage.regex, '')}',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:abc/src/infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
-import 'package:abc/src/model/homePage/add_money_model.dart';
+import 'package:abc/src/model/homePage/price_list_model.dart';
 import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
 import 'package:abc/src/model/homePage/beauty_budget_model.dart';
 import 'package:abc/src/model/homePage/tripTravel_Model.dart';
@@ -111,7 +111,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     RangeModel currentRange = RangeModel();
     if (denomination != '') {
       List<String> parts = range.split('-');
-      // List<String> parts = range.split(RegExp(r'[-,]'));
       if (parts.length == 2) {
         currentRange.start = int.tryParse(parts[0].trim()) ?? 0;
         currentRange.end = int.tryParse(parts[1].trim()) ?? 0;
@@ -120,7 +119,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     return currentRange;
   }
 
-  List<int> priceList = [];
+  List<double> priceList = [];
 
 ////////GetBrandsDetails////////////
 
@@ -344,7 +343,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           final denominationList = brandDetails.denominationList;
           if (denominationList != null) {
             List<String> array = denominationList.split(',');
-            priceList = array.map((e) => int.parse(e)).toList();
+            priceList = array.map((e) => double.tryParse(e) ?? 0).toList();
             print(priceList);
           }
           showModalBottomSheet(
@@ -497,7 +496,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       //
                                       children: [
                                         Text(
-                                          '₹ ' + addMoney.amountName.toString(),
+                                          '₹ ' + priceList[index].toString(),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,
@@ -577,7 +576,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                itemCount: 5),
+                                itemCount: priceList.length),
                             20.verticalSpace,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -622,8 +621,6 @@ class _HomePageState extends ConsumerState<HomePage> {
               );
             }),
           );
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => TestFile()));
         }
       } else {
         Navigator.push(
@@ -639,8 +636,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // List<int> splitValues =
-    //     values.split(',').map((value) => int.parse(value)).toList();
     var homePage = ref.watch(HomeGlobalPage);
 
     return Scaffold(
@@ -890,7 +885,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                     15.verticalSpace,
                     isLoading
-                        ? Center(child: GiftLoader())
+                        ? Center(child: CircularProgressIndicator())
                         : Container(
                             height: 340,
                             child: GridView.builder(
@@ -1437,7 +1432,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         12.verticalSpace,
                         isLoading
                             ? Center(
-                                child: GiftLoader(),
+                                child: CircularProgressIndicator(),
                               )
                             : Container(
                                 height: 200,
@@ -1509,7 +1504,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                   isLoading
                       ? Center(
-                          child: GiftLoader(),
+                          child: CircularProgressIndicator(),
                         )
                       : Container(
                           padding: const EdgeInsets.only(right: 10, left: 10),

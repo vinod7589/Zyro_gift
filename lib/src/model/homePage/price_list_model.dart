@@ -23,3 +23,10 @@ class AddMoney {
 
   // double totalAmountWithDecrease = getTotalAmountWithDecrease(amount);
 }
+
+class PriceListModel {
+  String amount;
+  int quantity;
+
+  PriceListModel({required this.amount, required this.quantity});
+}

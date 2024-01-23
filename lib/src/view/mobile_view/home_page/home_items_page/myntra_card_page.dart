@@ -65,7 +65,7 @@ class MyntraCardPAge extends ConsumerWidget {
                                 children: [
                                   Text(
                                     '₹ ' +
-                                        '${discountpage.getTotalamount().toString().replaceAll(discountpage.regex, '')}',
+                                        '${discountpage.getTotalamount().toString().replaceAll(regex, '')}',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16.20,
@@ -93,7 +93,7 @@ class MyntraCardPAge extends ConsumerWidget {
                               5.verticalSpace,
                               Text(
                                 '₹ ' +
-                                    '${discountpage.getTotalAmountWithDecreaseinPercentage().toString().replaceAll(discountpage.regex, '')}',
+                                    '${discountpage.getTotalAmountWithDecreaseinPercentage().toString().replaceAll(regex, '')}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 33.21,
@@ -125,7 +125,7 @@ class MyntraCardPAge extends ConsumerWidget {
                                     ),
                                     Text(
                                       '₹ ' +
-                                          '${discountpage.getTotalamount().toString().replaceAll(discountpage.regex, '')}',
+                                          '${discountpage.getTotalamount().toString().replaceAll(regex, '')}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -223,7 +223,7 @@ class MyntraCardPAge extends ConsumerWidget {
                                     ),
                                     Text(
                                       '₹ ' +
-                                          '${discountpage.getTotalAmountWithDecreaseinPercentage().toString().replaceAll(discountpage.regex, '')}',
+                                          '${discountpage.getTotalAmountWithDecreaseinPercentage().toString().replaceAll(regex, '')}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 23.14,
@@ -382,7 +382,7 @@ class MyntraCardPAge extends ConsumerWidget {
                         ),
                         TextSpan(
                           text:
-                              '${discountpage.getTotalamount().toString().replaceAll(discountpage.regex, '')}',
+                              '${discountpage.getTotalamount().toString().replaceAll(regex, '')}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 23.14,

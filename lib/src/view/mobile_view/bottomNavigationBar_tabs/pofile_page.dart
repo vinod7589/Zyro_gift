@@ -2,6 +2,7 @@ import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/account_details_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/app_setting_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/transactions_page.dart';
+import 'package:abc/src/view/mobile_view/widgets/landingpage.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,14 +53,17 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Spacer(),
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: Colors.white,
-                            ))
+                        // IconButton(
+                        //     onPressed: () {
+                        //       Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //               builder: (context) => LandingPage()));
+                        //     },
+                        //     icon: Icon(
+                        //       Icons.arrow_forward_ios_rounded,
+                        //       color: Colors.white,
+                        //     ))
                       ],
                     ),
                     SizedBox(

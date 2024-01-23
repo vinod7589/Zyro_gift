@@ -1,90 +1,61 @@
-import 'dart:convert';
-
 class MyCardModel {
-  final List<MyCardList> data;
-  final String status;
-  final String description;
+  List<MyCardList>? data;
+  String? status;
+  String? description;
 
-  MyCardModel({
-    required this.data,
-    required this.status,
-    required this.description,
-  });
+  MyCardModel({this.data, this.status, this.description});
 
-  MyCardModel copyWith({
-    List<MyCardList>? data,
-    String? status,
-    String? description,
-  }) =>
-      MyCardModel(
-        data: data ?? this.data,
-        status: status ?? this.status,
-        description: description ?? this.description,
-      );
+  MyCardModel.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <MyCardList>[];
+      json['data'].forEach((v) {
+        data!.add(new MyCardList.fromJson(v));
+      });
+    }
+    status = json['status'];
+    description = json['description'];
+  }
 
-  factory MyCardModel.fromRawJson(String str) =>
-      MyCardModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory MyCardModel.fromJson(Map<String, dynamic> json) => MyCardModel(
-        data: json["data"] == null
-            ? []
-            : List<MyCardList>.from(
-                json["data"].map((x) => MyCardList.fromJson(x))),
-        status: json["status"],
-        description: json["description"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "status": status,
-        "description": description,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['status'] = this.status;
+    data['description'] = this.description;
+    return data;
+  }
 }
 
 class MyCardList {
-  final String brandCode;
-  final String brandName;
-  final int voucherQty;
-  final int totalVoucherAmount;
+  String? brandCode;
+  String? brandName;
+  String? brandImage;
+  int? voucherQty;
+  int? totalVoucherAmount;
 
-  MyCardList({
-    required this.brandCode,
-    required this.brandName,
-    required this.voucherQty,
-    required this.totalVoucherAmount,
-  });
+  MyCardList(
+      {this.brandCode,
+      this.brandName,
+      this.brandImage,
+      this.voucherQty,
+      this.totalVoucherAmount});
 
-  MyCardList copyWith({
-    String? brandCode,
-    String? brandName,
-    int? voucherQty,
-    int? totalVoucherAmount,
-  }) =>
-      MyCardList(
-        brandCode: brandCode ?? this.brandCode,
-        brandName: brandName ?? this.brandName,
-        voucherQty: voucherQty ?? this.voucherQty,
-        totalVoucherAmount: totalVoucherAmount ?? this.totalVoucherAmount,
-      );
+  MyCardList.fromJson(Map<String, dynamic> json) {
+    brandCode = json['brandCode'];
+    brandName = json['brandName'];
+    brandImage = json['brandImage'];
+    voucherQty = json['voucherQty'];
+    totalVoucherAmount = json['totalVoucherAmount'];
+  }
 
-  factory MyCardList.fromRawJson(String str) =>
-      MyCardList.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory MyCardList.fromJson(Map<String, dynamic> json) => MyCardList(
-        brandCode: json["brandCode"],
-        brandName: json["brandName"],
-        voucherQty: json["voucherQty"],
-        totalVoucherAmount: json["totalVoucherAmount"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "brandCode": brandCode,
-        "brandName": brandName,
-        "voucherQty": voucherQty,
-        "totalVoucherAmount": totalVoucherAmount,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['brandCode'] = this.brandCode;
+    data['brandName'] = this.brandName;
+    data['brandImage'] = this.brandImage;
+    data['voucherQty'] = this.voucherQty;
+    data['totalVoucherAmount'] = this.totalVoucherAmount;
+    return data;
+  }
 }

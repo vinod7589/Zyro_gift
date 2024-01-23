@@ -252,7 +252,7 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    landingPage()));
+                                                    LandingPage()));
                                       }
                                     }
                                   },

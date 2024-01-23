@@ -255,7 +255,7 @@ class homeGlobalPAge extends ChangeNotifier {
   ////////Cart page work///////
 
   List<AddMoney> amount = [
-    AddMoney(amountName: '200', amount: 200.0, quantity: 0),
+    AddMoney(amountName: '200', amount: 250.0, quantity: 0),
     AddMoney(amountName: '500', amount: 500.0, quantity: 0),
     AddMoney(amountName: '1,000', amount: 1000.0, quantity: 0),
     AddMoney(amountName: '2,000', amount: 2000.0, quantity: 0),

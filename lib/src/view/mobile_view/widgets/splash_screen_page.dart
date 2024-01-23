@@ -27,7 +27,7 @@ class splashScreenState extends State<splashScreen> {
     if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
       await Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => landingPage()));
+            context, MaterialPageRoute(builder: (context) => LandingPage()));
       });
     } else {
       await Future.delayed(const Duration(seconds: 3), () {

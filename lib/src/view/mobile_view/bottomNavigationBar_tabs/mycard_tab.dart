@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Utility/constants.dart';
+
 class MyCardTab extends StatefulWidget {
   const MyCardTab({super.key});
 
@@ -34,7 +36,9 @@ class _MyCardTabState extends State<MyCardTab> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       appBar: AppBar(
-          titleSpacing: 25,
+          scrolledUnderElevation: 0,
+          titleSpacing: -20,
+          leading: Text(''),
           // leading: IconButton(
           //   onPressed: () {
           //     Navigator.of(context).pop();
@@ -71,10 +75,11 @@ class _MyCardTabState extends State<MyCardTab> {
               : ListView.builder(
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
+                    // ),
                     if (index < myCardListItems.length) {
                       return Container(
-                        margin:
-                            const EdgeInsets.only(left: 20, right: 20, top: 20),
+                        margin: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 20),
                         width: double.infinity,
                         height: 200.h,
                         decoration: BoxDecoration(
@@ -88,13 +93,18 @@ class _MyCardTabState extends State<MyCardTab> {
                             const SizedBox(
                               height: 34,
                             ),
-                            Image.asset(
-                              'assets/images/myntra-m-logo.png',
-                              height: 20,
+                            Image.network(
+                              baseUrl +
+                                  myCardListItems[index].brandImage.toString(),
+                              height: 40,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset('assets/images/others.png',
+                                    height: 40);
+                              },
                             ),
                             14.verticalSpace,
                             Text(
-                              myCardListItems[index].brandName,
+                              myCardListItems[index].brandName.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,
@@ -151,7 +161,7 @@ class _MyCardTabState extends State<MyCardTab> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );

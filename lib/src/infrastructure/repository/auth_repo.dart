@@ -61,7 +61,7 @@ class AuthRepo {
         if (res.isRegistered == true) {
           await getUserDetail();
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => landingPage()));
+              context, MaterialPageRoute(builder: (context) => LandingPage()));
         } else {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => CustomerEnterDetails()));

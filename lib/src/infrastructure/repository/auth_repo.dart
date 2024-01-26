@@ -128,8 +128,6 @@ class AuthRepo {
       if (res.status == 'success') {
         UserPreferences.setFullName(fullName: res.data?.name ?? "");
         UserPreferences.setEmail(email: res.data?.email ?? "");
-        UserPreferences.setUserMobile(
-            mobileNumber: res.data?.mobileNumber ?? "");
         UserPreferences.setDob(dob: res.data?.dob ?? "");
         UserPreferences.setUserId(userId: res.data?.userId ?? "");
         print(UserPreferences.userId + ' customer UserId');

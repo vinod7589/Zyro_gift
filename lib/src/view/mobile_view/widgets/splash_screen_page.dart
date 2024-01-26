@@ -24,6 +24,7 @@ class splashScreenState extends State<splashScreen> {
 
   Future<void> navigateToOnBoard() async {
     var mobile = UserPreferences.userMobile;
+    // if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
     if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
       await Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(

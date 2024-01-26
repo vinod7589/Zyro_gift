@@ -1,5 +1,7 @@
 import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
 import 'package:abc/src/model/homePage/beauty_budget_model.dart';
+import 'package:abc/src/model/homePage/entertainment_model.dart';
+import 'package:abc/src/model/homePage/getall_categories_model.dart';
 import 'package:abc/src/model/homePage/getbrand_details_model.dart';
 import 'package:abc/src/model/homePage/new_brands_model.dart';
 import 'package:abc/src/model/homePage/tripTravel_Model.dart';
@@ -10,6 +12,25 @@ import '../../dio/dio_api_service.dart';
 import 'getAllPopularBrandsModel.dart';
 
 class HomePageService {
+  static Future<List<CategoriesList>?> getAllCategoriesService() async {
+    try {
+      final response = await DioApiService.AuthPost(
+        '/api/DashBoard/GetAllCategory',
+        {},
+      );
+      var res = GetAllCategoryModel.fromJson(response);
+      if (res.status == 'success') {
+        return res.data;
+      } else {
+        return null;
+      }
+    } catch (error, st) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: st);
+      return null;
+    }
+  }
+
   static Future<List<AllBrandList>?> getAllBrandListService(
       String payload) async {
     try {
@@ -39,8 +60,8 @@ class HomePageService {
     }
   }
 
-  static Future<List<GetAllPopularBrandList>?> getAllPopularBrandsService(
-      String payload) async {
+  static Future<List<GetAllPopularBrandList>?>
+      getAllPopularBrandsService() async {
     try {
       final response = await DioApiService.AuthPost(
         '/api/ZyroGiftVoucher/GetPopularBrand',
@@ -59,7 +80,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<TravelTrip>?> travelTripService(String payload) async {
+  static Future<List<TravelTrip>?> travelTripService() async {
     try {
       var request = {
         'Id': 7,
@@ -85,7 +106,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<FashionList>?> fashionService(String payload) async {
+  static Future<List<FashionList>?> fashionService() async {
     try {
       var request = {
         'Id': 5,
@@ -111,7 +132,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<BeautyList>?> beautyService(String payload) async {
+  static Future<List<BeautyList>?> beautyService() async {
     try {
       var request = {
         'Id': 12,
@@ -125,6 +146,32 @@ class HomePageService {
           '/api/ZyroGiftVoucher/GetBrandByCategoryId', body,
           queryParameters: request);
       var res = BeautyListModel.fromJson(response);
+      if (res.status == 'success') {
+        return res.data;
+      } else {
+        return null;
+      }
+    } catch (error, st) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: st);
+      return null;
+    }
+  }
+
+  static Future<List<EntertaimentList>?> entertainmentService() async {
+    try {
+      var request = {
+        'Id': 8,
+        'Page': '1',
+        'PageSize': '10',
+      };
+      final body = {
+        'SearchValue': request,
+      };
+      final response = await DioApiService.AuthPost(
+          '/api/ZyroGiftVoucher/GetBrandByCategoryId', body,
+          queryParameters: request);
+      var res = EntertainmentModel.fromJson(response);
       if (res.status == 'success') {
         return res.data;
       } else {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:abc/src/model/homePage/price_list_model.dart';
 import 'package:abc/src/model/homePage/all_categories_model.dart';
 import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
@@ -9,12 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Packages/carousel_slider/carousel_controller.dart';
+import '../../../../infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
+import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../model/homePage/categories_model.dart';
-import '../../../../model/homePage/entertainment_with _hot _deals_model.dart';
+import '../../../../model/homePage/entertainment_model.dart';
 import '../../../../model/homePage/getAll_brand_list_model.dart';
 import '../../../../model/homePage/gifting_and_love_model.dart';
 import '../../../../model/homePage/popular_brands_model.dart';
 import '../../../../model/homePage/save_your_routine_spends.dart';
+
 RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
 final HomeGlobalPage =
     ChangeNotifierProvider.autoDispose<homeGlobalPAge>((ref) {
@@ -22,7 +27,7 @@ final HomeGlobalPage =
 });
 
 class homeGlobalPAge extends ChangeNotifier {
-  homeGlobalPAge(this._reader);
+  homeGlobalPAge(this._reader) {}
 
   final Reader _reader;
 
@@ -39,6 +44,9 @@ class homeGlobalPAge extends ChangeNotifier {
   int currentIndex = 0;
   int _number = 0;
   int get number => _number;
+  String enteredValue = '';
+  // String get enteredValue => _enteredValue;
+  bool isLoading = true;
 
   List<ProductBanner> bannerGridList = [
     ProductBanner(
@@ -202,28 +210,6 @@ class homeGlobalPAge extends ChangeNotifier {
     "2.5% off",
   ];
 
-  List<entertainmentwithhotdeals> entertainmentHotDeals = [
-    entertainmentwithhotdeals(
-        brandImage: 'assets/images/bookmyshow.png',
-        brandName: 'Book My Show',
-        discount: 6.5,
-        type: 'Entertainment'),
-    entertainmentwithhotdeals(
-        brandImage: 'assets/images/pvr.png',
-        brandName: 'PVR',
-        discount: 8.5,
-        type: 'Entertainment'),
-    entertainmentwithhotdeals(
-        brandImage: 'assets/images/shemaroo.png',
-        brandName: 'Shemaroo',
-        discount: 3.5,
-        type: 'Entertainment'),
-    entertainmentwithhotdeals(
-        brandImage: 'assets/images/hoichoi.png',
-        brandName: 'Hoichoi',
-        discount: 5.5,
-        type: 'Entertainment'),
-  ];
   List<GiftingLoveModel> giftLoveList = [
     GiftingLoveModel(
       brandname: 'Hamleys',
@@ -263,35 +249,35 @@ class homeGlobalPAge extends ChangeNotifier {
     // Add more items as needed
   ];
 
-  void increaseNumber(double, index) {
-    amount[index].quantity++;
-    notifyListeners();
-  }
-
-  void decreaseNumber(double, index) {
-    if (amount[index].quantity > 0) {
-      amount[index].quantity--;
-    }
-    notifyListeners();
-  }
-
-  double getTotalamount() {
-    return amount.fold(0, (total, item) => total + item.amount * item.quantity);
-  }
-
-  double getTotalAmountWithDecreaseinPercentage() {
-    double totalAmount =
-        amount.fold(0, (total, item) => total + item.amount * item.quantity);
-    double decreaseAmount = totalAmount * 0.05; // 5% decrease
-    return totalAmount - decreaseAmount;
-  }
-
-  double _decreaseAmount = 0;
-
-  double getDiscountDecreaseAmount(List<AddMoney> items) {
-    double totalAmount =
-        items.fold(0, (total, item) => total + item.amount * item.quantity);
-    _decreaseAmount = totalAmount * 0.05; // 5% decrease
-    return _decreaseAmount;
-  }
+  // void increaseNumber(double, index) {
+  //   amount[index].quantity++;
+  //   notifyListeners();
+  // }
+  //
+  // void decreaseNumber(double, index) {
+  //   if (amount[index].quantity > 0) {
+  //     amount[index].quantity--;
+  //   }
+  //   notifyListeners();
+  // }
+  //
+  // double getTotalamount() {
+  //   return amount.fold(0, (total, item) => total + item.amount * item.quantity);
+  // }
+  //
+  // double getTotalAmountWithDecreaseinPercentage() {
+  //   double totalAmount =
+  //       amount.fold(0, (total, item) => total + item.amount * item.quantity);
+  //   double decreaseAmount = totalAmount * 0.05; // 5% decrease
+  //   return totalAmount - decreaseAmount;
+  // }
+  //
+  // double _decreaseAmount = 0;
+  //
+  // double getDiscountDecreaseAmount(List<AddMoney> items) {
+  //   double totalAmount =
+  //       items.fold(0, (total, item) => total + item.amount * item.quantity);
+  //   _decreaseAmount = totalAmount * 0.05; // 5% decrease
+  //   return _decreaseAmount;
+  // }
 }

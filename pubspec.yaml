@@ -46,6 +46,9 @@ dependencies:
   flutter_no_internet_widget: ^0.0.9+17
   intl: ^0.17.0
   skeletonizer: ^1.0.1
+  flutter_inappwebview: ^5.0.0
+  getwidget: ^4.0.0
+
   flutter:
     sdk: flutter
 

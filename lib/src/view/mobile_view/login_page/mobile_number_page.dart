@@ -3,6 +3,7 @@ import 'package:abc/src/view/widgets/dialogs/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
 import '../../../util/text_validation/text_validation.dart';
@@ -12,14 +13,14 @@ class MobileNumberPage extends ConsumerStatefulWidget {
   const MobileNumberPage({super.key});
 
   @override
-  ConsumerState<MobileNumberPage> createState() => _MobileNumberPageState();
+  ConsumerState<MobileNumberPage> createState() => MobileNumberPageState();
 }
 
 final _formKey = GlobalKey<FormState>();
 
 TextEditingController _phoneNumerController = TextEditingController();
 
-class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
+class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
   @override
   void dispose() {
     _phoneNumerController.clear();
@@ -199,59 +200,62 @@ class _MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(bottom: 15),
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'By continuing, I agree ',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'Poppins',
-                                color: Color(0xFF676767),
-                                fontWeight: FontWeight.w500,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'By continuing, I agree ',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xFF676767),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'terms & condition',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFF676767),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
+                              TextSpan(
+                                text: 'terms & condition',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xFF676767),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: ' and ',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                color: Color(0xFF676767),
-                                fontWeight: FontWeight.w500,
+                              TextSpan(
+                                text: ' and ',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  color: Color(0xFF676767),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'privacy policies',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                color: Color(0xFF676767),
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
+                              TextSpan(
+                                text: 'privacy policies',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  color: Color(0xFF676767),
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: ' ',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                color: Color(0xFF676767),
-                                fontWeight: FontWeight.w500,
+                              TextSpan(
+                                text: ' ',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  color: Color(0xFF676767),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

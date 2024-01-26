@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../controller/fixed_card_controller.dart';
 import '../widget/Home_globalPage.dart';
 
 class PaymentOptionPage extends ConsumerWidget {
@@ -9,7 +10,7 @@ class PaymentOptionPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    var paymentOption = ref.watch(HomeGlobalPage);
+    var paymentOption = ref.watch(fixedCardController(''));
     return Scaffold(
       backgroundColor: Color.fromRGBO(35, 35, 35, 1),
       appBar: AppBar(
@@ -42,7 +43,7 @@ class PaymentOptionPage extends ConsumerWidget {
             child: Row(
               children: [
                 Text(
-                  'Total : ${paymentOption.getTotalAmountWithDecreaseinPercentage()}',
+                  'Total : ${paymentOption.totalCardWorth}',
                   style: TextStyle(
                     color: Color(0xFFE0E0E0),
                     fontSize: 15,

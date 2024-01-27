@@ -1,7 +1,7 @@
 class CheckMaxLimitReachedModel {
   String? status;
   String? description;
-  int? availableLimit;
+  num? availableLimit;
 
   CheckMaxLimitReachedModel(
       {this.status, this.description, this.availableLimit});

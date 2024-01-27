@@ -7,11 +7,13 @@ class NumericKeypad extends StatefulWidget {
   final TextEditingController controller;
   final int startValue;
   final int endValue;
+  final num availableLimit;
   const NumericKeypad(
       {Key? key,
       required this.controller,
       required this.startValue,
-      required this.endValue})
+      required this.endValue,
+      required this.availableLimit})
       : super(key: key);
 
   @override
@@ -51,9 +53,11 @@ class _NumericKeypadState extends State<NumericKeypad> {
           children: [
             Text(
               current_net_value >= lower && current_net_value <= upper
-                  ? ''
-                  : 'Please enter amount between ${lower} and ${upper}',
-              style: TextStyle(color: Colors.red),
+                  ? widget.availableLimit >= current_net_value
+                      ? ''
+                      : 'You have a maximum limit of ${widget.availableLimit}.'
+                  : 'Please enter amount between $lower and $upper',
+              style: const TextStyle(color: Colors.red),
             )
           ],
         ),
@@ -95,8 +99,9 @@ class _NumericKeypadState extends State<NumericKeypad> {
           children: [
             InkWell(
               onTap: () {
-                if (int.parse(_controller.text) >= lower &&
-                    int.parse(_controller.text) <= upper) {
+                if (current_net_value >= lower &&
+                    current_net_value <= upper &&
+                    current_net_value <= widget.availableLimit) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -108,8 +113,9 @@ class _NumericKeypadState extends State<NumericKeypad> {
                 width: 320.w,
                 height: 51.h,
                 decoration: ShapeDecoration(
-                  color: (int.parse(_controller.text) >= lower &&
-                          int.parse(_controller.text) <= upper)
+                  color: (current_net_value >= lower &&
+                          current_net_value <= upper &&
+                          current_net_value <= widget.availableLimit)
                       ? Colors.white
                       : Colors.black54,
                   shape: RoundedRectangleBorder(
@@ -148,10 +154,14 @@ class _NumericKeypadState extends State<NumericKeypad> {
   }
 
   void _input(String text) {
-    _controller.text = '${_controller.text}$text';
+    if (_controller.text.isEmpty) {
+      _controller.text = '₹ ${_controller.text}$text';
+    } else {
+      _controller.text = '${_controller.text}$text';
+    }
     _controller.notifyListeners();
     setState(() {
-      current_net_value = int.parse(_controller.text);
+      current_net_value = int.parse(_controller.text.replaceAll('₹ ', ''));
     });
   }
 
@@ -161,8 +171,12 @@ class _NumericKeypadState extends State<NumericKeypad> {
       _controller.text =
           _controller.text.substring(0, _controller.text.length - 1);
       _controller.notifyListeners();
+
+      if (_controller.text == '₹ ') {
+        _controller.text = '';
+      }
       setState(() {
-        current_net_value = int.parse(_controller.text);
+        current_net_value = int.parse(_controller.text.replaceAll('₹ ', ''));
       });
     }
   }

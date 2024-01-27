@@ -15,7 +15,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../testfile/custom_keyboard.dart';
 import '../../../../controller/fixed_card_controller.dart';
+import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
+import '../../../../model/checkmax_limit_reached_Model.dart';
 import '../../../../model/homePage/getbrand_details_model.dart';
 import '../home_page.dart';
 import '../widget/denomination_select_widget.dart';
@@ -37,9 +39,17 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
   @override
   void initState() {
     super.initState();
+    checkAvailableLimit();
   }
 
-  int current_net_value = 0;
+  int currentValue = 0;
+
+  num? availableLimit;
+
+  checkAvailableLimit() async {
+    availableLimit =
+        await CheckMaxLimitRepo.getCheckLimitService(widget.brandCode);
+  }
 
   RangeModel manageDenomition(denomination, range) {
     RangeModel currentRange = RangeModel();
@@ -63,13 +73,10 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
         if (brandDetails!.brandtype == 'Variable') {
           var res = manageDenomition(
               brandDetails?.denominationList, brandDetails?.denominationList);
-          print('start:${res.start}');
-          print('end:${res.end}');
-
           homePageController.numKeyboardTextEditingController.text =
-              res.start.toString();
+              '₹ ${res.start.toString()}';
           setState(() {
-            current_net_value = res.start;
+            currentValue = res.start;
           });
           showModalBottomSheet(
             elevation: 0,
@@ -147,40 +154,49 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                                     //     Colors.red,
                                     width: 140.w,
                                     height: 36.h,
-                                    child: Center(
-                                      child: TextFormField(
-                                        controller: homePageController
-                                            .numKeyboardTextEditingController,
-                                        inputFormatters: [
-                                          LengthLimitingTextInputFormatter(6),
-                                          FilteringTextInputFormatter
-                                              .digitsOnly,
-                                        ],
-                                        onChanged: (value) {
-                                          // This callback is called whenever the text changes
-                                          print(
-                                              'TextEditingController value: $value');
-                                        },
-                                        onTapOutside: (e) =>
-                                            FocusScope.of(context).unfocus(),
-                                        textAlign: TextAlign.center,
-                                        keyboardType: TextInputType.none,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 23.sp,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600),
-                                        decoration: const InputDecoration(
-                                            contentPadding: EdgeInsets.only(
-                                                left: 0, top: 1, bottom: 7),
-                                            border: UnderlineInputBorder(
-                                                borderSide: BorderSide.none),
-                                            focusedBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide.none),
-                                            hintStyle:
-                                                TextStyle(color: Colors.white),
-                                            hintText: '0'),
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        // Text('₹ '),
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: homePageController
+                                                .numKeyboardTextEditingController,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(
+                                                  6),
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
+                                            ],
+                                            onTapOutside: (e) =>
+                                                FocusScope.of(context)
+                                                    .unfocus(),
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.none,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 23.sp,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600),
+                                            decoration: const InputDecoration(
+                                                // prefixIcon: Icon(
+                                                //   Icons.currency_rupee,
+                                                //   color: Colors.white,
+                                                // ),
+                                                contentPadding: EdgeInsets.only(
+                                                    left: 0, top: 1, bottom: 7),
+                                                border: UnderlineInputBorder(
+                                                    borderSide: BorderSide
+                                                        .none),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide.none),
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white),
+                                                hintText: '0'),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Expanded(
@@ -224,10 +240,12 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                             10.verticalSpace,
                             15.verticalSpace,
                             NumericKeypad(
-                                startValue: res.start,
-                                endValue: res.end,
-                                controller: homePageController
-                                    .numKeyboardTextEditingController),
+                              startValue: res.start,
+                              endValue: res.end,
+                              controller: homePageController
+                                  .numKeyboardTextEditingController,
+                              availableLimit: availableLimit!,
+                            ),
                             20.verticalSpace,
                             20.verticalSpace,
                           ],

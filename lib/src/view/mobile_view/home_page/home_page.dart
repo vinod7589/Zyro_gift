@@ -111,15 +111,19 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           SliverAppBar(
             leading: Text(''),
-            toolbarHeight: 140,
+            toolbarHeight: 138.h,
             pinned: true,
             scrolledUnderElevation: 0,
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
             flexibleSpace: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                10.verticalSpace,
-                CategoriesListWidget(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                  ),
+                  child: CategoriesListWidget(),
+                ),
               ],
             ),
           ),

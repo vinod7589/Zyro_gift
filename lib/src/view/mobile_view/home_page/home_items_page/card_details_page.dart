@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:abc/src/controller/home_page_controller.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/payment_option_page.dart';
@@ -220,18 +222,6 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                               ),
                             ),
                             10.verticalSpace,
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Text(
-                            //       current_net_value >= res.start &&
-                            //               current_net_value <= res.end
-                            //           ? ''
-                            //           : 'Please enter amount between ${res.start} and ${res.end}',
-                            //       style: TextStyle(color: Colors.red),
-                            //     )
-                            //   ],
-                            // ),
                             15.verticalSpace,
                             NumericKeypad(
                                 startValue: res.start,
@@ -239,61 +229,6 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                                 controller: homePageController
                                     .numKeyboardTextEditingController),
                             20.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    if (int.parse(homePageController
-                                                .numKeyboardTextEditingController
-                                                .text) >=
-                                            res.start &&
-                                        int.parse(homePageController
-                                                .numKeyboardTextEditingController
-                                                .text) <=
-                                            res.end) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PaymentOptionPage()));
-                                    } else {}
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: 320.w,
-                                    height: 51.h,
-                                    decoration: ShapeDecoration(
-                                      color: (int.parse(homePageController
-                                                      .numKeyboardTextEditingController
-                                                      .text) >=
-                                                  res.start &&
-                                              int.parse(homePageController
-                                                      .numKeyboardTextEditingController
-                                                      .text) <=
-                                                  res.end)
-                                          ? Colors.white
-                                          : Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                            width: 1, color: Color(0xFF8C8C8C)),
-                                        borderRadius: BorderRadius.circular(66),
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      'Proceed',
-                                      style: TextStyle(
-                                        color: Color(0xFF2C2C2C),
-                                        fontSize: 16,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.08,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                             20.verticalSpace,
                           ],
                         )),
@@ -331,10 +266,10 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
     ));
     return Scaffold(
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 25, top: 15, left: 20, right: 20),
+        margin: const EdgeInsets.only(bottom: 25, top: 15, left: 20, right: 20),
         height: 51,
         child: ElevatedButton(
-            style: ButtonStyle(
+            style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.white)),
             onPressed: () {
               var res = getBrandDetails(cardDetailsController.brandCode);
@@ -369,7 +304,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
         backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
         title: Text(
           cardDetailsController.brandDetails?.brandName.toString() ?? 'Demo',
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w500,
@@ -432,12 +367,12 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.only(bottom: 10, left: 20, right: 20),
+                          padding: const EdgeInsets.only(
+                              bottom: 10, left: 20, right: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 '. . . . . .',
                                 style: TextStyle(
                                     color: Colors.white,
@@ -446,7 +381,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                               ),
                               Text(
                                 '${cardDetailsController.brandDetails?.redemptionProcess.toString() ?? ''}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12.50,
                                   fontFamily: 'Urbanist',
@@ -525,7 +460,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   20.verticalSpace,
                   HowToRedeemWidget(brandCode: cardDetailsController.brandCode),
                   20.verticalSpace,
-                  TermsConditionWidget(),
+                  const TermsConditionWidget(),
                   20.verticalSpace,
                 ],
               ),

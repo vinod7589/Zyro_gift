@@ -76,7 +76,7 @@ class CategoriesListWidget extends ConsumerWidget {
         Padding(
           padding: EdgeInsets.only(left: 15.w),
           child: Container(
-            height: 58,
+            height: 50.h,
             child: ListView.separated(
               separatorBuilder: (context, index) => const SizedBox(
                 width: 30,
@@ -95,11 +95,11 @@ class CategoriesListWidget extends ConsumerWidget {
                     children: [
                       Image.network(
                         '$baseUrl${categoriesController.categoriesList[index].categoryImage}',
-                        height: 40,
+                        height: 30.h,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
                             'assets/images/noimage.png',
-                            height: 40,
+                            height: 30.h,
                           );
                         },
                       ),

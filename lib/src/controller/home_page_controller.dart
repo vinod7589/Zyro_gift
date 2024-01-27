@@ -72,6 +72,9 @@ class homePageController extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
+  bool _isLoadingFalse = false;
+  bool get isLoadingFalse => _isLoadingFalse;
+
   GetBrandDetailsList? brandDetails;
 
   Future<void> allCategories() async {
@@ -114,7 +117,6 @@ class homePageController extends ChangeNotifier {
 
   Future<void> getPopularBrands() async {
     _isLoading = true;
-
     _allPopularBrands =
         await HomePageService.getAllPopularBrandsService() ?? [];
     log("dsfasefd$allPopularBrands");

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../src/view/mobile_view/home_page/home_items_page/payment_option_page.dart';
+
 class NumericKeypad extends StatefulWidget {
   final TextEditingController controller;
   final int startValue;
@@ -30,15 +32,6 @@ class _NumericKeypadState extends State<NumericKeypad> {
     upper = widget.endValue;
     current_net_value = lower;
   }
-
-  // _NumericKeypadState(
-  //     TextEditingController controller, int lowerValue, int upperValue) {
-  //   setState(() {
-  //     lower = lowerValue;
-  //     upper = upperValue;
-  //     _controller = controller;
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -96,6 +89,48 @@ class _NumericKeypadState extends State<NumericKeypad> {
             _buildButton('⌫', onPressed: _backspace),
           ],
         ),
+        15.verticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                if (int.parse(_controller.text) >= lower &&
+                    int.parse(_controller.text) <= upper) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PaymentOptionPage()));
+                } else {}
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: 320.w,
+                height: 51.h,
+                decoration: ShapeDecoration(
+                  color: (int.parse(_controller.text) >= lower &&
+                          int.parse(_controller.text) <= upper)
+                      ? Colors.white
+                      : Colors.black54,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 1, color: Color(0xFF8C8C8C)),
+                    borderRadius: BorderRadius.circular(66),
+                  ),
+                ),
+                child: const Text(
+                  'Proceed',
+                  style: TextStyle(
+                    color: Color(0xFF2C2C2C),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.08,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -118,14 +153,6 @@ class _NumericKeypadState extends State<NumericKeypad> {
     setState(() {
       current_net_value = int.parse(_controller.text);
     });
-    // Check if the current text doesn't contain the Rupee symbol/
-    // if (!_controller.text.startsWith('₹')) {
-    //   // If not present, add the Rupee symbol to the beginning
-    //   _controller.text = '${_controller.text}$text';
-    // } else {
-    //   // If the Rupee symbol is already present, just append the new text
-    //   _controller.text = '{_controller.text}$text';
-    // }
   }
 
   void _backspace() {

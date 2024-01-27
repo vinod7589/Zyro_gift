@@ -2,11 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../testfile/custom_keyboard.dart';
 import '../infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
 import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/amazing_fashion_model.dart';
@@ -16,13 +12,6 @@ import '../model/homePage/getall_categories_model.dart';
 import '../model/homePage/getbrand_details_model.dart';
 import '../model/homePage/new_brands_model.dart';
 import '../model/homePage/tripTravel_Model.dart';
-import '../view/Utility/constants.dart';
-import '../view/mobile_view/home_page/home_items_page/card_details_page.dart';
-import '../view/mobile_view/home_page/home_items_page/pofile/test_file.dart';
-import '../view/mobile_view/home_page/home_page.dart';
-import '../view/mobile_view/home_page/widget/Home_globalPage.dart';
-import '../view/mobile_view/home_page/widget/denomination_select_widget.dart';
-import 'fixed_card_controller.dart';
 
 final HomePageController =
     ChangeNotifierProvider.family<homePageController, String>((ref, brandCode) {

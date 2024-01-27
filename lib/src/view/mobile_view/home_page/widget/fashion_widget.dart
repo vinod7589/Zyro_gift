@@ -92,8 +92,7 @@ class FashionWidget extends ConsumerWidget {
 
                   iscontain = true;
                 }
-                return InkWell(
-                  borderRadius: BorderRadius.circular(18),
+                return GestureDetector(
                   onTap: () {
                     String branCode = fashionController
                         .allPopularBrands[index].brandCode

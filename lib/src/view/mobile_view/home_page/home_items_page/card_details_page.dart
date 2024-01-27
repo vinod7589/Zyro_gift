@@ -2,7 +2,7 @@
 
 import 'package:abc/src/controller/home_page_controller.dart';
 import 'package:abc/src/view/Utility/constants.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/payment_option_page.dart';
+import 'package:abc/src/view/mobile_view/payment_option_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
@@ -12,14 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../testfile/custom_keyboard.dart';
 import '../../../../controller/fixed_card_controller.dart';
 import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
-import '../../../../model/checkmax_limit_reached_Model.dart';
 import '../../../../model/homePage/getbrand_details_model.dart';
-import '../home_page.dart';
+import '../../../custom_keyboard/custom_keyboard.dart';
 import '../widget/denomination_select_widget.dart';
 
 class CardDetailsPage extends ConsumerStatefulWidget {
@@ -245,6 +242,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                               controller: homePageController
                                   .numKeyboardTextEditingController,
                               availableLimit: availableLimit!,
+                              brandCode: widget.brandCode,
                             ),
                             20.verticalSpace,
                             20.verticalSpace,
@@ -265,7 +263,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
             )),
             builder: (context) => Consumer(builder: (context, ref, child) {
               return StatefulBuilder(builder: (context, f) {
-                return Denomination(brandCode);
+                return Denomination(brandCode, brandDetails.discount as num);
               });
             }),
           );
@@ -370,7 +368,9 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   5.verticalSpace,
                   Text(
                     'Get ' +
-                        '${cardDetailsController.brandDetails?.discount.toString() ?? '0.0'}' +
+                        (cardDetailsController.brandDetails?.discount
+                                .toString() ??
+                            '0.0') +
                         '% off',
                     style: const TextStyle(
                       color: Color(0xFFAC61FF),
@@ -398,7 +398,10 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                                     fontWeight: FontWeight.w700),
                               ),
                               Text(
-                                '${cardDetailsController.brandDetails?.redemptionProcess.toString() ?? ''}',
+                                cardDetailsController
+                                        .brandDetails?.redemptionProcess
+                                        .toString() ??
+                                    '',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12.50,

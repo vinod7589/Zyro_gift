@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../src/view/mobile_view/home_page/home_items_page/payment_option_page.dart';
+import '../../model/CartDataModel.dart';
+import '../mobile_view/payment_option_page.dart';
 
 class NumericKeypad extends StatefulWidget {
   final TextEditingController controller;
   final int startValue;
   final int endValue;
   final num availableLimit;
+  final String brandCode;
   const NumericKeypad(
       {Key? key,
       required this.controller,
       required this.startValue,
       required this.endValue,
-      required this.availableLimit})
+      required this.availableLimit,
+      required this.brandCode})
       : super(key: key);
 
   @override
@@ -102,10 +105,14 @@ class _NumericKeypadState extends State<NumericKeypad> {
                 if (current_net_value >= lower &&
                     current_net_value <= upper &&
                     current_net_value <= widget.availableLimit) {
+                  CartDataModel cartDataDetails = CartDataModel();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PaymentOptionPage()));
+                          builder: (context) => PaymentOptionPage(
+                                cartDataDetails: cartDataDetails,
+                                brandCode: widget.brandCode,
+                              )));
                 } else {}
               },
               child: Container(

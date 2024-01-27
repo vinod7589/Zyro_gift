@@ -67,8 +67,7 @@ class EnterTainmentWidget extends ConsumerWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    borderRadius: BorderRadius.circular(18),
+                  return GestureDetector(
                     onTap: () {
                       String branCode = entertainMentController
                           .entertainmentList[index].brandCode

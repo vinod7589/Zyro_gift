@@ -3,6 +3,7 @@ import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppSettingPage extends StatefulWidget {
   const AppSettingPage({super.key});
@@ -107,9 +108,55 @@ class _AppSettingPageState extends State<AppSettingPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    AuthRepo.signOut(context);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Logout Confirmation'),
+                          content: Text('Are you sure you want to log out?'),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStatePropertyAll(
+                                          Colors.grey.withOpacity(0.2))),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text(
+                                    'No',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15.sp),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Perform logout operation
+                                    AuthRepo.signOut(context);
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15.sp),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    );
+                    // AuthRepo.signOut(context);
                   },
                   child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Row(
                       children: [
                         Image.asset(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../controller/home_page_controller.dart';
 import '../../../Utility/constants.dart';
 import '../home_items_page/card_details_page.dart';
@@ -37,8 +38,10 @@ class NewBrandsWidget extends ConsumerWidget {
               12.verticalSpace,
               newBrandsController.isLoading
                   ? Center(
-                      child: CircularProgressIndicator(),
-                    )
+                      child: LoadingAnimationWidget.stretchedDots(
+                      color: Colors.deepPurpleAccent,
+                      size: 50,
+                    ))
                   : Container(
                       height: 200,
                       child: ListView.separated(

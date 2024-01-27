@@ -1,4 +1,11 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
+import 'dart:convert';
+
+import 'package:abc/src/model/CartDataModel.dart';
+import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/Utility/constants.dart';
+import 'package:abc/src/view/mobile_view/payment_option_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +16,9 @@ import '../home_items_page/card_details_page.dart';
 import 'Home_globalPage.dart';
 
 class Denomination extends ConsumerStatefulWidget {
-  const Denomination(this.brandCode, {super.key});
+  const Denomination(this.brandCode, this.discount, {super.key});
+
+  final num discount;
 
   final String brandCode;
   @override
@@ -279,11 +288,32 @@ class _DenominationState extends ConsumerState<Denomination> {
                       children: [
                         InkWell(
                           onTap: () {
+                            var vouchers = [];
+                            fixedCardProvider.denominationVariant.entries
+                                .forEach((element) {
+                              if (element.value > 0) {
+                                var req = {
+                                  "qty": element.value,
+                                  "amount": element.key
+                                };
+                                vouchers.add(req);
+                              }
+                            });
+                            var final_request = {
+                              "userId": UserPreferences.userId,
+                              "brandcode": widget.brandCode,
+                              "discount": widget.discount,
+                              "vouchers": vouchers
+                            };
+                            //print(json.encode(final_request));
+                            CartDataModel cart =
+                                CartDataModel.fromJson(final_request);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const CardDetailsPage(
-                                          brandCode: '',
+                                    builder: (context) => PaymentOptionPage(
+                                          cartDataDetails: cart,
+                                          brandCode: widget.brandCode,
                                         )));
                           },
                           child: Container(

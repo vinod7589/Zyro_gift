@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../testfile/custom_keyboard.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
+import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
 import '../../../controller/fixed_card_controller.dart';
@@ -99,13 +99,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                       color: Colors.white,
                       size: 34,
                     )),
-                Text(
-                  'Zyro Gift',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      color: Colors.white),
-                )
+                // Text(
+                //   'Zyro Gift',
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w600,
+                //       fontSize: 24,
+                //       color: Colors.white),
+                // )
               ],
             ),
           ),
@@ -214,7 +214,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                     15.verticalSpace,
                     homeControlle.isLoading
-                        ? Center(child: CircularProgressIndicator())
+                        ? Center(
+                            child: LoadingAnimationWidget.stretchedDots(
+                            color: Colors.deepPurpleAccent,
+                            size: 50,
+                          ))
                         : PopularBrandsWidget(''),
                     20.verticalSpace,
                     Container(
@@ -419,7 +423,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // FashionWidget(),
+                  FashionWidget(),
                   // Padding(
                   //   padding: EdgeInsets.only(left: 17.w),
                   //   child: Row(

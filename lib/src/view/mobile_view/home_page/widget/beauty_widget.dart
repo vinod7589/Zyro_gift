@@ -78,8 +78,7 @@ class BeautyWidget extends ConsumerWidget {
                   if (index < beautyController.beautyList.length) {
                     return Padding(
                       padding: EdgeInsets.only(left: 15),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(18),
+                      child: GestureDetector(
                         onTap: () {
                           String branCode = beautyController
                               .beautyList[index].brandCode

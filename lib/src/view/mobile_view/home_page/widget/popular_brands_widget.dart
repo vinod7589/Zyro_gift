@@ -19,21 +19,20 @@ class PopularBrandsWidget extends ConsumerWidget {
     return popularBrands.isLoading
         ? Center(child: CircularProgressIndicator())
         : Container(
-            height: 340,
+            height: 340.h,
             child: GridView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
+                    crossAxisSpacing: 5.0,
                     mainAxisSpacing: 10.0,
                     childAspectRatio: 0.9 // Spacing between rows
                     ),
                 itemCount: popularBrands.allPopularBrands.length,
                 itemBuilder: (BuildContext context, int index) {
                   if (index < popularBrands.allPopularBrands.length) {
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(18),
+                    return GestureDetector(
                       onTap: () {
                         popularBrands.isLoading;
                         String branCode = popularBrands

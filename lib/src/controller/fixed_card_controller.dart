@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getbrand_details_model.dart';
 
@@ -27,8 +28,9 @@ class FixedCardController extends ChangeNotifier {
   Map<double, int> get denominationVariant => _denominationVariant;
   double _totalCardWorth = 0;
   double get totalCardWorth => _totalCardWorth;
-
   List<double> get denominationOption => _denominationOption;
+  // num? _availableLimit;
+  // num? get availableLimit => _availableLimit;
 
   _init() async {
     log("hitt");
@@ -40,6 +42,12 @@ class FixedCardController extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  // checkAvailableLimit() async {
+  //   log('message');
+  //   _availableLimit = await CheckMaxLimitRepo.getCheckLimitService(brandCode);
+  //   print(_availableLimit);
+  // }
 
   void addDenominationInCart(int index) {
     double amount = denominationOption[index];

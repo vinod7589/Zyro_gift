@@ -263,7 +263,11 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
             )),
             builder: (context) => Consumer(builder: (context, ref, child) {
               return StatefulBuilder(builder: (context, f) {
-                return Denomination(brandCode, brandDetails.discount as num);
+                return Denomination(
+                  brandCode,
+                  brandDetails.discount as num,
+                  availableLimit: availableLimit!,
+                );
               });
             }),
           );

@@ -45,11 +45,11 @@ class TransactionsHistory {
 }
 
 class Transaction {
-  final int srNo;
+  final num srNo;
   final String customerId;
   final String brandName;
   final String brandCode;
-  final int totalTransAmount;
+  final num totalTransAmount;
   final String type;
   final String status;
   final String ondate;
@@ -66,11 +66,11 @@ class Transaction {
   });
 
   Transaction copyWith({
-    int? srNo,
+    num? srNo,
     String? customerId,
     String? brandName,
     String? brandCode,
-    int? totalTransAmount,
+    num? totalTransAmount,
     String? type,
     String? status,
     String? ondate,

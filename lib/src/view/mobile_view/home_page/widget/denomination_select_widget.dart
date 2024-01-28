@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:abc/src/model/CartDataModel.dart';
 import 'package:abc/src/util/services/shared_preferences.dart';
@@ -12,13 +13,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controller/fixed_card_controller.dart';
+import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../home_items_page/card_details_page.dart';
 import 'Home_globalPage.dart';
 
 class Denomination extends ConsumerStatefulWidget {
-  const Denomination(this.brandCode, this.discount, {super.key});
+  const Denomination(
+    this.brandCode,
+    this.discount, {
+    super.key,
+    required this.availableLimit,
+  });
 
   final num discount;
+  final num availableLimit;
 
   final String brandCode;
   @override
@@ -26,6 +34,15 @@ class Denomination extends ConsumerStatefulWidget {
 }
 
 class _DenominationState extends ConsumerState<Denomination> {
+  @override
+  void initState() {
+    super.initState();
+    print(widget.availableLimit);
+  }
+
+  // num? availableLimit;
+  int current_net_value = 0;
+
   @override
   Widget build(BuildContext context) {
     var fixedCardProvider = ref.watch(fixedCardController(widget.brandCode));
@@ -155,6 +172,19 @@ class _DenominationState extends ConsumerState<Denomination> {
                         ],
                       ),
                     ),
+                    10.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.availableLimit >=
+                                  fixedCardProvider.totalCardWorth
+                              ? ""
+                              : 'You have a maximum limit of ${widget.availableLimit}.',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    ),
                     15.verticalSpace,
                     ListView.separated(
                         shrinkWrap: true,
@@ -260,7 +290,7 @@ class _DenominationState extends ConsumerState<Denomination> {
                                           ),
                                         ),
                                         IconButton(
-                                            padding: const EdgeInsets.only(),
+                                            padding: EdgeInsets.only(),
                                             onPressed: () {
                                               fixedCardProvider
                                                   .addDenominationInCart(index);
@@ -288,40 +318,47 @@ class _DenominationState extends ConsumerState<Denomination> {
                       children: [
                         InkWell(
                           onTap: () {
-                            var vouchers = [];
-                            fixedCardProvider.denominationVariant.entries
-                                .forEach((element) {
-                              if (element.value > 0) {
-                                var req = {
-                                  "qty": element.value,
-                                  "amount": element.key
-                                };
-                                vouchers.add(req);
-                              }
-                            });
-                            var final_request = {
-                              "userId": UserPreferences.userId,
-                              "brandcode": widget.brandCode,
-                              "discount": widget.discount,
-                              "vouchers": vouchers
-                            };
-                            //print(json.encode(final_request));
-                            CartDataModel cart =
-                                CartDataModel.fromJson(final_request);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PaymentOptionPage(
-                                          cartDataDetails: cart,
-                                          brandCode: widget.brandCode,
-                                        )));
+                            print(fixedCardProvider.totalCardWorth);
+                            if (widget.availableLimit >=
+                                fixedCardProvider.totalCardWorth) {
+                              var vouchers = [];
+                              fixedCardProvider.denominationVariant.entries
+                                  .forEach((element) {
+                                if (element.value > 0) {
+                                  var req = {
+                                    "qty": element.value,
+                                    "amount": element.key
+                                  };
+                                  vouchers.add(req);
+                                }
+                              });
+                              var final_request = {
+                                "userId": UserPreferences.userId,
+                                "brandcode": widget.brandCode,
+                                "discount": widget.discount,
+                                "vouchers": vouchers
+                              };
+                              //print(json.encode(final_request));
+                              CartDataModel cart =
+                                  CartDataModel.fromJson(final_request);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PaymentOptionPage(
+                                            cartDataDetails: cart,
+                                            brandCode: widget.brandCode,
+                                          )));
+                            } else {}
                           },
                           child: Container(
                             alignment: Alignment.center,
                             width: 320.w,
                             height: 51.h,
                             decoration: ShapeDecoration(
-                              color: Colors.white,
+                              color: widget.availableLimit >=
+                                      fixedCardProvider.totalCardWorth
+                                  ? Colors.white
+                                  : Colors.black87,
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
                                     width: 1, color: Color(0xFF8C8C8C)),

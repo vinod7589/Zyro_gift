@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,13 +13,15 @@ class NumericKeypad extends StatefulWidget {
   final int endValue;
   final num availableLimit;
   final String brandCode;
+  final num discount;
   const NumericKeypad(
       {Key? key,
       required this.controller,
       required this.startValue,
       required this.endValue,
       required this.availableLimit,
-      required this.brandCode})
+      required this.brandCode,
+      required this.discount})
       : super(key: key);
 
   @override
@@ -35,7 +40,9 @@ class _NumericKeypadState extends State<NumericKeypad> {
     _controller = widget.controller;
     lower = widget.startValue;
     upper = widget.endValue;
-    current_net_value = lower;
+    setState(() {
+      current_net_value = lower;
+    });
   }
 
   @override
@@ -105,12 +112,23 @@ class _NumericKeypadState extends State<NumericKeypad> {
                 if (current_net_value >= lower &&
                     current_net_value <= upper &&
                     current_net_value <= widget.availableLimit) {
-                  CartDataModel cartDataDetails = CartDataModel();
-                  Navigator.push(
+                  var vouchers = [];
+                  var req = {"qty": 1, "amount": current_net_value as num};
+                  vouchers.add(req);
+                  var finalRequest = {
+                    "userId": UserPreferences.userId,
+                    "brandcode": widget.brandCode,
+                    "discount": widget.discount,
+                    "vouchers": vouchers
+                  };
+                  print(json.encode(finalRequest));
+                  CartDataModel cart = CartDataModel.fromJson(finalRequest);
+
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => PaymentOptionPage(
-                                cartDataDetails: cartDataDetails,
+                                cartDataDetails: cart,
                                 brandCode: widget.brandCode,
                               )));
                 } else {}

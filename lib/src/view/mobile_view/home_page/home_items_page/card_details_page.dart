@@ -243,6 +243,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                                   .numKeyboardTextEditingController,
                               availableLimit: availableLimit!,
                               brandCode: widget.brandCode,
+                              discount: brandDetails.discount as num,
                             ),
                             20.verticalSpace,
                             20.verticalSpace,

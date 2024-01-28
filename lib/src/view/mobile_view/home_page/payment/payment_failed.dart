@@ -67,7 +67,7 @@ class PaymentFailedPage extends StatelessWidget {
               ),
             ),
             Spacer(),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
@@ -80,7 +80,7 @@ class PaymentFailedPage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30)),
                 child: Text(
-                  'Try Again',
+                  'Close',
                   style: TextStyle(
                       color: Color(0xFF2C2C2C),
                       fontFamily: 'Poppins',

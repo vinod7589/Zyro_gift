@@ -24,34 +24,31 @@ class PaymentOptionPage extends ConsumerStatefulWidget {
 }
 
 class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
-  //late Timer _timer;
-  //int _elapsedSeconds = 0;
+  num amount = 0;
+  num discount = 0;
   @override
   void dispose() {
-    // Cancel the timer when the widget is disposed to avoid memory leaks
-    // if (_timer.isActive) {
-    //   _timer.cancel();
-    // }
     super.dispose();
   }
 
-  //int f = 0;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      amount = widget.cartDataDetails.vouchers!.fold(
+          0,
+          (previousValue, element) =>
+              previousValue + (element.qty! * element.amount!));
+    });
+  }
 
   void openPaymentIntent(String psp) async {
-    // setState(() {
-    //   _elapsedSeconds = 0;
-    // });
-    // if (f > 0 && _timer.isActive == true) {
-    //   _timer.cancel();
-    // }
-
     String paymentUrl = '';
     String merchantTransactionId = '';
     var paymentOption = ref.watch(fixedCardController(widget.brandCode));
-    num payableAmount = paymentOption.totalCardWorth.toInt() -
-        (paymentOption.totalCardWorth * widget.cartDataDetails.discount! / 100);
+    num payableAmount =
+        amount - (amount * widget.cartDataDetails.discount! / 100);
     PaymentModel res = await PaymentRepo.paymentService(payableAmount);
-
     if (res.success == true) {
       paymentUrl = res.data!.intentUrl!;
       merchantTransactionId = res.data!.merchantTransactionId!;
@@ -65,7 +62,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
         }
         await launchUrl(Uri.parse(paymentUrl));
 
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => TimerCountPage(
@@ -147,7 +144,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
                           ),
                         ),
                         Text(
-                          '₹ ${(paymentOption.totalCardWorth)}',
+                          '₹ $amount',
                           style: TextStyle(
                             color: const Color(0xFFE0E0E0),
                             fontSize: 16.sp,
@@ -173,7 +170,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
                           ),
                         ),
                         Text(
-                          '₹ ${(paymentOption.totalCardWorth * widget.cartDataDetails.discount! / 100)}',
+                          '₹ ${(amount * widget.cartDataDetails.discount! / 100)}',
                           style: TextStyle(
                             color: const Color(0xFFE0E0E0),
                             fontSize: 16.sp,
@@ -202,7 +199,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
                           ),
                         ),
                         Text(
-                          '₹ ${paymentOption.totalCardWorth.toInt() - (paymentOption.totalCardWorth * widget.cartDataDetails.discount! / 100)}',
+                          '₹ ${amount - (amount * widget.cartDataDetails.discount! / 100)}',
                           style: TextStyle(
                             color: const Color(0xFFE0E0E0),
                             fontSize: 16.sp,
@@ -425,65 +422,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
                       });
                     },
                   ),
-
                   18.verticalSpace,
-                  // const Row(
-                  //   children: [
-                  //     Text(
-                  //       'Credit & Debit cards',
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 16,
-                  //         fontFamily: 'Poppins',
-                  //         fontWeight: FontWeight.w500,
-                  //         height: 1.11,
-                  //         letterSpacing: 0.08,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
-                  // Container(
-                  //   padding: const EdgeInsets.only(left: 20, right: 28),
-                  //   height: 65,
-                  //   decoration: ShapeDecoration(
-                  //     color: const Color(0xFF2D2D2D),
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(19),
-                  //     ),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Container(
-                  //         child: Row(
-                  //           children: [
-                  //             Image.asset(
-                  //               'assets/images/card.png',
-                  //               height: 25,
-                  //             ),
-                  //             const SizedBox(
-                  //               width: 25,
-                  //             ),
-                  //             const Text(
-                  //               'Add New Card',
-                  //               style: TextStyle(
-                  //                 color: Colors.white,
-                  //                 fontSize: 15.80,
-                  //                 fontFamily: 'Poppins',
-                  //                 fontWeight: FontWeight.w500,
-                  //                 letterSpacing: 0.44,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       Image.asset(
-                  //         'assets/images/rightarrow.png',
-                  //         height: 16,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
             ),

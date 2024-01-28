@@ -35,15 +35,17 @@ class PopularBrandsWidget extends ConsumerWidget {
                     return GestureDetector(
                       onTap: () {
                         popularBrands.isLoading;
-                        String branCode = popularBrands
+                        String brand = popularBrands
                             .allPopularBrands[index].brandCode
                             .toString();
-                        print(branCode);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CardDetailsPage(brandCode: branCode)));
+
+                        if (brand != null && brand != '') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CardDetailsPage(brandCode: brand)));
+                        }
                         popularBrands.isLoadingFalse;
                       },
                       child: Container(

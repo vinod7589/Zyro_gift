@@ -37,6 +37,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
   void initState() {
     super.initState();
     checkAvailableLimit();
+    getBrand();
   }
 
   int currentValue = 0;
@@ -60,12 +61,31 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
     return currentRange;
   }
 
+  bool isLoading = false;
+
+  late GetBrandDetailsList? brandData;
+  getBrand() async {
+    setState(() {
+      isLoading = true;
+    });
+    brandData = await HomePageService.getBrandDetailsService(widget.brandCode);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   getBrandDetails(brandCode) async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       var fixedCardProvider = ref.watch(fixedCardController(brandCode));
       var homePageController = ref.watch(HomePageController(brandCode));
       GetBrandDetailsList? brandDetails =
           await HomePageService.getBrandDetailsService(brandCode);
+      setState(() {
+        isLoading = false;
+      });
       if (brandDetails != null) {
         if (brandDetails!.brandtype == 'Variable') {
           var res = manageDenomition(
@@ -129,10 +149,15 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                               child: Column(
                                 children: [
                                   28.verticalSpace,
-                                  Image.network(
-                                    "$baseUrl${fixedCardProvider.brandDetails!.image.toString()}",
-                                    height: 40.h,
-                                  ),
+                                  fixedCardProvider.brandDetails != null &&
+                                          fixedCardProvider
+                                                  .brandDetails!.image !=
+                                              null
+                                      ? Image.network(
+                                          "$baseUrl${fixedCardProvider.brandDetails!.image.toString()}",
+                                          height: 40.h,
+                                        )
+                                      : SizedBox(),
                                   14.verticalSpace,
                                   const Text(
                                     'Card worth',
@@ -282,218 +307,216 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var cardDetailsController = ref.watch(HomePageController(
-      widget.brandCode,
-    ));
-    return Scaffold(
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.only(bottom: 25, top: 15, left: 20, right: 20),
-        height: 51,
-        child: ElevatedButton(
-            style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.white)),
-            onPressed: () {
-              var res = getBrandDetails(cardDetailsController.brandCode);
-              // var res = cardDetailsController.getBrandDetails();
-              print("'variable and fix type' $res");
-            },
-            child: const Text(
-              'Get This Card',
-              style: TextStyle(
-                color: Color(0xFF2C2C2C),
-                fontSize: 16,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                height: 1.11,
-                letterSpacing: 0.08,
-              ),
-            )),
-      ),
-      backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        titleSpacing: 5,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-        title: Text(
-          cardDetailsController.brandDetails?.brandName.toString() ?? 'Demo',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            height: 1.11,
-            letterSpacing: 0.08,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-              width: double.infinity,
-              height: 184,
-              decoration: BoxDecoration(
-                  color: Colors.deepPurple.shade800.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: const Color(0xFF494949),
+    var cardDetailsController = ref.watch(HomePageController(widget.brandCode));
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Scaffold(
+            bottomNavigationBar: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 25, top: 15, left: 20, right: 20),
+              height: 51,
+              child: ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white)),
+                  onPressed: () {
+                    var res = getBrandDetails(widget.brandCode);
+                    // var res = cardDetailsController.getBrandDetails();
+                    print("'variable and fix type' $res");
+                  },
+                  child: const Text(
+                    'Get This Card',
+                    style: TextStyle(
+                      color: Color(0xFF2C2C2C),
+                      fontSize: 16,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 1.11,
+                      letterSpacing: 0.08,
+                    ),
                   )),
+            ),
+            backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+            appBar: AppBar(
+              scrolledUnderElevation: 0,
+              titleSpacing: 5,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+              title: Text(
+                brandData!.brandName.toString() ?? 'Demo',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  height: 1.11,
+                  letterSpacing: 0.08,
+                ),
+              ),
+            ),
+            body: SingleChildScrollView(
               child: Column(
                 children: [
-                  28.verticalSpace,
-                  Image.network(
-                    '$baseUrl${cardDetailsController.brandDetails?.image.toString()}',
-                    height: 40,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        'assets/images/noimage.png',
-                        height: 40,
-                      );
-                    },
-                  ),
-                  14.verticalSpace,
-                  const Text(
-                    'Card worth',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.06,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.24,
-                    ),
-                  ),
-                  5.verticalSpace,
-                  Text(
-                    'Get ' +
-                        (cardDetailsController.brandDetails?.discount
-                                .toString() ??
-                            '0.0') +
-                        '% off',
-                    style: const TextStyle(
-                      color: Color(0xFFAC61FF),
-                      fontSize: 21.14,
-                      fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.46,
-                    ),
-                  ),
-                  Expanded(
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    width: double.infinity,
+                    height: 184,
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurple.shade800.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: const Color(0xFF494949),
+                        )),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 10, left: 20, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        28.verticalSpace,
+                        Image.network(
+                          '$baseUrl${brandData?.image.toString()}',
+                          height: 40,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/noimage.png',
+                              height: 40,
+                            );
+                          },
+                        ),
+                        14.verticalSpace,
+                        const Text(
+                          'Card worth',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.06,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.24,
+                          ),
+                        ),
+                        5.verticalSpace,
+                        Text(
+                          'Get ' +
+                              (brandData?.discount.toString() ?? '0.0') +
+                              '% off',
+                          style: const TextStyle(
+                            color: Color(0xFFAC61FF),
+                            fontSize: 21.14,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.46,
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              const Text(
-                                '. . . . . .',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              Text(
-                                cardDetailsController
-                                        .brandDetails?.redemptionProcess
-                                        .toString() ??
-                                    '',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.50,
-                                  fontFamily: 'Urbanist',
-                                  fontWeight: FontWeight.w500,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, left: 20, right: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      '. . . . . .',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Text(
+                                      brandData?.redemptionProcess.toString() ??
+                                          '',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.50,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-            30.verticalSpace,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () {
-                      showToast(message: 'No Coupon Found');
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const ApplyCouponPage()));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
-                      height: 48,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Color(0xFF878787)),
-                          borderRadius: BorderRadius.circular(34),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
+                  ),
+                  30.verticalSpace,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          onTap: () {
+                            showToast(message: 'No Coupon Found');
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => const ApplyCouponPage()));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 22),
+                            height: 48,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side:
+                                    const BorderSide(color: Color(0xFF878787)),
+                                borderRadius: BorderRadius.circular(34),
+                              ),
+                            ),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.asset(
-                                  'assets/images/Ticket.png',
-                                  height: 18,
-                                ),
-                                const SizedBox(
-                                  width: 18,
-                                ),
-                                const Text(
-                                  'Apply Coupon Code',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.29,
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/Ticket.png',
+                                        height: 18,
+                                      ),
+                                      const SizedBox(
+                                        width: 18,
+                                      ),
+                                      const Text(
+                                        'Apply Coupon Code',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.29,
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                ),
+                                Image.asset(
+                                  'assets/images/rightarrow.png',
+                                  height: 15,
                                 ),
                               ],
                             ),
                           ),
-                          Image.asset(
-                            'assets/images/rightarrow.png',
-                            height: 15,
-                          ),
-                        ],
-                      ),
+                        ),
+                        20.verticalSpace,
+                        AboutThePageToggleWidget(brandCode: widget.brandCode),
+                        20.verticalSpace,
+                        HowToRedeemWidget(brandCode: widget.brandCode),
+                        20.verticalSpace,
+                        const TermsConditionWidget(),
+                        20.verticalSpace,
+                      ],
                     ),
                   ),
-                  20.verticalSpace,
-                  AboutThePageToggleWidget(
-                      brandCode: cardDetailsController.brandCode),
-                  20.verticalSpace,
-                  HowToRedeemWidget(brandCode: cardDetailsController.brandCode),
-                  20.verticalSpace,
-                  const TermsConditionWidget(),
-                  20.verticalSpace,
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

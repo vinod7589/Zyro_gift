@@ -97,11 +97,13 @@ class FashionWidget extends ConsumerWidget {
                     String branCode = fashionController
                         .allPopularBrands[index].brandCode
                         .toString();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CardDetailsPage(brandCode: branCode)));
+    if (branCode != null && branCode != '') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  CardDetailsPage(brandCode: branCode)));
+    }
                   },
                   child: Row(
                     children: [

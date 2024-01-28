@@ -67,41 +67,29 @@ class homePageController extends ChangeNotifier {
   GetBrandDetailsList? brandDetails;
 
   Future<void> allCategories() async {
-    _isLoading = true;
     _categoriesList = await HomePageService.getAllCategoriesService() ?? [];
-    _isLoading = false;
 
     print(_isLoading);
   }
 
   Future<void> travelTrip() async {
-    _isLoading = true;
     _tripTravelList = await HomePageService.travelTripService() ?? [];
-    _isLoading = false;
   }
 
   Future<void> NewBrand() async {
-    _isLoading = true;
     _newBrandList = await HomePageService.newBrandListService("") ?? [];
-    _isLoading = false;
   }
 
   Future<void> fashion() async {
-    _isLoading = true;
     _fashionList = await HomePageService.fashionService() ?? [];
-    _isLoading = false;
   }
 
   Future<void> beauty() async {
-    _isLoading = true;
     _beautyList = await HomePageService.beautyService() ?? [];
-    _isLoading = false;
   }
 
   Future<void> entertainment() async {
-    _isLoading = true;
     _entertainmentList = await HomePageService.entertainmentService() ?? [];
-    _isLoading = false;
   }
 
   Future<void> getPopularBrands() async {
@@ -109,8 +97,8 @@ class homePageController extends ChangeNotifier {
     _allPopularBrands =
         await HomePageService.getAllPopularBrandsService() ?? [];
     log("dsfasefd$allPopularBrands");
-    _isLoading = false;
     notifyListeners();
+    _isLoading = false;
   }
 
   _init() async {

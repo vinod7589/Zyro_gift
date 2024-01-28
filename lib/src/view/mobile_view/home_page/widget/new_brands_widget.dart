@@ -57,13 +57,15 @@ class NewBrandsWidget extends ConsumerWidget {
                                     String brandCode = newBrandsController
                                         .newBrandList[index].brandCode
                                         .toString();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CardDetailsPage(
-                                                  brandCode: brandCode,
-                                                )));
+    if (brandCode != null && brandCode != '') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  CardDetailsPage(
+                    brandCode: brandCode,
+                  )));
+    }
                                   },
                                   child: Stack(
                                     children: [

@@ -36,23 +36,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
   }
 
-  // getBrandDetails(brandCode, ref) async {
-  //   try {
-  //     GetBrandDetailsList? brandDetails =
-  //         await HomePageService.getBrandDetailsService(brandCode);
-  //
-  //     Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => CardDetailsPage(
-  //                   brandCode: brandDetails!.brandName.toString(),
-  //                 )));
-  //   } catch (error) {
-  //     // Handle any errors that occur during the service call
-  //     print('Error: $error');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     var homePage = ref.watch(HomeGlobalPage);

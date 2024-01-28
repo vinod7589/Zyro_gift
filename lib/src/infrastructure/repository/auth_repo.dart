@@ -145,8 +145,7 @@ class AuthRepo {
     try {
       UserPreferences.clearUserData();
       await Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => OnboardingPage()),
+        context, MaterialPageRoute(builder: (context) => OnboardingPage()),
         (route) => false, // Clear the navigation stack
       );
       print('User signed out successfully');

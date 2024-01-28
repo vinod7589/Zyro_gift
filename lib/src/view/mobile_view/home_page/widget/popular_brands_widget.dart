@@ -19,7 +19,7 @@ class PopularBrandsWidget extends ConsumerWidget {
     return popularBrands.isLoading
         ? Center(child: CircularProgressIndicator())
         : Container(
-            height: 340.h,
+            height: 340,
             child: GridView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,

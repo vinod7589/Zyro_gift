@@ -341,7 +341,7 @@ class _DenominationState extends ConsumerState<Denomination> {
                               //print(json.encode(final_request));
                               CartDataModel cart =
                                   CartDataModel.fromJson(final_request);
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => PaymentOptionPage(

@@ -89,7 +89,13 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                 ),
                 10.verticalSpace,
                 redeemSteps.length == 0
-                    ? const Text("No data available")
+                    ? Text(
+                        "No data available",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'poppins',
+                            fontSize: 15.sp),
+                      )
                     : ListView.separated(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,

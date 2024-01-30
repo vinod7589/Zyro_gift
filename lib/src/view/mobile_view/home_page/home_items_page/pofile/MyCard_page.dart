@@ -6,6 +6,7 @@ import 'package:abc/src/view/widgets/dialogs/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../../model/drawer_model/My_carddetails_model.dart';
@@ -41,6 +42,7 @@ class _MyCardPageState extends State<MyCardPage> {
     isLoading = false;
     setState(() {});
   }
+
   // getBrand() async {
   //   setState(() {
   //     isLoading = true;

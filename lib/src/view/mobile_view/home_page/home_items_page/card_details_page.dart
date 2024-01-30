@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../controller/fixed_card_controller.dart';
 import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
@@ -312,7 +313,12 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
   Widget build(BuildContext context) {
     // var cardDetailsController = ref.watch(HomePageController(widget.brandCode));
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(
+            child: LoadingAnimationWidget.threeArchedCircle(
+              color: Colors.white,
+              size: 50,
+            ),
+          )
         : Scaffold(
             bottomNavigationBar: Container(
               margin: const EdgeInsets.only(

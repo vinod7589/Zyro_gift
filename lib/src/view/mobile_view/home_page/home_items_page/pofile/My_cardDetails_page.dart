@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../../model/homePage/getbrand_details_model.dart';
 import '../../../../../model/redeem_step_model.dart';
+import '../../../Time_remove_widget.dart';
 
 class MyCardDetailsPage extends ConsumerStatefulWidget {
   final String orderId;

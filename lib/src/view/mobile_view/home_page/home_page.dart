@@ -34,12 +34,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     getPopularBrands();
-    allCategories();
-    travelTrip();
     NewBrand();
+    travelTrip();
     fashion();
     beauty();
     entertainment();
+    // allCategories();
     super.initState();
   }
 
@@ -89,7 +89,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var filteredBrandPaginationProvider= ref.watch(searchPagePaginationProvider);
+    var filteredBrandPaginationProvider =
+        ref.watch(searchPagePaginationProvider);
 
     var homePage = ref.watch(HomeGlobalPage);
     return Scaffold(
@@ -144,145 +145,121 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           SliverAppBar(
-            leading: const Text(''),
-            toolbarHeight: 60.h,
+            leading: SizedBox(),
+            leadingWidth: 0,
+            toolbarHeight: 68.h,
             pinned: true,
             scrolledUnderElevation: 0,
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
             flexibleSpace: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                  ),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap:(){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (c)=>SearchMobilePage()));
-                        },
-                        child: Container(
-                          height: constants.searchBarHeight,
-                          color: const Color.fromRGBO(35, 35, 35, 1),
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          child: TextFormField(
-                            enabled: false,
-                              readOnly: true,
-                              controller: searchBarTextEditingController,
-                              // isEnable = true;
-                              onTapOutside: (e) =>
-                                  FocusScope.of(context).unfocus(),
-                              style: const TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.white),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50))),
-                                  contentPadding: const EdgeInsets.only(
-                                    left: 2,
-                                    top: 10,
-                                    bottom: 8,
-                                  ),
-                                  suffixIcon: searchBarTextEditingController
-                                          .text.isNotEmpty
-                                      ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                // isEnable = true;7
-                                                searchBarTextEditingController
-                                                    .clear();
-
-                                                FocusScope.of(context).unfocus();
-                                              },
-                                              icon: const Icon(
-                                                Icons.clear,
-                                                color: Colors.white,
-                                              )),
-                                        )
-                                      : null,
-                                  prefixIcon: Container(
-                                    padding: const EdgeInsets.all(13),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 0),
-                                      child: Image.asset(
-                                        'assets/images/Search.png',
-                                      ),
-                                    ),
-                                  ),
-                                  hintStyle: const TextStyle(
-                                    color: Color(0xFFB5B5B5),
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.29,
-                                  ),
-                                  hintText: "Search for Brands",
-                                  border: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50)),
-                                      borderSide:
-                                          BorderSide(color: Colors.white)))),
-                        ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(17),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (c) => SearchMobilePage())),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    height: 47.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.white)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/Search.png',
+                          ),
+                          20.horizontalSpace,
+                          Text(
+                            'Search for Brands or category',
+                            style: TextStyle(
+                              color: Color(0xFFB5B5B5),
+                              fontSize: 13.42,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
-                      // 20.verticalSpace,
-                      // Padding(
-                      //   padding: EdgeInsets.only(left: 15.w),
-                      //   child: Container(
-                      //     height: 50.h,
-                      //     child: ListView.separated(
-                      //       separatorBuilder: (context, index) =>
-                      //           const SizedBox(
-                      //         width: 30,
-                      //       ),
-                      //       shrinkWrap: true,
-                      //       scrollDirection: Axis.horizontal,
-                      //       itemCount: categoriesList.length,
-                      //       itemBuilder: (context, index) {
-                      //         return InkWell(
-                      //           // onTap: () => Navigator.push(
-                      //           //     context,
-                      //           //     MaterialPageRoute(
-                      //           //         builder: (context) =>
-                      //           //             CategoriesPage())),
-                      //           child: Column(
-                      //             children: [
-                      //               Image.network(
-                      //                 '$baseUrl${categoriesList[index].categoryImage}',
-                      //                 height: 30.h,
-                      //                 errorBuilder:
-                      //                     (context, error, stackTrace) {
-                      //                   return Image.asset(
-                      //                     'assets/images/noimage.png',
-                      //                     height: 30.h,
-                      //                   );
-                      //                 },
-                      //               ),
-                      //               10.verticalSpace,
-                      //               Text(
-                      //                 categoriesList[index]
-                      //                     .categoryName
-                      //                     .toString(),
-                      //                 style: TextStyle(
-                      //                   color: const Color(0xFFFAFAFA),
-                      //                   fontSize: 12.07.sp,
-                      //                   fontFamily: 'Poppins',
-                      //                   fontWeight: FontWeight.w500,
-                      //                   height: 0.09,
-                      //                   letterSpacing: 0.06,
-                      //                 ),
-                      //               )
-                      //             ],
-                      //           ),
-                      //         );
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
+                    ),
                   ),
                 ),
+                15.verticalSpace,
+                // Padding(
+                //   padding: EdgeInsets.only(left: 0),
+                //   child: SizedBox(
+                //     height: 55.h,
+                //     child: ListView.separated(
+                //       separatorBuilder: (context, index) => const SizedBox(
+                //         width: 0,
+                //       ),
+                //       shrinkWrap: true,
+                //       scrollDirection: Axis.horizontal,
+                //       itemCount:
+                //           filteredBrandPaginationProvider.categoriesList.length,
+                //       itemBuilder: (context, index) {
+                //         return GestureDetector(
+                //           onTap: () {
+                //             filteredBrandPaginationProvider
+                //                 .selectCategory(index);
+                //             Navigator.of(context).push(MaterialPageRoute(
+                //                 builder: (c) => SearchMobilePage()));
+                //           },
+                //           child: Container(
+                //             width: 90,
+                //             height: 80,
+                //             // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
+                //             child: Column(
+                //               children: [
+                //                 Image.network(
+                //                   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                //                   height: 30.h,
+                //                   errorBuilder: (context, error, stackTrace) {
+                //                     return Image.asset(
+                //                       'assets/images/noimage.png',
+                //                       height: 30.h,
+                //                     );
+                //                   },
+                //                 ),
+                //                 10.verticalSpace,
+                //                 Text(
+                //                   filteredBrandPaginationProvider
+                //                       .categoriesList[index].categoryName
+                //                       .toString()
+                //                       .split(" ")
+                //                       .first,
+                //                   style: TextStyle(
+                //                     color: const Color(0xFFFAFAFA),
+                //                     fontSize: 12.07.sp,
+                //                     fontWeight: FontWeight.w500,
+                //                     height: 0.09,
+                //                     letterSpacing: 0.06,
+                //                   ),
+                //                 )
+                //               ],
+                //             ),
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ),
+                5.verticalSpace,
+                Container(
+                  height: 0.0,
+                  decoration:
+                      BoxDecoration(color: Colors.grey.shade700, boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.shade700,
+                        blurRadius: 0.5,
+                        offset: Offset(0, 1),
+                        spreadRadius: 0.3)
+                  ]),
+                )
               ],
             ),
           ),
@@ -296,59 +273,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 15.w),
-                      child: SizedBox(
-                        height: 60.h,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) => const SizedBox(
-                            width: 30,
-                          ),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount:filteredBrandPaginationProvider. categoriesList.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                filteredBrandPaginationProvider.selectCategory(index);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (c)=>SearchMobilePage()));
-                              },
-                              child: Container(
-                                width: 70,
-                                height: 80,
-                                // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
-                                child: Column(
-                                  children: [
-                                    Image.network(
-                                      '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
-                                      height: 30.h,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return Image.asset(
-                                          'assets/images/noimage.png',
-                                          height: 30.h,
-                                        );
-                                      },
-                                    ),
-                                    10.verticalSpace,
-                                    Text(
-                                      filteredBrandPaginationProvider.   categoriesList[index].categoryName.toString(),
-                                      style: TextStyle(
-
-                                        color: const Color(0xFFFAFAFA),
-                                        fontSize: 12.07.sp,
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.09,
-                                        letterSpacing: 0.06,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
                     //////<! Discount widget !>///////
 
                     // 18.verticalSpace,
@@ -447,7 +371,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 itemCount: allPopularBrands.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   if (index < allPopularBrands.length) {
-                                    return GestureDetector(
+                                    return InkWell(
+                                      borderRadius: BorderRadius.circular(17),
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         isLoading;
                                         String brand = allPopularBrands[index]
@@ -594,6 +521,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Stack(
                         children: [
                           InkWell(
+                            borderRadius: BorderRadius.circular(17),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               print(homePage.currentIndex);
                             },
@@ -633,7 +563,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   .asMap()
                                   .entries
                                   .map((entry) {
-                                return GestureDetector(
+                                return InkWell(
+                                  borderRadius: BorderRadius.circular(17),
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   onTap: () => homePage.carouselController
                                       .animateToPage(entry.key),
                                   child: Container(
@@ -1093,7 +1026,10 @@ class _HomePageState extends ConsumerState<HomePage> {
 
                                 iscontain = true;
                               }
-                              return GestureDetector(
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(17),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   String branCode =
                                       fashionList[index].brandCode.toString();
@@ -1334,7 +1270,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 7),
-                                    child: GestureDetector(
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(17),
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         String branCode = beautyList[index]
                                             .brandCode
@@ -1509,7 +1448,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                return GestureDetector(
+                                return InkWell(
+                                  borderRadius: BorderRadius.circular(17),
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   onTap: () {
                                     String branCode = entertainmentList[index]
                                         .brandCode

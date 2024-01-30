@@ -7,6 +7,7 @@ import 'package:abc/src/model/homePage/new_brands_model.dart';
 import 'package:abc/src/model/homePage/tripTravel_Model.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../model/homePage/getAll_brand_list_model.dart';
+import '../../../model/search/filtered_brand_model.dart';
 import '../../../util/services/shared_preferences.dart';
 import '../../dio/dio_api_service.dart';
 import '../../dio/dio_api_service.dart';
@@ -21,6 +22,24 @@ class HomePageService {
         {},
       );
       var res = GetAllCategoryModel.fromJson(response);
+      if (res.status == 'success') {
+        return res.data;
+      } else {
+        return null;
+      }
+    } catch (error, st) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: st);
+      return null;
+    }
+  }
+  Future<List<FilteredBrandModel>?> getBrandByCategoryId({required String categoryId,required int page,required String query,}) async {
+    try {
+      final response = await dio.AuthPost(
+          '/api/ZyroGiftVoucher/GetBrandByCategoryId?Id=$categoryId&SearchValue=$query&Page=$page&PageSize=10'
+        ,"",
+);
+      var res = GetFilteredBrandModel.fromJson(response);
       if (res.status == 'success') {
         return res.data;
       } else {

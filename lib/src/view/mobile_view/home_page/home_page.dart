@@ -1,7 +1,6 @@
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +8,7 @@ import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
+import '../../../controller/search_page_pagination_controller.dart';
 import '../../../infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
 import '../../../model/homePage/amazing_fashion_model.dart';
 import '../../../model/homePage/beauty_budget_model.dart';
@@ -17,6 +17,7 @@ import '../../../model/homePage/getall_categories_model.dart';
 import '../../../model/homePage/new_brands_model.dart';
 import '../../../model/homePage/tripTravel_Model.dart';
 import '../bottomNavigationBar_tabs/pofile_page.dart';
+import '../searchPage/search_mobile_page.dart';
 import 'home_items_page/card_details_page.dart';
 import 'widget/Home_globalPage.dart';
 
@@ -33,7 +34,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     getPopularBrands();
-    // allCategories();
+    allCategories();
     travelTrip();
     NewBrand();
     fashion();
@@ -88,6 +89,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var filteredBrandPaginationProvider= ref.watch(searchPagePaginationProvider);
+
     var homePage = ref.watch(HomeGlobalPage);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
@@ -140,143 +143,149 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           ),
-          // SliverAppBar(
-          //   leading: const Text(''),
-          //   toolbarHeight: 138.h,
-          //   pinned: true,
-          //   scrolledUnderElevation: 0,
-          //   backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-          //   flexibleSpace: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       Padding(
-          //         padding: const EdgeInsets.only(
-          //           top: 10,
-          //         ),
-          //         child: Column(
-          //           children: [
-          //             Container(
-          //               height: constants.searchBarHeight,
-          //               color: const Color.fromRGBO(35, 35, 35, 1),
-          //               margin: const EdgeInsets.symmetric(horizontal: 20),
-          //               child: TextFormField(
-          //                   readOnly: true,
-          //                   controller: searchBarTextEditingController,
-          //                   // isEnable = true;
-          //                   onTapOutside: (e) =>
-          //                       FocusScope.of(context).unfocus(),
-          //                   style: const TextStyle(color: Colors.white),
-          //                   decoration: InputDecoration(
-          //                       focusedBorder: const OutlineInputBorder(
-          //                           borderSide: BorderSide(color: Colors.white),
-          //                           borderRadius:
-          //                               BorderRadius.all(Radius.circular(50))),
-          //                       contentPadding: const EdgeInsets.only(
-          //                         left: 2,
-          //                         top: 10,
-          //                         bottom: 8,
-          //                       ),
-          //                       suffixIcon: searchBarTextEditingController
-          //                               .text.isNotEmpty
-          //                           ? Padding(
-          //                               padding:
-          //                                   const EdgeInsets.only(right: 8),
-          //                               child: IconButton(
-          //                                   onPressed: () {
-          //                                     // isEnable = true;7
-          //                                     searchBarTextEditingController
-          //                                         .clear();
-          //
-          //                                     FocusScope.of(context).unfocus();
-          //                                   },
-          //                                   icon: const Icon(
-          //                                     Icons.clear,
-          //                                     color: Colors.white,
-          //                                   )),
-          //                             )
-          //                           : null,
-          //                       prefixIcon: Container(
-          //                         padding: const EdgeInsets.all(13),
-          //                         child: Padding(
-          //                           padding: const EdgeInsets.only(
-          //                               left: 10, right: 0),
-          //                           child: Image.asset(
-          //                             'assets/images/Search.png',
-          //                           ),
-          //                         ),
-          //                       ),
-          //                       hintStyle: const TextStyle(
-          //                         color: Color(0xFFB5B5B5),
-          //                         fontWeight: FontWeight.w400,
-          //                         height: 1.29,
-          //                       ),
-          //                       hintText: "Search for Brands",
-          //                       border: const OutlineInputBorder(
-          //                           borderRadius:
-          //                               BorderRadius.all(Radius.circular(50)),
-          //                           borderSide:
-          //                               BorderSide(color: Colors.white)))),
-          //             ),
-          //             20.verticalSpace,
-          //             Padding(
-          //               padding: EdgeInsets.only(left: 15.w),
-          //               child: Container(
-          //                 height: 50.h,
-          //                 child: ListView.separated(
-          //                   separatorBuilder: (context, index) =>
-          //                       const SizedBox(
-          //                     width: 30,
-          //                   ),
-          //                   shrinkWrap: true,
-          //                   scrollDirection: Axis.horizontal,
-          //                   itemCount: categoriesList.length,
-          //                   itemBuilder: (context, index) {
-          //                     return InkWell(
-          //                       // onTap: () => Navigator.push(
-          //                       //     context,
-          //                       //     MaterialPageRoute(
-          //                       //         builder: (context) =>
-          //                       //             CategoriesPage())),
-          //                       child: Column(
-          //                         children: [
-          //                           Image.network(
-          //                             '$baseUrl${categoriesList[index].categoryImage}',
-          //                             height: 30.h,
-          //                             errorBuilder:
-          //                                 (context, error, stackTrace) {
-          //                               return Image.asset(
-          //                                 'assets/images/noimage.png',
-          //                                 height: 30.h,
-          //                               );
-          //                             },
-          //                           ),
-          //                           10.verticalSpace,
-          //                           Text(
-          //                             categoriesList[index]
-          //                                 .categoryName
-          //                                 .toString(),
-          //                             style: TextStyle(
-          //                               color: const Color(0xFFFAFAFA),
-          //                               fontSize: 12.07.sp,
-          //                               fontFamily: 'Poppins',
-          //                               fontWeight: FontWeight.w500,
-          //                               height: 0.09,
-          //                               letterSpacing: 0.06,
-          //                             ),
-          //                           )
-          //                         ],
-          //                       ),
-          //                     );
-          //                   },
-          //                 ),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          SliverAppBar(
+            leading: const Text(''),
+            toolbarHeight: 60.h,
+            pinned: true,
+            scrolledUnderElevation: 0,
+            backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+            flexibleSpace: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap:(){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (c)=>SearchMobilePage()));
+                        },
+                        child: Container(
+                          height: constants.searchBarHeight,
+                          color: const Color.fromRGBO(35, 35, 35, 1),
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextFormField(
+                            enabled: false,
+                              readOnly: true,
+                              controller: searchBarTextEditingController,
+                              // isEnable = true;
+                              onTapOutside: (e) =>
+                                  FocusScope.of(context).unfocus(),
+                              style: const TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(50))),
+                                  contentPadding: const EdgeInsets.only(
+                                    left: 2,
+                                    top: 10,
+                                    bottom: 8,
+                                  ),
+                                  suffixIcon: searchBarTextEditingController
+                                          .text.isNotEmpty
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8),
+                                          child: IconButton(
+                                              onPressed: () {
+                                                // isEnable = true;7
+                                                searchBarTextEditingController
+                                                    .clear();
+
+                                                FocusScope.of(context).unfocus();
+                                              },
+                                              icon: const Icon(
+                                                Icons.clear,
+                                                color: Colors.white,
+                                              )),
+                                        )
+                                      : null,
+                                  prefixIcon: Container(
+                                    padding: const EdgeInsets.all(13),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 0),
+                                      child: Image.asset(
+                                        'assets/images/Search.png',
+                                      ),
+                                    ),
+                                  ),
+                                  hintStyle: const TextStyle(
+                                    color: Color(0xFFB5B5B5),
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.29,
+                                  ),
+                                  hintText: "Search for Brands",
+                                  border: const OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(50)),
+                                      borderSide:
+                                          BorderSide(color: Colors.white)))),
+                        ),
+                      ),
+                      // 20.verticalSpace,
+                      // Padding(
+                      //   padding: EdgeInsets.only(left: 15.w),
+                      //   child: Container(
+                      //     height: 50.h,
+                      //     child: ListView.separated(
+                      //       separatorBuilder: (context, index) =>
+                      //           const SizedBox(
+                      //         width: 30,
+                      //       ),
+                      //       shrinkWrap: true,
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemCount: categoriesList.length,
+                      //       itemBuilder: (context, index) {
+                      //         return InkWell(
+                      //           // onTap: () => Navigator.push(
+                      //           //     context,
+                      //           //     MaterialPageRoute(
+                      //           //         builder: (context) =>
+                      //           //             CategoriesPage())),
+                      //           child: Column(
+                      //             children: [
+                      //               Image.network(
+                      //                 '$baseUrl${categoriesList[index].categoryImage}',
+                      //                 height: 30.h,
+                      //                 errorBuilder:
+                      //                     (context, error, stackTrace) {
+                      //                   return Image.asset(
+                      //                     'assets/images/noimage.png',
+                      //                     height: 30.h,
+                      //                   );
+                      //                 },
+                      //               ),
+                      //               10.verticalSpace,
+                      //               Text(
+                      //                 categoriesList[index]
+                      //                     .categoryName
+                      //                     .toString(),
+                      //                 style: TextStyle(
+                      //                   color: const Color(0xFFFAFAFA),
+                      //                   fontSize: 12.07.sp,
+                      //                   fontFamily: 'Poppins',
+                      //                   fontWeight: FontWeight.w500,
+                      //                   height: 0.09,
+                      //                   letterSpacing: 0.06,
+                      //                 ),
+                      //               )
+                      //             ],
+                      //           ),
+                      //         );
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           SliverToBoxAdapter(
             child: Column(children: [
               const SizedBox(
@@ -287,6 +296,59 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: SizedBox(
+                        height: 60.h,
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) => const SizedBox(
+                            width: 30,
+                          ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:filteredBrandPaginationProvider. categoriesList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                filteredBrandPaginationProvider.selectCategory(index);
+                                Navigator.of(context).push(MaterialPageRoute(builder: (c)=>SearchMobilePage()));
+                              },
+                              child: Container(
+                                width: 70,
+                                height: 80,
+                                // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
+                                child: Column(
+                                  children: [
+                                    Image.network(
+                                      '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                                      height: 30.h,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/images/noimage.png',
+                                          height: 30.h,
+                                        );
+                                      },
+                                    ),
+                                    10.verticalSpace,
+                                    Text(
+                                      filteredBrandPaginationProvider.   categoriesList[index].categoryName.toString(),
+                                      style: TextStyle(
+
+                                        color: const Color(0xFFFAFAFA),
+                                        fontSize: 12.07.sp,
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.09,
+                                        letterSpacing: 0.06,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
                     //////<! Discount widget !>///////
 
                     // 18.verticalSpace,

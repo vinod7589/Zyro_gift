@@ -6,7 +6,9 @@ import '../../model/payment/purchasegift_voucher_model.dart';
 import '../dio/dio_api_service.dart';
 
 class PaymentRepo {
-  static Future<PaymentModel> paymentService(num payableAmount) async {
+  DioApiService dio = DioApiService();
+
+  Future<PaymentModel> paymentService(num payableAmount) async {
     try {
       var request = {
         "amount": payableAmount,
@@ -15,7 +17,7 @@ class PaymentRepo {
         "customer_email": "test@example.com"
       };
       final response =
-          await DioApiService.AuthPost('/api/PaymentGateway/Initiate', request);
+          await dio.AuthPost('/api/PaymentGateway/Initiate', request);
       var res = PaymentModel.fromJson(response);
       return res;
     } catch (error, st) {
@@ -25,13 +27,13 @@ class PaymentRepo {
     }
   }
 
-  static Future<CheckPaymentStatusModel> checkPaymentStatus(
+  Future<CheckPaymentStatusModel> checkPaymentStatus(
       String merchantTransactionId) async {
     try {
       var query = {
         'Merchant_Transaction_Id': merchantTransactionId,
       };
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/PaymentGateway/CheckPaymentStatus', {},
           queryParameters: query);
       var res = CheckPaymentStatusModel.fromJson(response);
@@ -43,10 +45,10 @@ class PaymentRepo {
     }
   }
 
-  static Future<PurchaseGiftVoucherModel> purchaseGiftVoucherService(
+  Future<PurchaseGiftVoucherModel> purchaseGiftVoucherService(
       dynamic request) async {
     try {
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/ZyroGiftVoucher/PurchaseGiftVoucher', request);
       var res = PurchaseGiftVoucherModel.fromJson(response);
       return res;

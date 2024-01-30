@@ -17,6 +17,8 @@ class OtpVerificationPage extends StatefulWidget {
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
+  AuthRepo auth = AuthRepo();
+
   final _formKey = GlobalKey<FormState>();
   late List<FocusNode> _focusNodes;
   late List<TextEditingController> _otpControllers;
@@ -355,7 +357,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           tempOtp = "";
         }
         showLoading(context);
-        await AuthRepo.verifyOTP(
+        await auth.verifyOTP(
           otp: otp,
           refId: UserPreferences.otpTempId,
           context: context,

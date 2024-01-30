@@ -24,6 +24,8 @@ class PaymentOptionPage extends ConsumerStatefulWidget {
 }
 
 class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
+  PaymentRepo paymentservice = PaymentRepo();
+
   num amount = 0;
   num discount = 0;
   @override
@@ -48,7 +50,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
     var paymentOption = ref.watch(fixedCardController(widget.brandCode));
     num payableAmount =
         amount - (amount * widget.cartDataDetails.discount! / 100);
-    PaymentModel res = await PaymentRepo.paymentService(payableAmount);
+    PaymentModel res = await paymentservice.paymentService(payableAmount);
     if (res.success == true) {
       paymentUrl = res.data!.intentUrl!;
       merchantTransactionId = res.data!.merchantTransactionId!;

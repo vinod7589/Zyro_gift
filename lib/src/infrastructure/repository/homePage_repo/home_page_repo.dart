@@ -9,12 +9,14 @@ import 'package:flutter/cupertino.dart';
 import '../../../model/homePage/getAll_brand_list_model.dart';
 import '../../../util/services/shared_preferences.dart';
 import '../../dio/dio_api_service.dart';
+import '../../dio/dio_api_service.dart';
 import 'getAllPopularBrandsModel.dart';
 
 class HomePageService {
-  static Future<List<CategoriesList>?> getAllCategoriesService() async {
+  DioApiService dio = DioApiService();
+  Future<List<CategoriesList>?> getAllCategoriesService() async {
     try {
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
         '/api/DashBoard/GetAllCategory',
         {},
       );
@@ -31,8 +33,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<AllBrandList>?> getAllBrandListService(
-      String payload) async {
+  Future<List<AllBrandList>?> getAllBrandListService(String payload) async {
     try {
       var request = {
         'user_id': UserPreferences.userId,
@@ -43,7 +44,7 @@ class HomePageService {
       // final body = {
       //   'SearchValue': request,
       // };
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
         '/api/ZyroGiftVoucher/GetAllBrandWithPagination',
         request,
       );
@@ -60,10 +61,9 @@ class HomePageService {
     }
   }
 
-  static Future<List<GetAllPopularBrandList>?>
-      getAllPopularBrandsService() async {
+  Future<List<GetAllPopularBrandList>?> getAllPopularBrandsService() async {
     try {
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
         '/api/ZyroGiftVoucher/GetPopularBrand',
         {},
       );
@@ -80,7 +80,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<TravelTrip>?> travelTripService() async {
+  Future<List<TravelTrip>?> travelTripService() async {
     try {
       var request = {
         'Id': 7,
@@ -90,7 +90,7 @@ class HomePageService {
       final body = {
         'SearchValue': request,
       };
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/ZyroGiftVoucher/GetBrandByCategoryId', body,
           queryParameters: request);
       var res = TripTravelModel.fromJson(response);
@@ -106,7 +106,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<FashionList>?> fashionService() async {
+  Future<List<FashionList>?> fashionService() async {
     try {
       var request = {
         'Id': 5,
@@ -116,7 +116,7 @@ class HomePageService {
       final body = {
         'SearchValue': request,
       };
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/ZyroGiftVoucher/GetBrandByCategoryId', body,
           queryParameters: request);
       var res = FashionModel.fromJson(response);
@@ -132,7 +132,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<BeautyList>?> beautyService() async {
+  Future<List<BeautyList>?> beautyService() async {
     try {
       var request = {
         'Id': 12,
@@ -142,7 +142,7 @@ class HomePageService {
       final body = {
         'SearchValue': request,
       };
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/ZyroGiftVoucher/GetBrandByCategoryId', body,
           queryParameters: request);
       var res = BeautyListModel.fromJson(response);
@@ -158,7 +158,7 @@ class HomePageService {
     }
   }
 
-  static Future<List<EntertaimentList>?> entertainmentService() async {
+  Future<List<EntertaimentList>?> entertainmentService() async {
     try {
       var request = {
         'Id': 8,
@@ -168,7 +168,7 @@ class HomePageService {
       final body = {
         'SearchValue': request,
       };
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/ZyroGiftVoucher/GetBrandByCategoryId', body,
           queryParameters: request);
       var res = EntertainmentModel.fromJson(response);
@@ -184,10 +184,10 @@ class HomePageService {
     }
   }
 
-  static Future<List<NewBrandList>?> newBrandListService(String payload) async {
+  Future<List<NewBrandList>?> newBrandListService(String payload) async {
     try {
       final response =
-          await DioApiService.AuthPost('/api/ZyroGiftVoucher/GetNewBrand', {});
+          await dio.AuthPost('/api/ZyroGiftVoucher/GetNewBrand', {});
       var res = GetAllNewBrandListModel.fromJson(response);
       if (res.status == 'success') {
         return res.data;
@@ -201,14 +201,13 @@ class HomePageService {
     }
   }
 
-  static Future<GetBrandDetailsList?> getBrandDetailsService(
-      String brandCode) async {
+  Future<GetBrandDetailsList?> getBrandDetailsService(String brandCode) async {
     try {
       var query = {
         'BrandCode': brandCode,
       };
-      final response = await DioApiService.AuthPost(
-          '/api/ZyroGiftVoucher/GetBrandDetailsViaBrandCode?BrandCode=$brandCode',
+      final response = await dio.AuthPost(
+          '/api/ZyroGiftVoucher/GetBrandDetailsViaBrandCode',
           queryParameters: query,
           {});
       var res = GetBrandDetailsModel.fromJson(response);

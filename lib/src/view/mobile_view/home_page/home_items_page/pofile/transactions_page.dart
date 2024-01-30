@@ -18,6 +18,8 @@ class TransactionsPage extends StatefulWidget {
 }
 
 class _TransactionsPageState extends State<TransactionsPage> {
+  DrawerRepoService drawerRepo = DrawerRepoService();
+
   List<Transaction> transactionList = [];
   List<Transaction> searchTransactionList = [];
   TextEditingController searchController = TextEditingController();
@@ -29,7 +31,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   Future<void> fetch() async {
     isLoading = true; // Set fetching to true
-    transactionList = await DrawerRepoService.getTransactionHistory("") ?? [];
+    transactionList = await drawerRepo.getTransactionHistory("") ?? [];
     searchTransactionList = List.from(transactionList);
     isLoading = false;
     setState(() {});

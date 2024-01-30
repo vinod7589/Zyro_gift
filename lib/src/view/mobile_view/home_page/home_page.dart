@@ -1,24 +1,21 @@
-import 'package:abc/src/controller/home_page_controller.dart';
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/view/Utility/constants.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/test_file.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/beauty_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/categories_list_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/entertainment_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/fashion_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/new_brands_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/popular_brands_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/widget/travel_tri%5Bp_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
-import '../../../controller/fixed_card_controller.dart';
-import '../../../model/homePage/getbrand_details_model.dart';
+import '../../../infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
+import '../../../model/homePage/amazing_fashion_model.dart';
+import '../../../model/homePage/beauty_budget_model.dart';
+import '../../../model/homePage/entertainment_model.dart';
+import '../../../model/homePage/getall_categories_model.dart';
+import '../../../model/homePage/new_brands_model.dart';
+import '../../../model/homePage/tripTravel_Model.dart';
 import '../bottomNavigationBar_tabs/pofile_page.dart';
 import 'home_items_page/card_details_page.dart';
 import 'widget/Home_globalPage.dart';
@@ -31,16 +28,67 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  HomePageService homeRepo = HomePageService();
+
   @override
   void initState() {
+    getPopularBrands();
+    // allCategories();
+    travelTrip();
+    NewBrand();
+    fashion();
+    beauty();
+    entertainment();
     super.initState();
   }
+
+  List<GetAllPopularBrandList> allPopularBrands = [];
+  List<CategoriesList> categoriesList = [];
+  List<TravelTrip> tripTravelList = [];
+  List<NewBrandList> newBrandList = [];
+  List<FashionList> fashionList = [];
+  List<BeautyList> beautyList = [];
+  List<EntertaimentList> entertainmentList = [];
+
+  Future<void> allCategories() async {
+    categoriesList = await homeRepo.getAllCategoriesService() ?? [];
+  }
+
+  Future<void> travelTrip() async {
+    tripTravelList = await homeRepo.travelTripService() ?? [];
+  }
+
+  Future<void> NewBrand() async {
+    newBrandList = await homeRepo.newBrandListService("") ?? [];
+  }
+
+  Future<void> fashion() async {
+    fashionList = await homeRepo.fashionService() ?? [];
+  }
+
+  Future<void> beauty() async {
+    beautyList = await homeRepo.beautyService() ?? [];
+  }
+
+  Future<void> entertainment() async {
+    entertainmentList = await homeRepo.entertainmentService() ?? [];
+  }
+
+  Future<void> getPopularBrands() async {
+    isLoading = true;
+    allPopularBrands = await homeRepo.getAllPopularBrandsService() ?? [];
+    isLoading = false;
+  }
+
+  bool isLoading = false;
+
+  //////////TextEditingController////////////////
+  TextEditingController searchBarTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var homePage = ref.watch(HomeGlobalPage);
-    var homeControlle = ref.watch(HomePageController(''));
-
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       body: SafeArea(
@@ -92,24 +140,143 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           ),
-          SliverAppBar(
-            leading: Text(''),
-            toolbarHeight: 138.h,
-            pinned: true,
-            scrolledUnderElevation: 0,
-            backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-            flexibleSpace: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                  ),
-                  child: CategoriesListWidget(),
-                ),
-              ],
-            ),
-          ),
+          // SliverAppBar(
+          //   leading: const Text(''),
+          //   toolbarHeight: 138.h,
+          //   pinned: true,
+          //   scrolledUnderElevation: 0,
+          //   backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+          //   flexibleSpace: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.only(
+          //           top: 10,
+          //         ),
+          //         child: Column(
+          //           children: [
+          //             Container(
+          //               height: constants.searchBarHeight,
+          //               color: const Color.fromRGBO(35, 35, 35, 1),
+          //               margin: const EdgeInsets.symmetric(horizontal: 20),
+          //               child: TextFormField(
+          //                   readOnly: true,
+          //                   controller: searchBarTextEditingController,
+          //                   // isEnable = true;
+          //                   onTapOutside: (e) =>
+          //                       FocusScope.of(context).unfocus(),
+          //                   style: const TextStyle(color: Colors.white),
+          //                   decoration: InputDecoration(
+          //                       focusedBorder: const OutlineInputBorder(
+          //                           borderSide: BorderSide(color: Colors.white),
+          //                           borderRadius:
+          //                               BorderRadius.all(Radius.circular(50))),
+          //                       contentPadding: const EdgeInsets.only(
+          //                         left: 2,
+          //                         top: 10,
+          //                         bottom: 8,
+          //                       ),
+          //                       suffixIcon: searchBarTextEditingController
+          //                               .text.isNotEmpty
+          //                           ? Padding(
+          //                               padding:
+          //                                   const EdgeInsets.only(right: 8),
+          //                               child: IconButton(
+          //                                   onPressed: () {
+          //                                     // isEnable = true;7
+          //                                     searchBarTextEditingController
+          //                                         .clear();
+          //
+          //                                     FocusScope.of(context).unfocus();
+          //                                   },
+          //                                   icon: const Icon(
+          //                                     Icons.clear,
+          //                                     color: Colors.white,
+          //                                   )),
+          //                             )
+          //                           : null,
+          //                       prefixIcon: Container(
+          //                         padding: const EdgeInsets.all(13),
+          //                         child: Padding(
+          //                           padding: const EdgeInsets.only(
+          //                               left: 10, right: 0),
+          //                           child: Image.asset(
+          //                             'assets/images/Search.png',
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       hintStyle: const TextStyle(
+          //                         color: Color(0xFFB5B5B5),
+          //                         fontWeight: FontWeight.w400,
+          //                         height: 1.29,
+          //                       ),
+          //                       hintText: "Search for Brands",
+          //                       border: const OutlineInputBorder(
+          //                           borderRadius:
+          //                               BorderRadius.all(Radius.circular(50)),
+          //                           borderSide:
+          //                               BorderSide(color: Colors.white)))),
+          //             ),
+          //             20.verticalSpace,
+          //             Padding(
+          //               padding: EdgeInsets.only(left: 15.w),
+          //               child: Container(
+          //                 height: 50.h,
+          //                 child: ListView.separated(
+          //                   separatorBuilder: (context, index) =>
+          //                       const SizedBox(
+          //                     width: 30,
+          //                   ),
+          //                   shrinkWrap: true,
+          //                   scrollDirection: Axis.horizontal,
+          //                   itemCount: categoriesList.length,
+          //                   itemBuilder: (context, index) {
+          //                     return InkWell(
+          //                       // onTap: () => Navigator.push(
+          //                       //     context,
+          //                       //     MaterialPageRoute(
+          //                       //         builder: (context) =>
+          //                       //             CategoriesPage())),
+          //                       child: Column(
+          //                         children: [
+          //                           Image.network(
+          //                             '$baseUrl${categoriesList[index].categoryImage}',
+          //                             height: 30.h,
+          //                             errorBuilder:
+          //                                 (context, error, stackTrace) {
+          //                               return Image.asset(
+          //                                 'assets/images/noimage.png',
+          //                                 height: 30.h,
+          //                               );
+          //                             },
+          //                           ),
+          //                           10.verticalSpace,
+          //                           Text(
+          //                             categoriesList[index]
+          //                                 .categoryName
+          //                                 .toString(),
+          //                             style: TextStyle(
+          //                               color: const Color(0xFFFAFAFA),
+          //                               fontSize: 12.07.sp,
+          //                               fontFamily: 'Poppins',
+          //                               fontWeight: FontWeight.w500,
+          //                               height: 0.09,
+          //                               letterSpacing: 0.06,
+          //                             ),
+          //                           )
+          //                         ],
+          //                       ),
+          //                     );
+          //                   },
+          //                 ),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SliverToBoxAdapter(
             child: Column(children: [
               const SizedBox(
@@ -196,13 +363,168 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ),
                     15.verticalSpace,
-                    homeControlle.isLoading
+                    isLoading
                         ? Center(
                             child: LoadingAnimationWidget.stretchedDots(
                             color: Colors.deepPurpleAccent,
                             size: 50,
                           ))
-                        : PopularBrandsWidget(''),
+                        : Container(
+                            height: 340,
+                            child: GridView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 5.0,
+                                        mainAxisSpacing: 10.0,
+                                        childAspectRatio:
+                                            0.9 // Spacing between rows
+                                        ),
+                                itemCount: allPopularBrands.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index < allPopularBrands.length) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        isLoading;
+                                        String brand = allPopularBrands[index]
+                                            .brandCode
+                                            .toString();
+
+                                        if (brand != null && brand != '') {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CardDetailsPage(
+                                                          brandCode: brand)));
+                                        }
+                                        isLoading = false;
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Stack(children: [
+                                              // SvgPicture.network(
+                                              //   'assets/images/swiggy test.svg',
+                                              //   placeholderBuilder: (context) =>
+                                              //       CircularProgressIndicator(),
+                                              // ),
+                                              Image.network(
+                                                baseUrl +
+                                                    allPopularBrands[index]
+                                                        .additionalImage,
+// height: 145.h,
+                                              ),
+                                              Positioned(
+                                                top: 20,
+                                                child: Container(
+// color: Colors.red,
+                                                  width: 165,
+// height: 60,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 80,
+                                                              child: Text(
+                                                                maxLines: 1,
+                                                                allPopularBrands[
+                                                                        index]
+                                                                    .brandName,
+                                                                style:
+                                                                    TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .visible,
+                                                                  color: const Color(
+                                                                      0xFFF5F5F5),
+                                                                  fontSize:
+                                                                      13.49.sp,
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  letterSpacing:
+                                                                      0.06,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                                width: 80,
+                                                                child: RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text: allPopularBrands[
+                                                                            index]
+                                                                        .discount
+                                                                        .toString(),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: const Color(
+                                                                          0xFFF5F5F5),
+                                                                      fontSize:
+                                                                          17.49
+                                                                              .sp,
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      letterSpacing:
+                                                                          0.06,
+                                                                    ),
+                                                                    children: const [
+                                                                      TextSpan(
+                                                                        text:
+                                                                            ' % off',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Color(0xFFFEFEFE),
+                                                                          fontSize:
+                                                                              12.49,
+                                                                          fontFamily:
+                                                                              'Poppins',
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          letterSpacing:
+                                                                              0.06,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+// Positioned(child: )
+                                            ])
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }),
+                          ),
                     20.verticalSpace,
                     Container(
                       // margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -401,154 +723,952 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
               ),
               20.verticalSpace,
-              NewBrandsWidget(),
-              TravelTripWidget(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FashionWidget(),
-                  // Padding(
-                  //   padding: EdgeInsets.only(left: 17.w),
-                  //   child: Row(
-                  //     children: [
-                  //       Text(
-                  //         'View all ',
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 15.sp,
-                  //           fontFamily: 'Poppins',
-                  //           fontWeight: FontWeight.w500,
-                  //           letterSpacing: -0.30,
-                  //         ),
-                  //       ),
-                  //       5.horizontalSpace,
-                  //       Container(
-                  //         alignment: Alignment.center,
-                  //         width: 22.w,
-                  //         height: 22.h,
-                  //         decoration: ShapeDecoration(
-                  //           color: Color(0xFF76546B),
-                  //           shape: OvalBorder(),
-                  //         ),
-                  //         child: Icon(
-                  //           Icons.arrow_forward_ios,
-                  //           color: Colors.white,
-                  //           size: 13.h,
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  BeautyWidget(),
-                  EnterTainmentWidget(),
-                  // 25.verticalSpace,
-
-                  /////Easy Gifting//////
-                  // 30.verticalSpace,
-                  // Container(
-                  //   height: 330,
-                  //   color: Color(0xFF313131),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       Padding(
-                  //         padding:
-                  //             EdgeInsets.only(left: 15.w, top: 15, bottom: 20),
-                  //         child: Text(
-                  //           'Easy gifting\nfor your loved ones',
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 15.sp,
-                  //             fontFamily: 'Poppins',
-                  //             fontWeight: FontWeight.w400,
-                  //             letterSpacing: -0.30,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Container(
-                  //         height: 240,
-                  //         child: ListView.separated(
-                  //             scrollDirection: Axis.horizontal,
-                  //             // physics: const NeverScrollableScrollPhysics(),
-                  //             shrinkWrap: true,
-                  //             itemBuilder: (context, index) {
-                  //               return Padding(
-                  //                 padding: EdgeInsets.only(left: 15.w),
-                  //                 child: Column(
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     Image.asset(
-                  //                       homePage.giftLoveList[index].image
-                  //                           .toString(),
-                  //                       height: 140.h,
-                  //                     ),
-                  //                     20.horizontalSpace,
-                  //                     Column(
-                  //                       crossAxisAlignment:
-                  //                           CrossAxisAlignment.start,
-                  //                       children: [
-                  //                         5.verticalSpace,
-                  //                         Text(
-                  //                           homePage
-                  //                               .giftLoveList[index].brandname
-                  //                               .toString(),
-                  //                           style: TextStyle(
-                  //                             color: Colors.white,
-                  //                             fontSize: 18.95.sp,
-                  //                             fontFamily: 'Poppins',
-                  //                             fontWeight: FontWeight.w600,
-                  //                             letterSpacing: 0.09,
-                  //                           ),
-                  //                         ),
-                  //                         // 3.verticalSpace,
-                  //                         3.verticalSpace,
-                  //                         Row(
-                  //                           children: [
-                  //                             Text(
-                  //                               homePage.beautyBudgetList[index]
-                  //                                   .discount
-                  //                                   .toString(),
-                  //                               style: const TextStyle(
-                  //                                 color: Color(0xFF00A91B),
-                  //                                 fontSize: 18.95,
-                  //                                 fontFamily: 'Poppins',
-                  //                                 fontWeight: FontWeight.w600,
-                  //                                 letterSpacing: 0.09,
-                  //                               ),
-                  //                             ),
-                  //                             const Text(
-                  //                               '% off',
-                  //                               style: TextStyle(
-                  //                                 color: Color(0xFF00A91B),
-                  //                                 fontSize: 12,
-                  //                                 fontFamily: 'Poppins',
-                  //                                 fontWeight: FontWeight.w400,
-                  //                                 letterSpacing: 0.06,
-                  //                               ),
-                  //                             )
-                  //                           ],
-                  //                         )
-                  //                       ],
-                  //                     )
-                  //                   ],
-                  //                 ),
-                  //               );
-                  //             },
-                  //             separatorBuilder: (context, index) => SizedBox(),
-                  //             itemCount: 4),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  30.verticalSpace,
-                  Container(
-                    margin: const EdgeInsets.only(left: 30),
-                    child: Image.asset('assets/images/referbanner.png'),
-                  ),
-                  20.verticalSpace
-                ],
+              Container(
+                color: const Color(0xFF313131),
+                height: 300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.w, top: 20),
+                      child: Text(
+                        'New Brands',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.61.sp,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.29,
+                        ),
+                      ),
+                    ),
+                    12.verticalSpace,
+                    isLoading
+                        ? Center(
+                            child: LoadingAnimationWidget.stretchedDots(
+                            color: Colors.deepPurpleAccent,
+                            size: 50,
+                          ))
+                        : Container(
+                            height: 200,
+                            child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  if (index < newBrandList.length) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(left: 15.w),
+                                      child: InkWell(
+                                        onTap: () {
+                                          String brandCode = newBrandList[index]
+                                              .brandCode
+                                              .toString();
+                                          if (brandCode != null &&
+                                              brandCode != '') {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CardDetailsPage(
+                                                          brandCode: brandCode,
+                                                        )));
+                                          }
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            SizedBox(
+                                              child: Image.network(baseUrl +
+                                                  newBrandList[index]
+                                                      .additionalImage
+                                                      .toString()),
+                                            ),
+                                            Positioned(
+                                              top: 30, // left: 20,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 48),
+                                                    width: 140,
+                                                    height: 40,
+                                                    // color: Colors.red,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          'Get${newBrandList[index].discount}% OFF',
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 16.sp,
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(),
+                                itemCount: newBrandList.length),
+                          ),
+                  ],
+                ),
               ),
+              Container(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  // width: 300,
+                  color: Colors.white.withOpacity(0.9),
+                  height: 300.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.w, top: 15),
+                        child: Text(
+                          'Enjoy the trip, not the costs \ntravel wisely',
+                          style: TextStyle(
+                            color: const Color(0xFF232323),
+                            fontSize: 15.sp,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: -0.30,
+                          ),
+                        ),
+                      ),
+                      20.verticalSpace,
+                      Expanded(
+                        child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              // if (index < tripTravelList.length)
+                              return Padding(
+                                padding: EdgeInsets.only(left: 15.w),
+                                child: InkWell(
+                                  onTap: () {
+                                    String brandCode = tripTravelList[index]
+                                        .brandCode
+                                        .toString();
+                                    if (brandCode != null && brandCode != '') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CardDetailsPage(
+                                                    brandCode: brandCode,
+                                                  )));
+                                    }
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.network(
+                                        baseUrl +
+                                            tripTravelList[index]
+                                                .additionalImage
+                                                .toString(),
+                                        height: 160.h,
+                                      ),
+                                      5.verticalSpace,
+                                      SizedBox(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // Image.asset('assets/images/'),
+                                            Text(
+                                              tripTravelList[index]
+                                                  .brandName
+                                                  .toString(),
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 13.sp,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  tripTravelList[index]
+                                                      .discount
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF00A91B),
+                                                    fontSize: 16.sp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                    letterSpacing: 0.08,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '% off',
+                                                  style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF00A91B),
+                                                    fontSize: 12.sp,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w400,
+                                                    letterSpacing: 0.06,
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  width: 0,
+                                ),
+                            itemCount: tripTravelList.length),
+                      ),
+                    ],
+                  )),
+              27.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Amazing Fashion',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.80,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.36,
+                          ),
+                        ),
+                        3.verticalSpace,
+                        Row(
+                          children: [
+                            const Text(
+                              'Discount',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.35,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.27,
+                              ),
+                            ),
+                            Expanded(
+                                child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              decoration: const ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 0.50,
+                                      strokeAlign: BorderSide.strokeAlignCenter,
+                                      color: Colors
+                                          .transparent, // Set border color to transparent
+                                    ),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment(1.00, 0.01),
+                                    end: Alignment(-1, -0.01),
+                                    colors: [
+                                      Color(0x00EDEDED),
+                                      Color(0xFFE6E6E6)
+                                    ],
+                                  )),
+                            )),
+                          ],
+                        ),
+                        20.verticalSpace,
+                        ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              String originalString =
+                                  fashionList[index].brandName.toString();
+
+                              // Initialize trimmedString with the original string
+                              String trimmedString = originalString;
+                              bool isannual = false;
+                              bool iscontain = false;
+                              // Check if the string contains "- Annual" or "- Luxe"
+                              if (originalString.contains('- Annual') ||
+                                  originalString.contains('- Luxe')) {
+                                // Split the string based on the separator '- Annual' or '- Luxe'
+                                if (originalString.contains('- Annual')) {
+                                  List<String> parts =
+                                      originalString.split('- Annual').toList();
+                                  isannual = true;
+                                  // Take the first part, which is everything before '- Annual' or '- Luxe'
+                                  trimmedString = parts[0];
+                                } else if (originalString.contains('- Luxe')) {
+                                  List<String> parts =
+                                      originalString.split('- Luxe').toList();
+                                  // Take the first part, which is everything before '- Annual' or '- Luxe'
+                                  trimmedString = parts[0];
+                                }
+
+                                iscontain = true;
+                              }
+                              return GestureDetector(
+                                onTap: () {
+                                  String branCode =
+                                      fashionList[index].brandCode.toString();
+                                  if (branCode != null && branCode != '') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CardDetailsPage(
+                                                    brandCode: branCode)));
+                                  }
+                                },
+                                child: Row(
+                                  children: [
+                                    Image.network(
+                                      baseUrl +
+                                          fashionList[index]
+                                              .defaultImage
+                                              .toString(),
+                                      height: 140.h,
+                                    ),
+                                    20.horizontalSpace,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              // width: 160,
+                                              child: Text(
+                                                trimmedString,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.sp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.09,
+                                                ),
+                                              ),
+                                            ),
+                                            3.verticalSpace,
+                                            iscontain == false
+                                                ? const SizedBox()
+                                                : SizedBox(
+                                                    child: Text(
+                                                      isannual == true
+                                                          ? '(Annual Subscription)'
+                                                          : '(Luxe Gift Card)',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 9.95.sp,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        letterSpacing: 0.09,
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ],
+                                        ),
+                                        3.verticalSpace,
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Fashion',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13.sp,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 0.06,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              height: 3.h,
+                                              width: 3.w,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                            Text(
+                                              fashionList[index]
+                                                  .redemptionProcess
+                                                  .toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10.sp,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 0.06,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        9.verticalSpace,
+                                        Row(
+                                          children: [
+                                            Text(
+                                              fashionList[index]
+                                                  .discount
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: Color(0xFF00A91B),
+                                                fontSize: 18.95,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.09,
+                                              ),
+                                            ),
+                                            const Text(
+                                              '% off',
+                                              style: TextStyle(
+                                                color: Color(0xFF00A91B),
+                                                fontSize: 12,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 0.06,
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                20.verticalSpace,
+                            itemCount: fashionList.length),
+                      ],
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 17.w),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         'View all ',
+                    //         style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 15.sp,
+                    //           fontFamily: 'Poppins',
+                    //           fontWeight: FontWeight.w500,
+                    //           letterSpacing: -0.30,
+                    //         ),
+                    //       ),
+                    //       5.horizontalSpace,
+                    //       Container(
+                    //         alignment: Alignment.center,
+                    //         width: 22.w,
+                    //         height: 22.h,
+                    //         decoration: ShapeDecoration(
+                    //           color: Color(0xFF76546B),
+                    //           shape: OvalBorder(),
+                    //         ),
+                    //         child: Icon(
+                    //           Icons.arrow_forward_ios,
+                    //           color: Colors.white,
+                    //           size: 13.h,
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 1.w),
+                          child: const Text(
+                            'Beauty on a budget',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17.80,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.36,
+                            ),
+                          ),
+                        ),
+                        3.verticalSpace,
+                        Padding(
+                          padding: EdgeInsets.only(left: 1.w),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'fantastic discounts!',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13.35,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.27,
+                                ),
+                              ),
+                              Expanded(
+                                  child: Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                decoration: const ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 0.50,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignCenter,
+                                        color: Colors
+                                            .transparent, // Set border color to transparent
+                                      ),
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment(1.00, 0.01),
+                                      end: Alignment(-1, -0.01),
+                                      colors: [
+                                        Color(0x00EDEDED),
+                                        Color(0xFFE6E6E6)
+                                      ],
+                                    )),
+                              )),
+                            ],
+                          ),
+                        ),
+                        30.verticalSpace,
+                        Container(
+                          height: 260,
+                          child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              // physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                if (index < beautyList.length) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 7),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        String branCode = beautyList[index]
+                                            .brandCode
+                                            .toString();
+                                        if (branCode != null &&
+                                            branCode != '') {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CardDetailsPage(
+                                                        brandCode: branCode,
+                                                      )));
+                                        }
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.network(
+                                            baseUrl +
+                                                beautyList[index]
+                                                    .additionalImage
+                                                    .toString(),
+                                            height: 140,
+                                          ),
+                                          20.horizontalSpace,
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              12.verticalSpace,
+                                              Text(
+                                                beautyList[index]
+                                                    .brandName
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.95.sp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.09,
+                                                ),
+                                              ),
+                                              // 3.verticalSpace,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    // homePage.beautyBudgetList[index]
+                                                    //         .brandName
+                                                    //         .toString() +
+                                                    'Beauty . ',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13.sp,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      letterSpacing: 0.06,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'offline', // homePage
+                                                    //     .beautyBudgetList[index].type
+                                                    //     .toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13.sp,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      letterSpacing: 0.06,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              3.verticalSpace,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    beautyList[index]
+                                                        .discount
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF00A91B),
+                                                      fontSize: 18.95,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      letterSpacing: 0.09,
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    '% off',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF00A91B),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      letterSpacing: 0.06,
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(),
+                              itemCount: 7),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Ignite your entertainment',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.80,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.36,
+                          ),
+                        ),
+                        3.verticalSpace,
+                        Row(
+                          children: [
+                            const Text(
+                              'with hot deals',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.35,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.27,
+                              ),
+                            ),
+                            Expanded(
+                                child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              decoration: const ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 0.50,
+                                      strokeAlign: BorderSide.strokeAlignCenter,
+                                      color: Colors
+                                          .transparent, // Set border color to transparent
+                                    ),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment(1.00, 0.01),
+                                    end: Alignment(-1, -0.01),
+                                    colors: [
+                                      Color(0x00EDEDED),
+                                      Color(0xFFE6E6E6)
+                                    ],
+                                  )),
+                            )),
+                          ],
+                        ),
+                        20.verticalSpace,
+                        SizedBox(
+                          child: ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    String branCode = entertainmentList[index]
+                                        .brandCode
+                                        .toString();
+                                    if (branCode != null && branCode != '') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CardDetailsPage(
+                                                      brandCode: branCode)));
+                                    }
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Image.network(
+                                        '$baseUrl${entertainmentList[index].defaultImage.toString()}',
+                                        height: 140.h,
+                                      ),
+                                      20.horizontalSpace,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            entertainmentList[index]
+                                                .brandName
+                                                .toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.95.sp,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.09,
+                                            ),
+                                          ),
+                                          3.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Entertainment',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13.sp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                height: 3.h,
+                                                width: 3.w,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle),
+                                              ),
+                                              Text(
+                                                entertainmentList[index]
+                                                    .redemptionProcess
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10.sp,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          9.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                entertainmentList[index]
+                                                    .discount
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  color: Color(0xFF00A91B),
+                                                  fontSize: 18.95,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.09,
+                                                ),
+                                              ),
+                                              const Text(
+                                                '% off',
+                                                style: TextStyle(
+                                                  color: Color(0xFF00A91B),
+                                                  fontSize: 12,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w400,
+                                                  letterSpacing: 0.06,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  20.verticalSpace,
+                              itemCount: entertainmentList.length),
+                        ),
+                      ],
+                    ),
+                    // 25.verticalSpace,
+
+                    /////Easy Gifting//////
+                    // 30.verticalSpace,
+                    // Container(
+                    //   height: 330,
+                    //   color: Color(0xFF313131),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Padding(
+                    //         padding:
+                    //             EdgeInsets.only(left: 15.w, top: 15, bottom: 20),
+                    //         child: Text(
+                    //           'Easy gifting\nfor your loved ones',
+                    //           style: TextStyle(
+                    //             color: Colors.white,
+                    //             fontSize: 15.sp,
+                    //             fontFamily: 'Poppins',
+                    //             fontWeight: FontWeight.w400,
+                    //             letterSpacing: -0.30,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         height: 240,
+                    //         child: ListView.separated(
+                    //             scrollDirection: Axis.horizontal,
+                    //             // physics: const NeverScrollableScrollPhysics(),
+                    //             shrinkWrap: true,
+                    //             itemBuilder: (context, index) {
+                    //               return Padding(
+                    //                 padding: EdgeInsets.only(left: 15.w),
+                    //                 child: Column(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.start,
+                    //                   children: [
+                    //                     Image.asset(
+                    //                       homePage.giftLoveList[index].image
+                    //                           .toString(),
+                    //                       height: 140.h,
+                    //                     ),
+                    //                     20.horizontalSpace,
+                    //                     Column(
+                    //                       crossAxisAlignment:
+                    //                           CrossAxisAlignment.start,
+                    //                       children: [
+                    //                         5.verticalSpace,
+                    //                         Text(
+                    //                           homePage
+                    //                               .giftLoveList[index].brandname
+                    //                               .toString(),
+                    //                           style: TextStyle(
+                    //                             color: Colors.white,
+                    //                             fontSize: 18.95.sp,
+                    //                             fontFamily: 'Poppins',
+                    //                             fontWeight: FontWeight.w600,
+                    //                             letterSpacing: 0.09,
+                    //                           ),
+                    //                         ),
+                    //                         // 3.verticalSpace,
+                    //                         3.verticalSpace,
+                    //                         Row(
+                    //                           children: [
+                    //                             Text(
+                    //                               homePage.beautyBudgetList[index]
+                    //                                   .discount
+                    //                                   .toString(),
+                    //                               style: const TextStyle(
+                    //                                 color: Color(0xFF00A91B),
+                    //                                 fontSize: 18.95,
+                    //                                 fontFamily: 'Poppins',
+                    //                                 fontWeight: FontWeight.w600,
+                    //                                 letterSpacing: 0.09,
+                    //                               ),
+                    //                             ),
+                    //                             const Text(
+                    //                               '% off',
+                    //                               style: TextStyle(
+                    //                                 color: Color(0xFF00A91B),
+                    //                                 fontSize: 12,
+                    //                                 fontFamily: 'Poppins',
+                    //                                 fontWeight: FontWeight.w400,
+                    //                                 letterSpacing: 0.06,
+                    //                               ),
+                    //                             )
+                    //                           ],
+                    //                         )
+                    //                       ],
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               );
+                    //             },
+                    //             separatorBuilder: (context, index) => SizedBox(),
+                    //             itemCount: 4),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
+              30.verticalSpace,
+              Container(
+                margin: const EdgeInsets.only(left: 20),
+                child: Image.asset('assets/images/referbanner.png'),
+              ),
+              20.verticalSpace
             ]),
           ),
         ]),

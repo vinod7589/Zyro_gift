@@ -31,7 +31,7 @@ class GetBrandDetailsList {
   String? descriptions;
   String? image;
   String? redemptionProcess;
-  int? discount;
+  num? discount;
   String? brandtype;
   String? denominationList;
   int? stockAvailable;

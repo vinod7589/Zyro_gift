@@ -17,6 +17,7 @@ class FixedCardController extends ChangeNotifier {
   FixedCardController(this._read, {required this.brandCode}) {
     _init();
   }
+  HomePageService homeRepo = HomePageService();
 
   final Reader _read;
   final String brandCode;
@@ -35,7 +36,7 @@ class FixedCardController extends ChangeNotifier {
   _init() async {
     log("hitt");
     _isLoading = true;
-    brandDetails = await HomePageService.getBrandDetailsService(brandCode);
+    brandDetails = await homeRepo.getBrandDetailsService(brandCode);
     await getDenominationList();
 
     _isLoading = false;

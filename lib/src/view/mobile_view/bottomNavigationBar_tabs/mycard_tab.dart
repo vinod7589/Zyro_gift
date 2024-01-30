@@ -15,16 +15,22 @@ class MyCardTab extends StatefulWidget {
 }
 
 class _MyCardTabState extends State<MyCardTab> {
+  DrawerRepoService drawerRepo = DrawerRepoService();
+
   @override
   void initState() {
     super.initState();
     fetch();
+    print('dtatt$fetch');
   }
 
   List<MyCardList> myCardListItems = [];
   Future<void> fetch() async {
     isLoading = true;
-    myCardListItems = await DrawerRepoService.myCard("", context) ?? [];
+    myCardListItems = await drawerRepo.myCard(
+          "",
+        ) ??
+        [];
     isLoading = false;
     setState(() {});
   }

@@ -33,6 +33,13 @@ class RangeModel {
 }
 
 class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
+  CheckMaxLimitRepo checkRepo = CheckMaxLimitRepo();
+  HomePageService homeRepo = HomePageService();
+  int currentValue = 0;
+  bool isLoading = false;
+  late GetBrandDetailsList? brandData;
+  num? availableLimit;
+
   @override
   void initState() {
     super.initState();
@@ -40,13 +47,11 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
     getBrand();
   }
 
-  int currentValue = 0;
-
-  num? availableLimit;
-
   checkAvailableLimit() async {
-    availableLimit =
-        await CheckMaxLimitRepo.getCheckLimitService(widget.brandCode);
+    var res = await checkRepo.getCheckLimitService(widget.brandCode);
+    setState(() {
+      availableLimit = res;
+    });
   }
 
   RangeModel manageDenomition(denomination, range) {
@@ -61,15 +66,13 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
     return currentRange;
   }
 
-  bool isLoading = false;
-
-  late GetBrandDetailsList? brandData;
   getBrand() async {
     setState(() {
       isLoading = true;
     });
-    brandData = await HomePageService.getBrandDetailsService(widget.brandCode);
+    var res = await homeRepo.getBrandDetailsService(widget.brandCode);
     setState(() {
+      brandData = res;
       isLoading = false;
     });
   }
@@ -82,7 +85,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
       var fixedCardProvider = ref.watch(fixedCardController(brandCode));
       var homePageController = ref.watch(HomePageController(brandCode));
       GetBrandDetailsList? brandDetails =
-          await HomePageService.getBrandDetailsService(brandCode);
+          await homeRepo.getBrandDetailsService(brandCode);
       setState(() {
         isLoading = false;
       });
@@ -319,13 +322,17 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white)),
                   onPressed: () {
-                    var res = getBrandDetails(widget.brandCode);
-                    // var res = cardDetailsController.getBrandDetails();
-                    print("'variable and fix type' $res");
+                    if (brandData!.brandtype != '') {
+                      var res = getBrandDetails(widget.brandCode);
+                      // var res = cardDetailsController.getBrandDetails();
+                      print("'variable and fix type' $res");
+                    }
                   },
-                  child: const Text(
-                    'Get This Card',
-                    style: TextStyle(
+                  child: Text(
+                    brandData!.brandtype == ''
+                        ? 'Coming Soon'
+                        : 'Get This Card',
+                    style: const TextStyle(
                       color: Color(0xFF2C2C2C),
                       fontSize: 16,
                       fontFamily: 'Poppins',

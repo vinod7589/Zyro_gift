@@ -15,12 +15,14 @@ import '../../view/mobile_view/login_page/customer_enter_details.dart';
 import '../../view/mobile_view/login_page/otp_verification_page.dart';
 
 class AuthRepo {
+  DioApiService dio = DioApiService();
+
   Future<Generateotp?> generateOTP(String mobile, context) async {
     try {
       var request = {
         "mobile_number": mobile,
       };
-      final response = await DioApiService.post(
+      final response = await dio.post(
           '/api/UserManagement/GenerateOtp?mobile_number=$mobile', request);
       // print(response);
       Generateotp res = Generateotp.fromJson(response);
@@ -41,14 +43,14 @@ class AuthRepo {
     }
   }
 
-  static Future<VerifyOtpModel?> verifyOTP(
+   Future<VerifyOtpModel?> verifyOTP(
       {required String otp, required String refId, context}) async {
     try {
       var request = {
         'OTP': otp,
         'Ref_Id': refId,
       };
-      final response = await DioApiService.post(
+      final response = await dio.post(
           '/api/UserManagement/VerifyOtp?Ref_Id=$refId&OTP=$otp&mobile_number=${UserPreferences.userMobile}',
           request);
       print("sdasfdsdf$response");
@@ -81,7 +83,7 @@ class AuthRepo {
 
   Future<Generateotp?> resendOtp(context) async {
     try {
-      final response = await DioApiService.post(
+      final response = await dio.post(
           '/api/UserManagement/GenerateOtp?mobile_number=${UserPreferences.userMobile}',
           {});
       Generateotp res = Generateotp.fromJson(response);
@@ -97,7 +99,7 @@ class AuthRepo {
     }
   }
 
-  static Future<Signup?> signUp(String fullName, String email, String dob,
+   Future<Signup?> signUp(String fullName, String email, String dob,
       String referalCode, context) async {
     try {
       var request = {
@@ -107,7 +109,7 @@ class AuthRepo {
         "referralCode": referalCode,
       };
       final response =
-          await DioApiService.AuthPost('/api/UserManagement/SignUp', request);
+          await dio.AuthPost('/api/UserManagement/SignUp', request);
       Signup res = Signup.fromJson(response);
       print(request);
       if (res.status == 'success') {
@@ -119,9 +121,9 @@ class AuthRepo {
     }
   }
 
-  static Future<void> getUserDetail() async {
+   Future<void> getUserDetail() async {
     try {
-      final response = await DioApiService.AuthPost(
+      final response = await dio.AuthPost(
           '/api/UserManagement/GetUserDetails', {});
       GetUserDetailModel res = GetUserDetailModel.fromJson(response);
 
@@ -141,7 +143,7 @@ class AuthRepo {
     }
   }
 
-  static Future<void> signOut(context) async {
+   Future<void> signOut(context) async {
     try {
       UserPreferences.clearUserData();
       await Navigator.pushAndRemoveUntil(

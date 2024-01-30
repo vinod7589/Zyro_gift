@@ -28,6 +28,7 @@ class TimerCountPage extends StatefulWidget {
 }
 
 class _timerCountPageState extends State<TimerCountPage> {
+  PaymentRepo paymentservice = PaymentRepo();
   late Timer _timer;
   late Timer _statusTimer;
   int _start = 5 * 60; // 5 minutes
@@ -96,10 +97,10 @@ class _timerCountPageState extends State<TimerCountPage> {
 
   onCheckStatus() async {
     CheckPaymentStatusModel checkStatus =
-        await PaymentRepo.checkPaymentStatus(widget.merchantTransactionId);
+        await paymentservice.checkPaymentStatus(widget.merchantTransactionId);
     if (checkStatus.success == true) {
       PurchaseGiftVoucherModel purchaseVoucher =
-          await PaymentRepo.purchaseGiftVoucherService(widget.cartDataDetails);
+          await paymentservice.purchaseGiftVoucherService(widget.cartDataDetails);
       if (purchaseVoucher.status == 'success') {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => PaymentSuccessPage()));

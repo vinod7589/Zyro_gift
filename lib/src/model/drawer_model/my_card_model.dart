@@ -28,32 +28,44 @@ class MyCardModel {
 }
 
 class MyCardList {
+  String? orderId;
   String? brandCode;
   String? brandName;
   String? brandImage;
+  String? purchaseOn;
+  String? expiryOn;
   int? voucherQty;
   int? totalVoucherAmount;
 
   MyCardList(
-      {this.brandCode,
+      {this.orderId,
+      this.brandCode,
       this.brandName,
       this.brandImage,
+      this.purchaseOn,
+      this.expiryOn,
       this.voucherQty,
       this.totalVoucherAmount});
 
   MyCardList.fromJson(Map<String, dynamic> json) {
+    orderId = json['orderId'];
     brandCode = json['brandCode'];
     brandName = json['brandName'];
     brandImage = json['brandImage'];
+    purchaseOn = json['purchaseOn'];
+    expiryOn = json['expiryOn'];
     voucherQty = json['voucherQty'];
     totalVoucherAmount = json['totalVoucherAmount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['orderId'] = this.orderId;
     data['brandCode'] = this.brandCode;
     data['brandName'] = this.brandName;
     data['brandImage'] = this.brandImage;
+    data['purchaseOn'] = this.purchaseOn;
+    data['expiryOn'] = this.expiryOn;
     data['voucherQty'] = this.voucherQty;
     data['totalVoucherAmount'] = this.totalVoucherAmount;
     return data;

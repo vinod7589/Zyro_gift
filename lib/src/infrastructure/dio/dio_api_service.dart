@@ -7,10 +7,11 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../util/services/shared_preferences.dart';
 
-final dio = Dio();
+//final dio = Dio();
 
 class DioApiService {
-  static Future<Map<String, dynamic>> get(String endpoint) async {
+  Future<Map<String, dynamic>> get(String endpoint) async {
+    final dio = Dio();
     final url = Uri.parse(baseUrl + endpoint);
     Response response;
     response = await dio.get(url.toString());
@@ -25,8 +26,8 @@ class DioApiService {
     }
   }
 
-  static Future<Map<String, dynamic>> post(
-      String endpoint, dynamic body) async {
+  Future<Map<String, dynamic>> post(String endpoint, dynamic body) async {
+    final dio = Dio();
     final url = Uri.parse(baseUrl + endpoint);
     dio.interceptors.add(PrettyDioLogger(responseBody: true, requestBody: true
 
@@ -58,8 +59,9 @@ class DioApiService {
     }
   }
 
-  static Future<Map<String, dynamic>> AuthPost(String endpoint, dynamic body,
+  Future<Map<String, dynamic>> AuthPost(String endpoint, dynamic body,
       {Map<String, dynamic>? queryParameters}) async {
+    final dio = Dio();
     final url = Uri.parse(baseUrl + endpoint);
 
     dio.interceptors.add(PrettyDioLogger(requestBody: true, responseBody: true

@@ -27,6 +27,7 @@ TextEditingController _referralCode = TextEditingController();
 TextEditingController _dateOfBirth = TextEditingController();
 
 class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
+  AuthRepo auth = AuthRepo();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -240,14 +241,14 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
                                       _formKey.currentState!.save();
-                                      Signup? res = await AuthRepo.signUp(
+                                      Signup? res = await auth.signUp(
                                           _fullName.text,
                                           _email.text,
                                           _dateOfBirth.text,
                                           _referralCode.text,
                                           context);
                                       if (res?.status == 'success') {
-                                        await AuthRepo.getUserDetail();
+                                        await auth.getUserDetail();
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(

@@ -16,6 +16,8 @@ class AppSettingPage extends StatefulWidget {
 }
 
 class _AppSettingPageState extends State<AppSettingPage> {
+  AuthRepo auth = AuthRepo();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,8 +149,7 @@ class _AppSettingPageState extends State<AppSettingPage> {
                                 TextButton(
                                   onPressed: () {
                                     // Perform logout operation
-                                    AuthRepo.signOut(
-                                        context); // Close the dialog
+                                    auth.signOut(context); // Close the dialog
                                   },
                                   child: Text(
                                     'Yes',

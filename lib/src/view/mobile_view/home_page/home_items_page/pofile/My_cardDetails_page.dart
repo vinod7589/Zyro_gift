@@ -1,33 +1,50 @@
 import 'package:abc/src/constants/page_padding.dart';
 import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/My_carddetails_model.dart';
+import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
-class MyCardDetailsPage extends StatefulWidget {
+import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
+import '../../../../../model/homePage/getbrand_details_model.dart';
+import '../../../../../model/redeem_step_model.dart';
+
+class MyCardDetailsPage extends ConsumerStatefulWidget {
   final String orderId;
-  MyCardDetailsPage({super.key, required this.orderId});
+  MyCardDetailsPage({
+    super.key,
+    required this.orderId,
+  });
 
   @override
-  State<MyCardDetailsPage> createState() => _MyCardDetailsPageState();
+  ConsumerState<MyCardDetailsPage> createState() => _MyCardDetailsPageState();
 }
 
-class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
+class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
   DrawerRepoService drawerRepo = DrawerRepoService();
-
+  HomePageService homeRepo = HomePageService();
+  bool isLoading = true;
   CardDetailsModel carddetails = CardDetailsModel();
 
   Future<void> cardDetailfetch() async {
     isLoading = true;
     var res = await drawerRepo.cardDetailsServive(widget.orderId);
+
+    var brand =
+        await homeRepo.getBrandDetailsService(res.data!.card![0].brandCode!);
     setState(() {
       carddetails = res;
+      brandData = brand;
+      isLoading = false;
     });
-    isLoading = false;
   }
+
+  late GetBrandDetailsList? brandData; //= GetBrandDetailsList();
 
   @override
   void initState() {
@@ -35,7 +52,15 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
     cardDetailfetch();
   }
 
-  bool isLoading = true;
+  DateTime purchaseOn(String dateTimeString) {
+    return DateFormat("M/d/yyyy h:mm:ss a")
+        .parse(carddetails.data!.card![0].purchaseOn!);
+  }
+
+  DateTime validTill(String dateTimeString) {
+    return DateFormat("M/d/yyyy h:mm:ss a")
+        .parse(carddetails.data!.card![0].expiryDate!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +74,9 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                   scrolledUnderElevation: 0,
                   backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                   leading: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: const Icon(
                       Icons.arrow_back,
                       color: Colors.white,
@@ -57,7 +84,7 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                   ),
                   titleSpacing: 2,
                   title: Text(
-                    'Myntra card',
+                    carddetails.data!.card![0].brandName!,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.sp,
@@ -72,12 +99,18 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       children: [
+                        31.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
                               children: [
-                                Image.asset('assets/images/myntra-m-logo.png'),
+                                Image.network(
+                                  "$baseUrl${carddetails.data!.card![0].brandImage}" ??
+                                      "",
+                                  height: 38,
+                                ),
+                                7.verticalSpace,
                                 const Text(
                                   'Card worth',
                                   style: TextStyle(
@@ -89,6 +122,7 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                     letterSpacing: 0.24,
                                   ),
                                 ),
+                                13.verticalSpace,
                                 Container(
                                   width: 236,
                                   height: 48,
@@ -100,8 +134,8 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text(
-                                        '8098678045678904',
+                                      Text(
+                                        carddetails.data!.card![0].cardNo!,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
@@ -111,7 +145,7 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                           letterSpacing: 0.08,
                                         ),
                                       ),
-                                      15.horizontalSpace,
+                                      23.horizontalSpace,
                                       const Icon(
                                         Icons.copy,
                                         color: Colors.white,
@@ -119,18 +153,19 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                     ],
                                   ),
                                 ),
-                                20.verticalSpace,
+                                8.verticalSpace,
                                 Container(
+                                  padding: EdgeInsets.symmetric(vertical: 5),
                                   alignment: Alignment.center,
                                   width: 236,
-                                  height: 30,
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFF4A4A4A),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(6)),
                                   ),
-                                  child: const Text(
-                                    '7 5 8 9',
+                                  child: Text(
+                                    carddetails.data!.card![0].cardPin
+                                        .toString(),
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -140,8 +175,8 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                         ),
                         20.verticalSpace,
                         Container(
-                          width: 334,
-                          height: 88,
+                          padding:
+                              EdgeInsets.only(left: 15, top: 12, bottom: 12),
                           decoration: ShapeDecoration(
                             color: const Color(0xFF2D2D2D),
                             shape: RoundedRectangleBorder(
@@ -153,7 +188,7 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                               Row(
                                 children: [
                                   Text(
-                                    'Purchased On : ',
+                                    'Purchased On :  ',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12.06,
@@ -162,23 +197,16 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                       letterSpacing: 0.24,
                                     ),
                                   ),
-                                  Text(
-                                    carddetails.data!.card![0].purchaseOn!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.06,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.24,
-                                    ),
-                                  )
+                                  DateTimeFormatter(
+                                      dateTime: purchaseOn(carddetails
+                                          .data!.card![0].purchaseOn!)),
                                 ],
                               ),
                               10.verticalSpace,
                               Row(
                                 children: [
                                   Text(
-                                    'Valid Till :',
+                                    'Valid Till :  ',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12.06,
@@ -187,23 +215,16 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                       letterSpacing: 0.24,
                                     ),
                                   ),
-                                  Text(
-                                    carddetails.data!.card![0].expiryDate!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.06,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.24,
-                                    ),
-                                  )
+                                  DateTimeFormatter(
+                                      dateTime: validTill(carddetails
+                                          .data!.card![0].purchaseOn!)),
                                 ],
                               ),
                               10.verticalSpace,
-                              const Row(
+                              Row(
                                 children: [
                                   Text(
-                                    'Max Users :',
+                                    'Max Users :  ',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12.06,
@@ -213,7 +234,7 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                                     ),
                                   ),
                                   Text(
-                                    'Jan 22, 2024 ',
+                                    '1 Claim per user',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12.06,
@@ -228,11 +249,11 @@ class _MyCardDetailsPageState extends State<MyCardDetailsPage> {
                           ),
                         ),
                         20.verticalSpace,
-                        AboutThePageToggleWidget(brandCode: widget.orderId),
+                        AboutThePageToggleWidget(brandData: brandData),
                         20.verticalSpace,
-                        HowToRedeemWidget(brandCode: widget.orderId),
+                        HowToRedeemWidget(brandData: brandData),
                         20.verticalSpace,
-                        const TermsConditionWidget(),
+                        TermsConditionWidget(brandData: brandData),
                         20.verticalSpace,
                       ],
                     ),

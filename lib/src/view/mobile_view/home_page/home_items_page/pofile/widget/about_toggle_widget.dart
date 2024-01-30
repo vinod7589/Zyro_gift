@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../controller/home_page_controller.dart';
+import '../../../../../../model/homePage/getbrand_details_model.dart';
 
 class AboutThePageToggleWidget extends ConsumerStatefulWidget {
-  const AboutThePageToggleWidget({required this.brandCode});
-  final String brandCode;
-
+  const AboutThePageToggleWidget({required this.brandData});
+  final GetBrandDetailsList? brandData;
   @override
   ConsumerState<AboutThePageToggleWidget> createState() =>
       _AboutThePageToggleWidgetState();
@@ -20,8 +20,6 @@ class _AboutThePageToggleWidgetState
 
   @override
   Widget build(BuildContext context) {
-    var aboutcontroller = ref.watch(HomePageController(widget.brandCode));
-
     return GestureDetector(
         onTap: () {
           isExpended = !isExpended;
@@ -30,7 +28,7 @@ class _AboutThePageToggleWidgetState
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
           // height: isExpended ? 300 : 55,
-          padding: EdgeInsets.only(top: 15, left: 20, bottom: 6),
+          padding: EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 6),
           // height: 160,
           decoration: ShapeDecoration(
             color: Color(0xFF2D2D2D),
@@ -44,7 +42,7 @@ class _AboutThePageToggleWidgetState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'About the Brand',
                     style: TextStyle(
                       color: Colors.white,
@@ -54,7 +52,7 @@ class _AboutThePageToggleWidgetState
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 25),
+                    padding: const EdgeInsets.only(right: 5),
                     child: Icon(
                       isExpended ? Icons.expand_less : Icons.expand_more,
                       color: Colors.white,
@@ -64,16 +62,16 @@ class _AboutThePageToggleWidgetState
               ),
               10.verticalSpace,
               if (isExpended) ...{
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
+                const Padding(
+                  padding: EdgeInsets.only(right: 0),
                   child: Divider(
                     color: Color(0xFF454545),
                   ),
                 ),
                 10.verticalSpace,
                 Text(
-                  "${aboutcontroller.brandDetails?.descriptions.toString() ?? "Myntra is a one stop shop for all your fashion and lifestyle needs. Being India's largest e-commerce store for fashion and lifestyle products, Myntra aims at providing a hassle free and enjoyable shopping experience to shoppers across the country with the widest range of brands and products on its portal"}",
-                  style: TextStyle(
+                  "${widget.brandData?.descriptions != "" ? widget.brandData?.descriptions.toString().replaceAll('"', '') : "${widget.brandData?.brandName} is a one stop shop for all your fashion and lifestyle needs. Being India's largest e-commerce store for fashion and lifestyle products, ${widget.brandData?.brandName} aims at providing a hassle free and enjoyable shopping experience to shoppers across the country with the widest range of brands and products on its portal"}",
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12.06,
                     fontFamily: 'Urbanist',

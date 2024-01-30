@@ -310,7 +310,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var cardDetailsController = ref.watch(HomePageController(widget.brandCode));
+    // var cardDetailsController = ref.watch(HomePageController(widget.brandCode));
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
@@ -512,11 +512,11 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                           ),
                         ),
                         20.verticalSpace,
-                        AboutThePageToggleWidget(brandCode: widget.brandCode),
+                        AboutThePageToggleWidget(brandData: brandData),
                         20.verticalSpace,
-                        HowToRedeemWidget(brandCode: widget.brandCode),
+                        HowToRedeemWidget(brandData: brandData),
                         20.verticalSpace,
-                        const TermsConditionWidget(),
+                        TermsConditionWidget(brandData: brandData),
                         20.verticalSpace,
                       ],
                     ),

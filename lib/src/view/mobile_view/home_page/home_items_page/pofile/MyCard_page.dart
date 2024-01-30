@@ -7,7 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../../model/drawer_model/My_carddetails_model.dart';
+import '../../../../../model/homePage/getbrand_details_model.dart';
 
 class MyCardPage extends StatefulWidget {
   const MyCardPage({super.key});
@@ -17,7 +19,12 @@ class MyCardPage extends StatefulWidget {
 }
 
 class _MyCardPageState extends State<MyCardPage> {
+  HomePageService homeRepo = HomePageService();
   DrawerRepoService drawerRepo = DrawerRepoService();
+
+  // late GetBrandDetailsList? brandData;
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -34,8 +41,16 @@ class _MyCardPageState extends State<MyCardPage> {
     isLoading = false;
     setState(() {});
   }
-
-  bool isLoading = true;
+  // getBrand() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   var res = await homeRepo.getBrandDetailsService('');
+  //   setState(() {
+  //     brandData = res;
+  //     isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +166,7 @@ class _MyCardPageState extends State<MyCardPage> {
                                   letterSpacing: 0.46,
                                 ),
                               ),
-                              const Expanded(
+                              Expanded(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -163,10 +178,10 @@ class _MyCardPageState extends State<MyCardPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            '. . . .',
+                                            'Valid Till : ${myCardListItems[index].expiryOn.toString()}',
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 20,
+                                                fontSize: 11.sp,
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           Text(

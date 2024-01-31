@@ -26,12 +26,12 @@ class splashScreenState extends State<splashScreen> {
     var mobile = UserPreferences.userMobile;
     // if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
     if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
-      await Future.delayed(const Duration(seconds: 3), () {
+      await Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LandingPage()));
       });
     } else {
-      await Future.delayed(const Duration(seconds: 3), () {
+      await Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => OnboardingPage()),

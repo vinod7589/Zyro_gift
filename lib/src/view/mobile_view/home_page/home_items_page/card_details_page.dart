@@ -409,7 +409,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                         5.verticalSpace,
                         Text(
                           'Get ' +
-                              (brandData?.discount.toString() ?? '0.0') +
+                              (brandData.discount ?? 0).toString() +
                               '% off',
                           style: const TextStyle(
                             color: Color(0xFFAC61FF),
@@ -516,11 +516,12 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                         ),
                         20.verticalSpace,
                         AboutThePageToggleWidget(
-                            brandData: brandData.descriptions!),
+                            brandData: brandData.descriptions ?? ""),
                         20.verticalSpace,
-                        HowToRedeemWidget(brandData: brandData.redeemSteps!),
+                        HowToRedeemWidget(
+                            brandData: brandData.redeemSteps ?? ""),
                         20.verticalSpace,
-                        TermsConditionWidget(brandData: brandData.tnc!),
+                        TermsConditionWidget(brandData: brandData.tnc ?? ""),
                         20.verticalSpace,
                       ],
                     ),

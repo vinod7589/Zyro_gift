@@ -130,7 +130,10 @@ class _SearchBrandPaginationPageState
                           return const SizedBox();
                         }
                       } else {
-                        return GestureDetector(
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(17),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             String branCode = filteredBrandPaginationProvider
                                 .filteredBrandList[index].brandCode

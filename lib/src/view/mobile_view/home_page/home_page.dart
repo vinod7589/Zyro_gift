@@ -173,131 +173,205 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           ),
+          // SliverAppBar(
+          //   leading: SizedBox(),
+          //   leadingWidth: 0,
+          //   toolbarHeight: 124.h,
+          //   pinned: true,
+          //   scrolledUnderElevation: 0,
+          //   backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+          //   flexibleSpace: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //
+          //       15.verticalSpace,
+          //       Padding(
+          //         padding: EdgeInsets.only(left: 0),
+          //         child: SizedBox(
+          //           height: 55.h,
+          //           child: ListView.separated(
+          //             separatorBuilder: (context, index) => const SizedBox(
+          //               width: 0,
+          //             ),
+          //             shrinkWrap: true,
+          //             scrollDirection: Axis.horizontal,
+          //             itemCount:
+          //                 filteredBrandPaginationProvider.categoriesList.length,
+          //             itemBuilder: (context, index) {
+          //               return GestureDetector(
+          //                 onTap: () {
+          //                   filteredBrandPaginationProvider
+          //                       .selectCategory(index);
+          //                   Navigator.of(context).push(MaterialPageRoute(
+          //                       builder: (c) => SearchMobilePage()));
+          //                 },
+          //                 child: Container(
+          //                   width: 90,
+          //                   height: 80,
+          //                   // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
+          //                   child: Column(
+          //                     children: [
+          //                       CachedNetworkImage(
+          //                         fadeInDuration: Duration(milliseconds: 100),
+          //                         imageUrl:
+          //                             '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+          //                         height: 30,
+          //                       ),
+          //                       // Image.network(
+          //                       //   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+          //                       //   height: 30.h,
+          //                       //   errorBuilder: (context, error, stackTrace) {
+          //                       //     return Image.asset(
+          //                       //       'assets/images/noimage.png',
+          //                       //       height: 30.h,
+          //                       //     );
+          //                       //   },
+          //                       // ),
+          //                       10.verticalSpace,
+          //                       Text(
+          //                         filteredBrandPaginationProvider
+          //                             .categoriesList[index].categoryName
+          //                             .toString()
+          //                             .split(" ")
+          //                             .first,
+          //                         style: TextStyle(
+          //                           color: const Color(0xFFFAFAFA),
+          //                           fontSize: 12.07.sp,
+          //                           fontWeight: FontWeight.w500,
+          //                           height: 0.09,
+          //                           letterSpacing: 0.06,
+          //                         ),
+          //                       )
+          //                     ],
+          //                   ),
+          //                 ),
+          //               );
+          //             },
+          //           ),
+          //         ),
+          //       ),
+          //       5.verticalSpace,
+          //       Container(
+          //         height: 0.0,
+          //         decoration:
+          //             BoxDecoration(color: Colors.grey.shade700, boxShadow: [
+          //           BoxShadow(
+          //               color: Colors.grey.shade700,
+          //               blurRadius: 0.5,
+          //               offset: Offset(0, 1),
+          //               spreadRadius: 0.3)
+          //         ]),
+          //       )
+          //     ],
+          //   ),
+          // ),
           SliverAppBar(
-            leading: SizedBox(),
-            leadingWidth: 0,
-            toolbarHeight: 124.h,
-            pinned: true,
             scrolledUnderElevation: 0,
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-            flexibleSpace: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  borderRadius: BorderRadius.circular(17),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (c) => SearchMobilePage())),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    height: 47.h,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.white)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/Search.png',
-                          ),
-                          20.horizontalSpace,
-                          Text(
-                            'Search for Brands or category',
-                            style: TextStyle(
-                              color: Color(0xFFB5B5B5),
-                              fontSize: 13.42,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+            pinned: true,
+            flexibleSpace: InkWell(
+              borderRadius: BorderRadius.circular(17),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (c) => SearchMobilePage())),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                height: 47.h,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.white)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/Search.png',
                       ),
-                    ),
+                      20.horizontalSpace,
+                      Text(
+                        'Search for Brands or category',
+                        style: TextStyle(
+                          color: Color(0xFFB5B5B5),
+                          fontSize: 13.42,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                15.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.only(left: 0),
-                  child: SizedBox(
-                    height: 55.h,
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) => const SizedBox(
-                        width: 0,
-                      ),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount:
-                          filteredBrandPaginationProvider.categoriesList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            filteredBrandPaginationProvider
-                                .selectCategory(index);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (c) => SearchMobilePage()));
-                          },
-                          child: Container(
-                            width: 90,
-                            height: 80,
-                            // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
-                            child: Column(
-                              children: [
-                                CachedNetworkImage(
-                                  fadeInDuration: Duration(milliseconds: 100),
-                                  imageUrl:
-                                      '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
-                                  height: 30,
-                                ),
-                                // Image.network(
-                                //   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
-                                //   height: 30.h,
-                                //   errorBuilder: (context, error, stackTrace) {
-                                //     return Image.asset(
-                                //       'assets/images/noimage.png',
-                                //       height: 30.h,
-                                //     );
-                                //   },
-                                // ),
-                                10.verticalSpace,
-                                Text(
-                                  filteredBrandPaginationProvider
-                                      .categoriesList[index].categoryName
-                                      .toString()
-                                      .split(" ")
-                                      .first,
-                                  style: TextStyle(
-                                    color: const Color(0xFFFAFAFA),
-                                    fontSize: 12.07.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.09,
-                                    letterSpacing: 0.06,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                5.verticalSpace,
-                Container(
-                  height: 0.0,
-                  decoration:
-                      BoxDecoration(color: Colors.grey.shade700, boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.shade700,
-                        blurRadius: 0.5,
-                        offset: Offset(0, 1),
-                        spreadRadius: 0.3)
-                  ]),
-                )
-              ],
+              ),
             ),
           ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: MySliverAppBarDelegate(
+              child: Padding(
+                padding: EdgeInsets.only(left: 0),
+                child: Column(
+                  children: [
+                    Container(
+                      color: const Color.fromRGBO(35, 35, 35, 1),
+                      height: 55.h,
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => const SizedBox(
+                          width: 0,
+                        ),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: filteredBrandPaginationProvider
+                            .categoriesList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              filteredBrandPaginationProvider
+                                  .selectCategory(index);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (c) => SearchMobilePage()));
+                            },
+                            child: Container(
+                              width: 90,
+                              height: 80,
+                              // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
+                              child: Column(
+                                children: [
+                                  CachedNetworkImage(
+                                    fadeInDuration: Duration(milliseconds: 100),
+                                    imageUrl:
+                                        '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                                    height: 30,
+                                  ),
+                                  10.verticalSpace,
+                                  Text(
+                                    filteredBrandPaginationProvider
+                                        .categoriesList[index].categoryName
+                                        .toString()
+                                        .split(" ")
+                                        .first,
+                                    style: TextStyle(
+                                      color: const Color(0xFFFAFAFA),
+                                      fontSize: 12.07.sp,
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.09,
+                                      letterSpacing: 0.06,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Add more Slivers if needed
+          // Add more Slivers if needed
+
           SliverToBoxAdapter(
             child: Column(children: [
               const SizedBox(
@@ -1765,5 +1839,28 @@ class _HomePageState extends ConsumerState<HomePage> {
         ]),
       ),
     );
+  }
+}
+
+class MySliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+
+  MySliverAppBarDelegate({required this.child});
+
+  @override
+  double get minExtent => 55.h; // adjust as needed
+
+  @override
+  double get maxExtent => 55.h; // adjust as needed
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return child;
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/MyCard_page.dart';
-import 'package:abc/src/view/mobile_view/widgets/landingpage.dart';
+import 'package:abc/src/view/mobile_view/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

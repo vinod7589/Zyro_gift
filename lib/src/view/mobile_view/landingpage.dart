@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../customicon_icons.dart';
-import '../bottomNavigationBar_tabs/mycard_tab.dart';
-import '../bottomNavigationBar_tabs/pofile_page.dart';
-import '../home_page/home_page.dart';
+import '../../../customicon_icons.dart';
+import 'bottomNavigationBar_tabs/mycard_tab.dart';
+import 'bottomNavigationBar_tabs/pofile_page.dart';
+import 'home_page/home_page.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage({Key? key}) : super(key: key);

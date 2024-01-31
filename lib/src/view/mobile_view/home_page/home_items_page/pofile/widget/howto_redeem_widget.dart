@@ -11,7 +11,7 @@ import '../../../../../../model/redeem_step_model.dart';
 
 class HowToRedeemWidget extends ConsumerStatefulWidget {
   const HowToRedeemWidget({required this.brandData});
-  final GetBrandDetailsList? brandData;
+  final String brandData;
 
   @override
   ConsumerState<HowToRedeemWidget> createState() => _HowToRedeemWidgetState();
@@ -25,8 +25,8 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
   void initState() {
     super.initState();
     setState(() {
-      if (widget.brandData!.redeemSteps! != "") {
-        redeemSteps = (json.decode(widget.brandData!.redeemSteps!) as List)
+      if (widget.brandData! != "") {
+        redeemSteps = (json.decode(widget.brandData!) as List)
             .map((jsonItem) => RedeemStepEntityModel.fromJson(jsonItem))
             .toList();
       }

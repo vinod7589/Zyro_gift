@@ -8,7 +8,7 @@ import '../../../../../../model/homePage/getbrand_details_model.dart';
 
 class AboutThePageToggleWidget extends ConsumerStatefulWidget {
   const AboutThePageToggleWidget({required this.brandData});
-  final GetBrandDetailsList? brandData;
+  final String brandData;
   @override
   ConsumerState<AboutThePageToggleWidget> createState() =>
       _AboutThePageToggleWidgetState();
@@ -70,7 +70,7 @@ class _AboutThePageToggleWidgetState
                 ),
                 10.verticalSpace,
                 Text(
-                  "${widget.brandData?.descriptions != "" ? widget.brandData?.descriptions.toString().replaceAll('"', '') : "${widget.brandData?.brandName} is a one stop shop for all your fashion and lifestyle needs. Being India's largest e-commerce store for fashion and lifestyle products, ${widget.brandData?.brandName} aims at providing a hassle free and enjoyable shopping experience to shoppers across the country with the widest range of brands and products on its portal"}",
+                  "${widget.brandData != "" ? widget.brandData.replaceAll('"', '') : "Dummy is a one stop shop for all your fashion and lifestyle needs. Being India's largest e-commerce store for fashion and lifestyle products, Dummy aims at providing a hassle free and enjoyable shopping experience to shoppers across the country with the widest range of brands and products on its portal"}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12.06,

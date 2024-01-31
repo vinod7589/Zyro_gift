@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,19 +9,20 @@ import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getbrand_details_model.dart';
 
 final fixedCardController =
-    ChangeNotifierProvider.family<FixedCardController, String>(
+    ChangeNotifierProvider.family<FixedCardController, VoucherEntity>(
         (ref, brandCode) {
-  return FixedCardController((ref.read), brandCode: brandCode);
+  return FixedCardController((ref.read), brand: brandCode);
 });
 
 class FixedCardController extends ChangeNotifier {
-  FixedCardController(this._read, {required this.brandCode}) {
+  FixedCardController(this._read, {required this.brand}) {
     _init();
   }
   HomePageService homeRepo = HomePageService();
 
   final Reader _read;
-  final String brandCode;
+  //final String brandCode;
+  final VoucherEntity brand;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   GetBrandDetailsList? brandDetails;
@@ -34,13 +36,9 @@ class FixedCardController extends ChangeNotifier {
   // num? get availableLimit => _availableLimit;
 
   _init() async {
-    log("hitt");
     _isLoading = true;
-    brandDetails = await homeRepo.getBrandDetailsService(brandCode);
     await getDenominationList();
-
     _isLoading = false;
-
     notifyListeners();
   }
 
@@ -90,8 +88,7 @@ class FixedCardController extends ChangeNotifier {
   }
 
   getDenominationList() async {
-    String? denominationList = brandDetails?.denominationList;
-
+    String? denominationList = brand?.denominationList;
     if (denominationList != null) {
       List<String> array = denominationList.split(',');
       _denominationOption = array.map((e) => double.tryParse(e) ?? 0).toList();

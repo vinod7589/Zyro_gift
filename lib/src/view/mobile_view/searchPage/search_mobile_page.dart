@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:abc/src/controller/search_page_pagination_controller.dart';
 import 'package:abc/src/view/mobile_view/searchPage/search_brand_pagination_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -169,17 +170,27 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                 height: 80,
                                 child: Column(
                                   children: [
-                                    Image.network(
-                                      '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
-                                      height: 30.h,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Image.asset(
-                                          'assets/images/noimage.png',
-                                          height: 30.h,
-                                        );
-                                      },
+                                    CachedNetworkImage(
+                                      fadeInDuration:
+                                          Duration(milliseconds: 100),
+                                      fadeOutDuration: Duration(seconds: 5),
+                                      placeholderFadeInDuration:
+                                          Duration(milliseconds: 2),
+                                      imageUrl:
+                                          '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                                      height: 30,
                                     ),
+                                    // Image.network(
+                                    //   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                                    //   height: 30.h,
+                                    //   errorBuilder:
+                                    //       (context, error, stackTrace) {
+                                    //     return Image.asset(
+                                    //       'assets/images/noimage.png',
+                                    //       height: 30.h,
+                                    //     );
+                                    //   },
+                                    // ),
                                     10.verticalSpace,
                                     SizedBox(
                                       child: Text(

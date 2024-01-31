@@ -1,4 +1,5 @@
 import 'package:abc/src/controller/search_page_pagination_controller.dart';
+import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -139,7 +140,9 @@ class _SearchBrandPaginationPageState
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CardDetailsPage(
-                                          brandCode: branCode)));
+                                            brandCode: branCode,
+                                            voucher: VoucherEntity(),
+                                          )));
                             }
                           },
                           child: Row(

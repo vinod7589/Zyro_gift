@@ -17,12 +17,14 @@ import '../../../../controller/fixed_card_controller.dart';
 import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../model/homePage/getbrand_details_model.dart';
+import '../../../../model/homePage/voucher_entity.dart';
 import '../../../custom_keyboard/custom_keyboard.dart';
 import '../widget/denomination_select_widget.dart';
 
 class CardDetailsPage extends ConsumerStatefulWidget {
-  const CardDetailsPage({required this.brandCode});
+  const CardDetailsPage({required this.brandCode, required this.voucher});
   final String brandCode;
+  final VoucherEntity voucher;
 
   @override
   ConsumerState<CardDetailsPage> createState() => _CardDetailsPageState();
@@ -38,14 +40,16 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
   HomePageService homeRepo = HomePageService();
   int currentValue = 0;
   bool isLoading = false;
-  late GetBrandDetailsList? brandData;
-  num? availableLimit;
+  //late GetBrandDetailsList? brandData;
+  late VoucherEntity brandData;
+  num? availableLimit = 0;
 
   @override
   void initState() {
     super.initState();
+    brandData = widget.voucher;
     checkAvailableLimit();
-    getBrand();
+    //getBrand();
   }
 
   checkAvailableLimit() async {
@@ -67,241 +71,234 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
     return currentRange;
   }
 
-  getBrand() async {
-    setState(() {
-      isLoading = true;
-    });
-    var res = await homeRepo.getBrandDetailsService(widget.brandCode);
-    setState(() {
-      brandData = res;
-      isLoading = false;
-    });
-  }
+  // getBrand() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   var res = await homeRepo.getBrandDetailsService(widget.brandCode);
+  //   setState(() {
+  //     brandData = res;
+  //     isLoading = false;
+  //   });
+  // }
 
   getBrandDetails(brandCode) async {
     try {
-      setState(() {
-        isLoading = true;
-      });
-      var fixedCardProvider = ref.watch(fixedCardController(brandCode));
+      // setState(() {
+      //   isLoading = true;
+      // });
+      //var fixedCardProvider = ref.watch(fixedCardController(brandCode));
       var homePageController = ref.watch(HomePageController(brandCode));
-      GetBrandDetailsList? brandDetails =
-          await homeRepo.getBrandDetailsService(brandCode);
-      setState(() {
-        isLoading = false;
-      });
-      if (brandDetails != null) {
-        if (brandDetails!.brandtype == 'Variable') {
-          var res = manageDenomition(
-              brandDetails?.denominationList, brandDetails?.denominationList);
-          homePageController.numKeyboardTextEditingController.text =
-              '₹ ${res.start.toString()}';
-          setState(() {
-            currentValue = res.start;
-          });
-          showModalBottomSheet(
-            elevation: 0,
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: const Color(0xFF2C2C2C),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            )),
-            builder: (context) => Consumer(builder: (context, ref, child) {
-              return SingleChildScrollView(
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 1,
-                    separatorBuilder: (context, index) => const Divider(
-                          color: Color(0xFFEFEFEF),
-                          thickness: 2,
-                        ),
-                    itemBuilder: (context, index) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+      // GetBrandDetailsList? brandDetails =
+      //     await homeRepo.getBrandDetailsService(brandCode);
+      // setState(() {
+      //   isLoading = false;
+      // });
+
+      if (brandData!.brandType == 'Variable') {
+        var res = manageDenomition(
+            brandData?.denominationList, brandData?.denominationList);
+        homePageController.numKeyboardTextEditingController.text =
+            '₹ ${res.start.toString()}';
+        setState(() {
+          currentValue = res.start;
+        });
+        showModalBottomSheet(
+          elevation: 0,
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: const Color(0xFF2C2C2C),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+            top: Radius.circular(30),
+          )),
+          builder: (context) => Consumer(builder: (context, ref, child) {
+            return SingleChildScrollView(
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 1,
+                  separatorBuilder: (context, index) => const Divider(
+                        color: Color(0xFFEFEFEF),
+                        thickness: 2,
+                      ),
+                  itemBuilder: (context, index) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              24.verticalSpace,
+                              Container(
+                                width: 76,
+                                height: 5,
+                                decoration: ShapeDecoration(
+                                  color: const Color(0xFF444444),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(91),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, top: 15),
+                            width: double.infinity,
+                            height: 210.h,
+                            decoration: BoxDecoration(
+                                color:
+                                    Colors.deepPurple.shade800.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: const Color(0xFF494949),
+                                )),
+                            child: Column(
                               children: [
-                                24.verticalSpace,
-                                Container(
-                                  width: 76,
+                                28.verticalSpace,
+                                brandData.image != null
+                                    ? Image.network(
+                                        "$baseUrl${brandData.image.toString()}",
+                                        height: 40.h,
+                                      )
+                                    : SizedBox(),
+                                14.verticalSpace,
+                                const Text(
+                                  'Card worth',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.06,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.24,
+                                  ),
+                                ),
+                                const SizedBox(
                                   height: 5,
-                                  decoration: ShapeDecoration(
-                                    color: const Color(0xFF444444),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(91),
-                                    ),
+                                ),
+                                Container(
+                                  // color:
+                                  //     Colors.red,
+                                  width: 140.w,
+                                  height: 36.h,
+                                  child: Row(
+                                    children: [
+                                      // Text('₹ '),
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: homePageController
+                                              .numKeyboardTextEditingController,
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(6),
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
+                                          onTapOutside: (e) =>
+                                              FocusScope.of(context).unfocus(),
+                                          textAlign: TextAlign.center,
+                                          keyboardType: TextInputType.none,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 23.sp,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w600),
+                                          decoration: const InputDecoration(
+                                              // prefixIcon: Icon(
+                                              //   Icons.currency_rupee,
+                                              //   color: Colors.white,
+                                              // ),
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 0, top: 1, bottom: 7),
+                                              border: UnderlineInputBorder(
+                                                  borderSide: BorderSide.none),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide.none),
+                                              hintStyle: TextStyle(
+                                                  color: Colors.white),
+                                              hintText: '0'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 20, right: 20),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '. . . .',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20.sp,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              'Zyro Gifts',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.50.sp,
+                                                fontFamily: 'Urbanist',
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.25,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 15),
-                              width: double.infinity,
-                              height: 210.h,
-                              decoration: BoxDecoration(
-                                  color: Colors.deepPurple.shade800
-                                      .withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: const Color(0xFF494949),
-                                  )),
-                              child: Column(
-                                children: [
-                                  28.verticalSpace,
-                                  fixedCardProvider.brandDetails != null &&
-                                          fixedCardProvider
-                                                  .brandDetails!.image !=
-                                              null
-                                      ? Image.network(
-                                          "$baseUrl${fixedCardProvider.brandDetails!.image.toString()}",
-                                          height: 40.h,
-                                        )
-                                      : SizedBox(),
-                                  14.verticalSpace,
-                                  const Text(
-                                    'Card worth',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.06,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.24,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    // color:
-                                    //     Colors.red,
-                                    width: 140.w,
-                                    height: 36.h,
-                                    child: Row(
-                                      children: [
-                                        // Text('₹ '),
-                                        Expanded(
-                                          child: TextFormField(
-                                            controller: homePageController
-                                                .numKeyboardTextEditingController,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(
-                                                  6),
-                                              FilteringTextInputFormatter
-                                                  .digitsOnly,
-                                            ],
-                                            onTapOutside: (e) =>
-                                                FocusScope.of(context)
-                                                    .unfocus(),
-                                            textAlign: TextAlign.center,
-                                            keyboardType: TextInputType.none,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 23.sp,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600),
-                                            decoration: const InputDecoration(
-                                                // prefixIcon: Icon(
-                                                //   Icons.currency_rupee,
-                                                //   color: Colors.white,
-                                                // ),
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 0, top: 1, bottom: 7),
-                                                border: UnderlineInputBorder(
-                                                    borderSide: BorderSide
-                                                        .none),
-                                                focusedBorder:
-                                                    UnderlineInputBorder(
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                hintStyle: TextStyle(
-                                                    color: Colors.white),
-                                                hintText: '0'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 10, left: 20, right: 20),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '. . . .',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20.sp,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              Text(
-                                                'Zyro Gifts',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12.50.sp,
-                                                  fontFamily: 'Urbanist',
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing: 0.25,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            10.verticalSpace,
-                            15.verticalSpace,
-                            NumericKeypad(
-                              startValue: res.start,
-                              endValue: res.end,
-                              controller: homePageController
-                                  .numKeyboardTextEditingController,
-                              availableLimit: availableLimit!,
-                              brandCode: widget.brandCode,
-                              discount: brandDetails.discount as num,
-                            ),
-                            20.verticalSpace,
-                            20.verticalSpace,
-                          ],
-                        )),
+                          ),
+                          10.verticalSpace,
+                          15.verticalSpace,
+                          NumericKeypad(
+                            startValue: res.start,
+                            endValue: res.end,
+                            controller: homePageController
+                                .numKeyboardTextEditingController,
+                            availableLimit: availableLimit!,
+                            brandCode: widget.brandCode,
+                            discount: brandData.discount as num,
+                          ),
+                          20.verticalSpace,
+                          20.verticalSpace,
+                        ],
+                      )),
+            );
+          }),
+        );
+      } else if (brandData!.brandType == 'Fixed') {
+        showModalBottomSheet(
+          elevation: 0,
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: const Color(0xFF2C2C2C),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+            top: Radius.circular(30),
+          )),
+          builder: (context) => Consumer(builder: (context, ref, child) {
+            return StatefulBuilder(builder: (context, f) {
+              return Denomination(
+                brandCode,
+                brandData.discount as num,
+                availableLimit: availableLimit!,
+                voucher: brandData,
               );
-            }),
-          );
-        } else if (brandDetails!.brandtype == 'Fixed') {
-          showModalBottomSheet(
-            elevation: 0,
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: const Color(0xFF2C2C2C),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
-            )),
-            builder: (context) => Consumer(builder: (context, ref, child) {
-              return StatefulBuilder(builder: (context, f) {
-                return Denomination(
-                  brandCode,
-                  brandDetails.discount as num,
-                  availableLimit: availableLimit!,
-                );
-              });
-            }),
-          );
-        }
+            });
+          }),
+        );
       }
     } catch (error) {
       // Handle any errors that occur during the service call
@@ -328,14 +325,14 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white)),
                   onPressed: () {
-                    if (brandData!.brandtype != '') {
+                    if (brandData!.brandType != '') {
                       var res = getBrandDetails(widget.brandCode);
                       // var res = cardDetailsController.getBrandDetails();
                       print("'variable and fix type' $res");
                     }
                   },
                   child: Text(
-                    brandData!.brandtype == ''
+                    brandData!.brandType == ''
                         ? 'Coming Soon'
                         : 'Get This Card',
                     style: const TextStyle(
@@ -363,7 +360,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
               ),
               backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
               title: Text(
-                brandData!.brandName.toString() ?? 'Demo',
+                brandData!.brand.toString() ?? 'Demo',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -518,11 +515,12 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                           ),
                         ),
                         20.verticalSpace,
-                        AboutThePageToggleWidget(brandData: brandData),
+                        AboutThePageToggleWidget(
+                            brandData: brandData.descriptions!),
                         20.verticalSpace,
-                        HowToRedeemWidget(brandData: brandData),
+                        HowToRedeemWidget(brandData: brandData.redeemSteps!),
                         20.verticalSpace,
-                        TermsConditionWidget(brandData: brandData),
+                        TermsConditionWidget(brandData: brandData.tnc!),
                         20.verticalSpace,
                       ],
                     ),

@@ -47,7 +47,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
   void openPaymentIntent(String psp) async {
     String paymentUrl = '';
     String merchantTransactionId = '';
-    var paymentOption = ref.watch(fixedCardController(widget.brandCode));
+    //var paymentOption = ref.watch(fixedCardController(widget.brandCode));
     num payableAmount =
         amount - (amount * widget.cartDataDetails.discount! / 100);
     PaymentModel res = await paymentservice.paymentService(payableAmount);
@@ -82,7 +82,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var paymentOption = ref.watch(fixedCardController(widget.brandCode));
+    //var paymentOption = ref.watch(fixedCardController(widget.brandCode));
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
@@ -384,46 +384,46 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
                       ],
                     ),
                   ),
-                  20.verticalSpace,
-                  const Text(
-                    'Enter your UPI ID',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.08,
-                    ),
-                  ),
-                  10.verticalSpace,
-                  TextFormField(
-                    controller: _upiTextEditingController,
-                    style: const TextStyle(color: Colors.white),
-                    onTapOutside: (e) => FocusScope.of(context).unfocus(),
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: Colors.deepPurple,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 15),
-                      // filled: true,
-                      focusColor: Colors.deepPurple,
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: Colors.deepPurple,
-                            width: 2,
-                          )),
-                      labelText: 'Enter your upi',
-                      border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.deepPurple),
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    onChanged: (text) {
-                      setState(() {
-                        isUpiValid = upiPattern.hasMatch(text);
-                      });
-                    },
-                  ),
+                  // 20.verticalSpace,
+                  // const Text(
+                  //   'Enter your UPI ID',
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 16,
+                  //     fontFamily: 'Poppins',
+                  //     fontWeight: FontWeight.w500,
+                  //     letterSpacing: 0.08,
+                  //   ),
+                  // ),
+                  // 10.verticalSpace,
+                  // TextFormField(
+                  //   controller: _upiTextEditingController,
+                  //   style: const TextStyle(color: Colors.white),
+                  //   onTapOutside: (e) => FocusScope.of(context).unfocus(),
+                  //   keyboardType: TextInputType.emailAddress,
+                  //   cursorColor: Colors.deepPurple,
+                  //   decoration: InputDecoration(
+                  //     contentPadding: const EdgeInsets.only(left: 15),
+                  //     // filled: true,
+                  //     focusColor: Colors.deepPurple,
+                  //     focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(8),
+                  //         borderSide: const BorderSide(
+                  //           color: Colors.deepPurple,
+                  //           width: 2,
+                  //         )),
+                  //     labelText: 'Enter your upi',
+                  //     border: OutlineInputBorder(
+                  //         borderSide:
+                  //             const BorderSide(color: Colors.deepPurple),
+                  //         borderRadius: BorderRadius.circular(8)),
+                  //   ),
+                  //   onChanged: (text) {
+                  //     setState(() {
+                  //       isUpiValid = upiPattern.hasMatch(text);
+                  //     });
+                  //   },
+                  // ),
                   18.verticalSpace,
                 ],
               ),

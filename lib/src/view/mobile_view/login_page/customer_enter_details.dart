@@ -10,7 +10,7 @@ import '../../../model/auth/get_user_detail_model.dart';
 import '../../../model/auth/registration_model.dart';
 import '../../../util/services/shared_preferences.dart';
 import '../../Utility/validator.dart';
-import '../widgets/landingpage.dart';
+import '../landingpage.dart';
 
 class CustomerEnterDetails extends StatefulWidget {
   CustomerEnterDetails({super.key});

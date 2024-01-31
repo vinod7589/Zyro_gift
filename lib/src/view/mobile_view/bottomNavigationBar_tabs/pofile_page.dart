@@ -2,7 +2,7 @@ import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/account_details_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/app_setting_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/transactions_page.dart';
-import 'package:abc/src/view/mobile_view/widgets/landingpage.dart';
+import 'package:abc/src/view/mobile_view/landingpage.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

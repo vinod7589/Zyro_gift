@@ -6,7 +6,7 @@ import '../../../../../../model/homePage/getbrand_details_model.dart';
 
 class TermsConditionWidget extends StatefulWidget {
   const TermsConditionWidget({required this.brandData});
-  final GetBrandDetailsList? brandData;
+  final String? brandData;
 
   @override
   State<TermsConditionWidget> createState() => _TermsConditionWidgetState();
@@ -80,7 +80,7 @@ class _TermsConditionWidgetState extends State<TermsConditionWidget> {
                     // ),
                     Expanded(
                       child: Text(
-                        '${widget.brandData!.tnc!.replaceAll('"', '')}',
+                        '${widget.brandData!.replaceAll('"', '')}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12.06,

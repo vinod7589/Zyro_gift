@@ -1,5 +1,6 @@
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/view/Utility/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,12 +11,14 @@ import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
 import '../../../controller/search_page_pagination_controller.dart';
 import '../../../infrastructure/repository/homePage_repo/getAllPopularBrandsModel.dart';
+import '../../../model/auth/get_user_detail_model.dart';
 import '../../../model/homePage/amazing_fashion_model.dart';
 import '../../../model/homePage/beauty_budget_model.dart';
 import '../../../model/homePage/entertainment_model.dart';
 import '../../../model/homePage/getall_categories_model.dart';
 import '../../../model/homePage/new_brands_model.dart';
 import '../../../model/homePage/tripTravel_Model.dart';
+import '../../../model/homePage/voucher_entity.dart';
 import '../bottomNavigationBar_tabs/pofile_page.dart';
 import '../searchPage/search_mobile_page.dart';
 import 'home_items_page/card_details_page.dart';
@@ -33,55 +36,81 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   void initState() {
-    getPopularBrands();
-    NewBrand();
-    travelTrip();
-    fashion();
-    beauty();
-    entertainment();
+    // getPopularBrands();
+    // NewBrand();
+    // travelTrip();
+    // fashion();
+    // beauty();
+    // entertainment();
+    getAllVouchers();
     // allCategories();
     super.initState();
   }
 
-  List<GetAllPopularBrandList> allPopularBrands = [];
-  List<CategoriesList> categoriesList = [];
-  List<TravelTrip> tripTravelList = [];
-  List<NewBrandList> newBrandList = [];
-  List<FashionList> fashionList = [];
-  List<BeautyList> beautyList = [];
-  List<EntertaimentList> entertainmentList = [];
+  List<VoucherEntity> allPopularBrands = [];
+  List<VoucherEntity> categoriesList = [];
+  List<VoucherEntity> tripTravelList = [];
+  List<VoucherEntity> newBrandList = [];
+  List<VoucherEntity> fashionList = [];
+  List<VoucherEntity> beautyList = [];
+  List<VoucherEntity> entertainmentList = [];
 
-  Future<void> allCategories() async {
-    categoriesList = await homeRepo.getAllCategoriesService() ?? [];
+  // Future<void> allCategories() async {
+  //   categoriesList = await homeRepo.getAllCategoriesService() ?? [];
+  // }
+  //
+  // Future<void> travelTrip() async {
+  //   tripTravelList = await homeRepo.travelTripService() ?? [];
+  // }
+  //
+  // Future<void> NewBrand() async {
+  //   newBrandList = await homeRepo.newBrandListService("") ?? [];
+  // }
+  //
+  // Future<void> fashion() async {
+  //   fashionList = await homeRepo.fashionService() ?? [];
+  // }
+  //
+  // Future<void> beauty() async {
+  //   beautyList = await homeRepo.beautyService() ?? [];
+  // }
+  //
+  // Future<void> entertainment() async {
+  //   entertainmentList = await homeRepo.entertainmentService() ?? [];
+  // }
+
+  // Future<void> getPopularBrands() async {
+  //   isLoading = true;
+  //   allPopularBrands = await homeRepo.getAllPopularBrandsService() ?? [];
+  //   isLoading = false;
+  // }
+
+  bool isLoading = true;
+
+  Future<void> getAllVouchers() async {
+    setState(() {
+      isLoading = true;
+    });
+    var res = await homeRepo.getAllVoucher();
+    if (res.status == "success") {
+      allPopularBrands =
+          res.data!.where((item) => item.isPopularBrand == true).toList();
+      newBrandList =
+          res.data!.where((item) => item.isNewBrand == true).toList();
+      tripTravelList =
+          res.data!.where((item) => item.categoryId == 7).take(4).toList();
+
+      fashionList =
+          res.data!.where((item) => item.categoryId == 5).take(7).toList();
+      beautyList =
+          res.data!.where((item) => item.categoryId == 12).take(7).toList();
+      entertainmentList =
+          res.data!.where((item) => item.categoryId == 8).take(4).toList();
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
-
-  Future<void> travelTrip() async {
-    tripTravelList = await homeRepo.travelTripService() ?? [];
-  }
-
-  Future<void> NewBrand() async {
-    newBrandList = await homeRepo.newBrandListService("") ?? [];
-  }
-
-  Future<void> fashion() async {
-    fashionList = await homeRepo.fashionService() ?? [];
-  }
-
-  Future<void> beauty() async {
-    beautyList = await homeRepo.beautyService() ?? [];
-  }
-
-  Future<void> entertainment() async {
-    entertainmentList = await homeRepo.entertainmentService() ?? [];
-  }
-
-  Future<void> getPopularBrands() async {
-    isLoading = true;
-    allPopularBrands = await homeRepo.getAllPopularBrandsService() ?? [];
-    isLoading = false;
-  }
-
-  bool isLoading = false;
 
   //////////TextEditingController////////////////
   TextEditingController searchBarTextEditingController =
@@ -147,7 +176,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           SliverAppBar(
             leading: SizedBox(),
             leadingWidth: 0,
-            toolbarHeight: 68.h,
+            toolbarHeight: 124.h,
             pinned: true,
             scrolledUnderElevation: 0,
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
@@ -189,65 +218,71 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ),
                 15.verticalSpace,
-                // Padding(
-                //   padding: EdgeInsets.only(left: 0),
-                //   child: SizedBox(
-                //     height: 55.h,
-                //     child: ListView.separated(
-                //       separatorBuilder: (context, index) => const SizedBox(
-                //         width: 0,
-                //       ),
-                //       shrinkWrap: true,
-                //       scrollDirection: Axis.horizontal,
-                //       itemCount:
-                //           filteredBrandPaginationProvider.categoriesList.length,
-                //       itemBuilder: (context, index) {
-                //         return GestureDetector(
-                //           onTap: () {
-                //             filteredBrandPaginationProvider
-                //                 .selectCategory(index);
-                //             Navigator.of(context).push(MaterialPageRoute(
-                //                 builder: (c) => SearchMobilePage()));
-                //           },
-                //           child: Container(
-                //             width: 90,
-                //             height: 80,
-                //             // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
-                //             child: Column(
-                //               children: [
-                //                 Image.network(
-                //                   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
-                //                   height: 30.h,
-                //                   errorBuilder: (context, error, stackTrace) {
-                //                     return Image.asset(
-                //                       'assets/images/noimage.png',
-                //                       height: 30.h,
-                //                     );
-                //                   },
-                //                 ),
-                //                 10.verticalSpace,
-                //                 Text(
-                //                   filteredBrandPaginationProvider
-                //                       .categoriesList[index].categoryName
-                //                       .toString()
-                //                       .split(" ")
-                //                       .first,
-                //                   style: TextStyle(
-                //                     color: const Color(0xFFFAFAFA),
-                //                     fontSize: 12.07.sp,
-                //                     fontWeight: FontWeight.w500,
-                //                     height: 0.09,
-                //                     letterSpacing: 0.06,
-                //                   ),
-                //                 )
-                //               ],
-                //             ),
-                //           ),
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // ),
+                Padding(
+                  padding: EdgeInsets.only(left: 0),
+                  child: SizedBox(
+                    height: 55.h,
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) => const SizedBox(
+                        width: 0,
+                      ),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                          filteredBrandPaginationProvider.categoriesList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            filteredBrandPaginationProvider
+                                .selectCategory(index);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (c) => SearchMobilePage()));
+                          },
+                          child: Container(
+                            width: 90,
+                            height: 80,
+                            // color: filteredBrandPaginationProvider.selectedIndex==index?Colors.purple.withOpacity(0.2):Colors.transparent,
+                            child: Column(
+                              children: [
+                                CachedNetworkImage(
+                                  fadeInDuration: Duration(milliseconds: 100),
+                                  imageUrl:
+                                      '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                                  height: 30,
+                                ),
+                                // Image.network(
+                                //   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
+                                //   height: 30.h,
+                                //   errorBuilder: (context, error, stackTrace) {
+                                //     return Image.asset(
+                                //       'assets/images/noimage.png',
+                                //       height: 30.h,
+                                //     );
+                                //   },
+                                // ),
+                                10.verticalSpace,
+                                Text(
+                                  filteredBrandPaginationProvider
+                                      .categoriesList[index].categoryName
+                                      .toString()
+                                      .split(" ")
+                                      .first,
+                                  style: TextStyle(
+                                    color: const Color(0xFFFAFAFA),
+                                    fontSize: 12.07.sp,
+                                    fontWeight: FontWeight.w500,
+                                    height: 0.09,
+                                    letterSpacing: 0.06,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 5.verticalSpace,
                 Container(
                   height: 0.0,
@@ -349,171 +384,170 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ),
                     15.verticalSpace,
-                    isLoading
-                        ? Center(
-                            child: LoadingAnimationWidget.stretchedDots(
-                            color: Colors.deepPurpleAccent,
-                            size: 50,
-                          ))
-                        : Container(
-                            height: 340,
-                            child: GridView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 5.0,
-                                        mainAxisSpacing: 10.0,
-                                        childAspectRatio:
-                                            0.9 // Spacing between rows
-                                        ),
-                                itemCount: allPopularBrands.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  if (index < allPopularBrands.length) {
-                                    return InkWell(
-                                      borderRadius: BorderRadius.circular(17),
-                                      splashColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () {
-                                        isLoading;
-                                        String brand = allPopularBrands[index]
-                                            .brandCode
-                                            .toString();
+                    Container(
+                      height: 340,
+                      child: GridView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 5.0,
+                                  mainAxisSpacing: 10.0,
+                                  childAspectRatio: 0.9 // Spacing between rows
+                                  ),
+                          itemCount: allPopularBrands.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index < allPopularBrands.length) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(17),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  isLoading;
+                                  String brand = allPopularBrands[index]
+                                      .brandCode
+                                      .toString();
 
-                                        if (brand != null && brand != '') {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CardDetailsPage(
-                                                          brandCode: brand)));
-                                        }
-                                        isLoading = false;
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(17),
+                                  if (brand != null && brand != '') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CardDetailsPage(
+                                                  brandCode: brand,
+                                                  voucher:
+                                                      allPopularBrands[index],
+                                                )));
+                                  }
+                                  isLoading = false;
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(17),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      // CachedNetworkImage(
+                                      //     imageUrl: baseUrl +
+                                      //         allPopularBrands[index]
+                                      //             .popularBrandImage!,),
+                                      Stack(children: [
+                                        // SvgPicture.network(
+                                        //   'assets/images/swiggy test.svg',
+                                        //   placeholderBuilder: (context) =>
+                                        //       CircularProgressIndicator(),
+                                        // ),
+                                        CachedNetworkImage(
+                                          fadeInDuration:
+                                              Duration(milliseconds: 100),
+                                          imageUrl: baseUrl +
+                                              allPopularBrands[index]
+                                                  .popularBrandImage!,
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Stack(children: [
-                                              // SvgPicture.network(
-                                              //   'assets/images/swiggy test.svg',
-                                              //   placeholderBuilder: (context) =>
-                                              //       CircularProgressIndicator(),
-                                              // ),
-                                              Image.network(
-                                                baseUrl +
-                                                    allPopularBrands[index]
-                                                        .additionalImage,
-// height: 145.h,
-                                              ),
-                                              Positioned(
-                                                top: 20,
-                                                child: Container(
+//                                               Image.network(
+//                                                 baseUrl +
+//                                                     allPopularBrands[index]
+//                                                         .popularBrandImage!,
+// // height: 145.h,
+//                                               ),
+                                        Positioned(
+                                          top: 20,
+                                          child: Container(
 // color: Colors.red,
-                                                  width: 165,
+                                            width: 165,
 // height: 60,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
                                                     children: [
-                                                      Expanded(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 80,
-                                                              child: Text(
-                                                                maxLines: 1,
-                                                                allPopularBrands[
-                                                                        index]
-                                                                    .brandName,
-                                                                style:
-                                                                    TextStyle(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .visible,
-                                                                  color: const Color(
-                                                                      0xFFF5F5F5),
-                                                                  fontSize:
-                                                                      13.49.sp,
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  letterSpacing:
-                                                                      0.06,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                                width: 80,
-                                                                child: RichText(
-                                                                  text:
-                                                                      TextSpan(
-                                                                    text: allPopularBrands[
-                                                                            index]
-                                                                        .discount
-                                                                        .toString(),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: const Color(
-                                                                          0xFFF5F5F5),
-                                                                      fontSize:
-                                                                          17.49
-                                                                              .sp,
-                                                                      fontFamily:
-                                                                          'Poppins',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      letterSpacing:
-                                                                          0.06,
-                                                                    ),
-                                                                    children: const [
-                                                                      TextSpan(
-                                                                        text:
-                                                                            ' % off',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Color(0xFFFEFEFE),
-                                                                          fontSize:
-                                                                              12.49,
-                                                                          fontFamily:
-                                                                              'Poppins',
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          letterSpacing:
-                                                                              0.06,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )),
-                                                          ],
+                                                      SizedBox(
+                                                        width: 80,
+                                                        child: Text(
+                                                          maxLines: 1,
+                                                          allPopularBrands[
+                                                                  index]
+                                                              .brand!,
+                                                          style: TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .visible,
+                                                            color: const Color(
+                                                                0xFFF5F5F5),
+                                                            fontSize: 13.49.sp,
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            letterSpacing: 0.06,
+                                                          ),
                                                         ),
                                                       ),
+                                                      SizedBox(
+                                                          width: 80,
+                                                          child: RichText(
+                                                            text: TextSpan(
+                                                              text: allPopularBrands[
+                                                                      index]
+                                                                  .discount
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: const Color(
+                                                                    0xFFF5F5F5),
+                                                                fontSize:
+                                                                    17.49.sp,
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                letterSpacing:
+                                                                    0.06,
+                                                              ),
+                                                              children: const [
+                                                                TextSpan(
+                                                                  text:
+                                                                      ' % off',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0xFFFEFEFE),
+                                                                    fontSize:
+                                                                        12.49,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    letterSpacing:
+                                                                        0.06,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )),
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-// Positioned(child: )
-                                            ])
-                                          ],
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }
-                                }),
-                          ),
+// Positioned(child: )
+                                      ])
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                          }),
+                    ),
                     20.verticalSpace,
                     Container(
                       // margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -766,17 +800,27 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                     builder: (context) =>
                                                         CardDetailsPage(
                                                           brandCode: brandCode,
+                                                          voucher: newBrandList[
+                                                              index],
                                                         )));
                                           }
                                         },
                                         child: Stack(
                                           children: [
-                                            SizedBox(
-                                              child: Image.network(baseUrl +
+                                            CachedNetworkImage(
+                                              fadeInDuration:
+                                                  Duration(milliseconds: 100),
+                                              imageUrl: baseUrl +
                                                   newBrandList[index]
-                                                      .additionalImage
-                                                      .toString()),
+                                                      .newBrandImage
+                                                      .toString(),
                                             ),
+                                            // SizedBox(
+                                            //   child: Image.network(baseUrl +
+                                            //       newBrandList[index]
+                                            //           .newBrandImage
+                                            //           .toString()),
+                                            // ),
                                             Positioned(
                                               top: 30, // left: 20,
                                               child: Row(
@@ -843,7 +887,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ),
                         ),
                       ),
-                      20.verticalSpace,
+                      15.verticalSpace,
                       Expanded(
                         child: ListView.separated(
                             scrollDirection: Axis.horizontal,
@@ -864,6 +908,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               builder: (context) =>
                                                   CardDetailsPage(
                                                     brandCode: brandCode,
+                                                    voucher:
+                                                        tripTravelList[index],
                                                   )));
                                     }
                                   },
@@ -871,13 +917,22 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Image.network(
-                                        baseUrl +
+                                      CachedNetworkImage(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 100),
+                                        imageUrl: baseUrl +
                                             tripTravelList[index]
                                                 .additionalImage
                                                 .toString(),
                                         height: 160.h,
                                       ),
+                                      // Image.network(
+                                      //   baseUrl +
+                                      //       tripTravelList[index]
+                                      //           .additionalImage
+                                      //           .toString(),
+                                      //   height: 160.h,
+                                      // ),
                                       5.verticalSpace,
                                       SizedBox(
                                         child: Column(
@@ -887,7 +942,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                             // Image.asset('assets/images/'),
                                             Text(
                                               tripTravelList[index]
-                                                  .brandName
+                                                  .brand
                                                   .toString(),
                                               style: TextStyle(
                                                 color: Colors.black,
@@ -1001,7 +1056,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               String originalString =
-                                  fashionList[index].brandName.toString();
+                                  fashionList[index].brand.toString();
 
                               // Initialize trimmedString with the original string
                               String trimmedString = originalString;
@@ -1039,18 +1094,29 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 CardDetailsPage(
-                                                    brandCode: branCode)));
+                                                  brandCode: branCode,
+                                                  voucher: fashionList[index],
+                                                )));
                                   }
                                 },
                                 child: Row(
                                   children: [
-                                    Image.network(
-                                      baseUrl +
+                                    CachedNetworkImage(
+                                      fadeInDuration:
+                                          Duration(milliseconds: 100),
+                                      imageUrl: baseUrl +
                                           fashionList[index]
                                               .defaultImage
                                               .toString(),
                                       height: 140.h,
                                     ),
+                                    // Image.network(
+                                    //   baseUrl +
+                                    //       fashionList[index]
+                                    //           .defaultImage
+                                    //           .toString(),
+                                    //   height: 140.h,
+                                    // ),
                                     20.horizontalSpace,
                                     Column(
                                       crossAxisAlignment:
@@ -1202,6 +1268,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     //     ],
                     //   ),
                     // ),
+                    27.verticalSpace,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1260,7 +1327,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                         30.verticalSpace,
                         Container(
-                          height: 260,
+                          height: 250.h,
                           child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               // physics: const NeverScrollableScrollPhysics(),
@@ -1286,6 +1353,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                   builder: (context) =>
                                                       CardDetailsPage(
                                                         brandCode: branCode,
+                                                        voucher:
+                                                            beautyList[index],
                                                       )));
                                         }
                                       },
@@ -1293,13 +1362,20 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Image.network(
-                                            baseUrl +
+                                          CachedNetworkImage(
+                                            imageUrl: baseUrl +
                                                 beautyList[index]
                                                     .additionalImage
                                                     .toString(),
-                                            height: 140,
+                                            height: 140.h,
                                           ),
+                                          // Image.network(
+                                          //   baseUrl +
+                                          //       beautyList[index]
+                                          //           .additionalImage
+                                          //           .toString(),
+                                          //   height: 140,
+                                          // ),
                                           20.horizontalSpace,
                                           Column(
                                             crossAxisAlignment:
@@ -1308,7 +1384,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               12.verticalSpace,
                                               Text(
                                                 beautyList[index]
-                                                    .brandName
+                                                    .brand
                                                     .toString(),
                                                 style: TextStyle(
                                                   color: Colors.white,
@@ -1393,6 +1469,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                       ],
                     ),
+                    10.verticalSpace,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1462,15 +1539,25 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CardDetailsPage(
-                                                      brandCode: branCode)));
+                                                    brandCode: branCode,
+                                                    voucher: entertainmentList[
+                                                        index],
+                                                  )));
                                     }
                                   },
                                   child: Row(
                                     children: [
-                                      Image.network(
-                                        '$baseUrl${entertainmentList[index].defaultImage.toString()}',
+                                      CachedNetworkImage(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 100),
+                                        imageUrl:
+                                            '$baseUrl${entertainmentList[index].defaultImage.toString()}',
                                         height: 140.h,
                                       ),
+                                      // Image.network(
+                                      //   '$baseUrl${entertainmentList[index].defaultImage.toString()}',
+                                      //   height: 140.h,
+                                      // ),
                                       20.horizontalSpace,
                                       Column(
                                         crossAxisAlignment:
@@ -1478,7 +1565,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         children: [
                                           Text(
                                             entertainmentList[index]
-                                                .brandName
+                                                .brand
                                                 .toString(),
                                             style: TextStyle(
                                               color: Colors.white,

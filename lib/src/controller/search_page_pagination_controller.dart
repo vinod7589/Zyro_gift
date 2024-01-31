@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getall_categories_model.dart';
 import '../model/search/filtered_brand_model.dart';
 
 // Provider for SearchPagePaginationController
 final searchPagePaginationProvider =
-ChangeNotifierProvider<SearchPagePaginationController>((ref) {
+    ChangeNotifierProvider<SearchPagePaginationController>((ref) {
   return SearchPagePaginationController(
     (ref.read),
   );
@@ -16,8 +17,8 @@ ChangeNotifierProvider<SearchPagePaginationController>((ref) {
 // Controller class for managing the state and logic of the search page
 class SearchPagePaginationController extends ChangeNotifier {
   SearchPagePaginationController(
-      this._read,
-      ) {
+    this._read,
+  ) {
     _initState();
   }
 
@@ -25,7 +26,7 @@ class SearchPagePaginationController extends ChangeNotifier {
   void _initState() {
     _isLoading = true;
     allCategories(); // Fetch all categories
-    getBrandByCategoryId(categoryId: "0", page: _page); // Fetch brands
+    //getBrandByCategoryId(categoryId: "0", page: _page); // Fetch brands
     _isLoading = false;
 
     controller = ScrollController()..addListener(_loadMore);
@@ -36,7 +37,7 @@ class SearchPagePaginationController extends ChangeNotifier {
 
   final Reader _read;
   TextEditingController searchBarTextEditingController =
-  TextEditingController();
+      TextEditingController();
   String _searchQuery = "";
   String get searchQuery => _searchQuery;
   bool _isLoading = false;
@@ -55,7 +56,14 @@ class SearchPagePaginationController extends ChangeNotifier {
 
   // Fetch all categories
   Future<void> allCategories() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // if(prefs.getString('cat_data') != null && prefs.getString('cat_data') != ''){
+    //   categoriesList= List<CategoriesList>.from(prefs.getString('cat_data'));
+    // }
     categoriesList = await homeRepo.getAllCategoriesService() ?? [];
+    // prefs.setString('cat_data', categoriesList.toString());
+    // print("Cache data");
+    // print(prefs.getString('cat_data')0 );
   }
 
   // Fetch brands based on category and page
@@ -64,8 +72,8 @@ class SearchPagePaginationController extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    _filteredBrandList = await HomePageService()
-        .getBrandByCategoryId(categoryId: categoryId, page: page, query: searchQuery) ??
+    _filteredBrandList = await HomePageService().getBrandByCategoryId(
+            categoryId: categoryId, page: page, query: searchQuery) ??
         [];
     _isLoading = false;
 
@@ -85,9 +93,9 @@ class SearchPagePaginationController extends ChangeNotifier {
   bool _isFirstError = false;
   bool get isFirstError => _isFirstError;
   String _firstErrorMessage = '';
-  String get firstErrorMessage =>_firstErrorMessage;
+  String get firstErrorMessage => _firstErrorMessage;
   bool _isLoadMoreRunning = false;
-  bool  get isLoadMoreRunning => _isLoadMoreRunning;
+  bool get isLoadMoreRunning => _isLoadMoreRunning;
   bool _isLoadMoreError = false;
   bool get isLoadMoreError => _isLoadMoreError;
   String _loadMoreErrorMessage = '';
@@ -129,8 +137,10 @@ class SearchPagePaginationController extends ChangeNotifier {
 
     try {
       // Fetch data for the selected category and page
-      _filteredBrandList = await HomePageService()
-          .getBrandByCategoryId(categoryId: _selectedCategoryId.toString(), page: _page, query: searchQuery) ??
+      _filteredBrandList = await HomePageService().getBrandByCategoryId(
+              categoryId: _selectedCategoryId.toString(),
+              page: _page,
+              query: searchQuery) ??
           [];
 
       if (_filteredBrandList.length < 10) {
@@ -159,8 +169,10 @@ class SearchPagePaginationController extends ChangeNotifier {
 
       try {
         var list;
-        list = await HomePageService()
-            .getBrandByCategoryId(categoryId: _selectedCategoryId.toString(), page: _page, query: searchQuery) ??
+        list = await HomePageService().getBrandByCategoryId(
+                categoryId: _selectedCategoryId.toString(),
+                page: _page,
+                query: searchQuery) ??
             [];
 
         if (list.isNotEmpty) {

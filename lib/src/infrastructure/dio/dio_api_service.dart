@@ -94,6 +94,27 @@ class DioApiService {
     }
   }
 
+  Future<Map<String, dynamic>> authGet(String endpoint) async {
+    final dio = Dio();
+    final url = Uri.parse(baseUrl + endpoint);
+    dio.interceptors
+        .add(PrettyDioLogger(requestBody: true, responseBody: true));
+    dio.options.headers['Authorization'] = 'bearer ' + UserPreferences.tokenId;
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.get(url.toString());
+    if (response.statusCode == 200) {
+      return response.data;
+    } else if (response.statusCode == 400) {
+      log('Bad request');
+      log('Response body: ${response.data}');
+      return response.data;
+    } else {
+      log('Request successful');
+      log('Response body: ${response.data}');
+      return response.data;
+    }
+  }
+
   // // static Future<ImageUploadResponse> uploadImage(
   // //     File imageFile, String endpoint) async {
   // //   try {

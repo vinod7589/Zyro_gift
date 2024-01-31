@@ -5,7 +5,7 @@ import 'package:abc/src/model/auth/generate_otp_model.dart';
 import 'package:abc/src/model/auth/verify_otp_model.dart';
 import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
 import 'package:abc/src/view/mobile_view/login_page/onboarding_page.dart';
-import 'package:abc/src/view/mobile_view/widgets/landingpage.dart';
+import 'package:abc/src/view/mobile_view/landingpage.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +43,7 @@ class AuthRepo {
     }
   }
 
-   Future<VerifyOtpModel?> verifyOTP(
+  Future<VerifyOtpModel?> verifyOTP(
       {required String otp, required String refId, context}) async {
     try {
       var request = {
@@ -99,7 +99,7 @@ class AuthRepo {
     }
   }
 
-   Future<Signup?> signUp(String fullName, String email, String dob,
+  Future<Signup?> signUp(String fullName, String email, String dob,
       String referalCode, context) async {
     try {
       var request = {
@@ -121,10 +121,10 @@ class AuthRepo {
     }
   }
 
-   Future<void> getUserDetail() async {
+  Future<void> getUserDetail() async {
     try {
-      final response = await dio.AuthPost(
-          '/api/UserManagement/GetUserDetails', {});
+      final response =
+          await dio.AuthPost('/api/UserManagement/GetUserDetails', {});
       GetUserDetailModel res = GetUserDetailModel.fromJson(response);
 
       if (res.status == 'success') {
@@ -143,7 +143,7 @@ class AuthRepo {
     }
   }
 
-   Future<void> signOut(context) async {
+  Future<void> signOut(context) async {
     try {
       UserPreferences.clearUserData();
       await Navigator.pushAndRemoveUntil(

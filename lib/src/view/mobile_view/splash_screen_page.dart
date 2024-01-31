@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../util/services/shared_preferences.dart';
-import '../login_page/onboarding_page.dart';
+import '../../util/services/shared_preferences.dart';
+import 'login_page/onboarding_page.dart';
 import 'landingpage.dart';
 
 class splashScreen extends StatefulWidget {
@@ -54,7 +54,7 @@ class splashScreenState extends State<splashScreen> {
           child: Container(
         child: Center(
           child: Text(
-            'Zyro Gift',
+            'Zyro Pay',
             style: TextStyle(
                 fontSize: 40.sp,
                 fontFamily: 'Poppins',

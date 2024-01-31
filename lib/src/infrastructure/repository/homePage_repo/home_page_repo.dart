@@ -7,6 +7,7 @@ import 'package:abc/src/model/homePage/new_brands_model.dart';
 import 'package:abc/src/model/homePage/tripTravel_Model.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../model/homePage/getAll_brand_list_model.dart';
+import '../../../model/homePage/voucher_entity.dart';
 import '../../../model/search/filtered_brand_model.dart';
 import '../../../util/services/shared_preferences.dart';
 import '../../dio/dio_api_service.dart';
@@ -33,12 +34,17 @@ class HomePageService {
       return null;
     }
   }
-  Future<List<FilteredBrandModel>?> getBrandByCategoryId({required String categoryId,required int page,required String query,}) async {
+
+  Future<List<FilteredBrandModel>?> getBrandByCategoryId({
+    required String categoryId,
+    required int page,
+    required String query,
+  }) async {
     try {
       final response = await dio.AuthPost(
-          '/api/ZyroGiftVoucher/GetBrandByCategoryId?Id=$categoryId&SearchValue=$query&Page=$page&PageSize=10'
-        ,"",
-);
+        '/api/ZyroGiftVoucher/GetBrandByCategoryId?Id=$categoryId&SearchValue=$query&Page=$page&PageSize=10',
+        "",
+      );
       var res = GetFilteredBrandModel.fromJson(response);
       if (res.status == 'success') {
         return res.data;
@@ -239,6 +245,18 @@ class HomePageService {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: st);
       return null;
+    }
+  }
+
+  Future<VoucherDataResponseModel> getAllVoucher() async {
+    try {
+      final response = await dio.authGet('/api/ZyroGiftVoucher/GetVouchers');
+      var res = VoucherDataResponseModel.fromJson(response);
+      return res;
+    } catch (error, st) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: st);
+      return VoucherDataResponseModel();
     }
   }
 }

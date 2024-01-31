@@ -36,7 +36,6 @@ dependencies:
   shared_preferences: ^2.0.13
   pretty_dio_logger: ^1.1.1
   internet_connection_checker: ^1.0.0+1
-  auto_route: ^5.0.1
   url_launcher: ^6.1.5
   new_version_plus: ^0.0.9
   encrypt: ^5.0.3
@@ -45,9 +44,9 @@ dependencies:
   shimmer: ^3.0.0
   flutter_no_internet_widget: ^0.0.9+17
   intl: ^0.17.0
-  skeletonizer: ^1.0.1
   flutter_inappwebview: ^5.0.0
   getwidget: ^4.0.0
+  cached_network_image: ^3.0.1
 
   flutter:
     sdk: flutter

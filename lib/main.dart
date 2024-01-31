@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:abc/src/view/mobile_view/widgets/splash_screen_page.dart';
+import 'package:abc/src/view/mobile_view/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';

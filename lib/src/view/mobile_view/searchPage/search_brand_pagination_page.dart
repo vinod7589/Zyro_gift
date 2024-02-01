@@ -79,7 +79,7 @@ class _SearchBrandPaginationPageState
                         // delegate: SliverChildBuilderDelegate(
                         (context, index) {
                       String originalString = filteredBrandPaginationProvider
-                          .filteredBrandList[index].brandName
+                          .filteredBrandList[index].brand
                           .toString();
 
                       // Initialize trimmedString with the original string
@@ -153,7 +153,7 @@ class _SearchBrandPaginationPageState
                               Image.network(
                                   baseUrl +
                                       filteredBrandPaginationProvider
-                                          .filteredBrandList[index].defaultImage
+                                          .filteredBrandList[index].image
                                           .toString(),
                                   height: 112.h,
                                   errorBuilder: (context, error, stackTrace) {

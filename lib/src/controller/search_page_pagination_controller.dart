@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getall_categories_model.dart';
+import '../model/homePage/voucher_entity.dart';
 import '../model/search/filtered_brand_model.dart';
 
 // Provider for SearchPagePaginationController
@@ -50,8 +51,8 @@ class SearchPagePaginationController extends ChangeNotifier {
   int _selectedCategoryId = 0;
   int get selectedCategoryId => _selectedCategoryId;
 
-  List<FilteredBrandModel> _filteredBrandList = [];
-  List<FilteredBrandModel> get filteredBrandList => _filteredBrandList;
+  List<VoucherEntity> _filteredBrandList = [];
+  List<VoucherEntity> get filteredBrandList => _filteredBrandList;
   List<CategoriesList> categoriesList = [];
 
   // Fetch all categories
@@ -143,7 +144,7 @@ class SearchPagePaginationController extends ChangeNotifier {
               query: searchQuery) ??
           [];
 
-      if (_filteredBrandList.length < 10) {
+      if (_filteredBrandList.length < 500) {
         _hasNextPage = false;
       }
 

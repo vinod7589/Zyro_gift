@@ -27,9 +27,8 @@ class SearchPagePaginationController extends ChangeNotifier {
   void _initState() {
     _isLoading = true;
     allCategories(); // Fetch all categories
-    //getBrandByCategoryId(categoryId: "0", page: _page); // Fetch brands
+    getBrandByCategoryId(categoryId: "0", page: _page); // Fetch brands
     _isLoading = false;
-
     controller = ScrollController()..addListener(_loadMore);
   }
 
@@ -62,6 +61,7 @@ class SearchPagePaginationController extends ChangeNotifier {
     //   categoriesList= List<CategoriesList>.from(prefs.getString('cat_data'));
     // }
     categoriesList = await homeRepo.getAllCategoriesService() ?? [];
+    notifyListeners();
     // prefs.setString('cat_data', categoriesList.toString());
     // print("Cache data");
     // print(prefs.getString('cat_data')0 );

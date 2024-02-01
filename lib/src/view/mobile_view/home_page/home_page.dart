@@ -513,8 +513,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         //       CircularProgressIndicator(),
                                         // ),
                                         CachedNetworkImage(
-                                          fadeInDuration:
-                                              Duration(milliseconds: 100),
+                                          // fadeInDuration:
+                                          //     Duration(milliseconds: 100),
                                           imageUrl: baseUrl +
                                               allPopularBrands[index]
                                                   .popularBrandImage!,

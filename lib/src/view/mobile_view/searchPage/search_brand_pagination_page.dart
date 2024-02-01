@@ -1,5 +1,6 @@
 import 'package:abc/src/controller/search_page_pagination_controller.dart';
 import 'package:abc/src/model/homePage/voucher_entity.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -150,13 +151,13 @@ class _SearchBrandPaginationPageState
                           },
                           child: Row(
                             children: [
-                              Image.network(
-                                  baseUrl +
+                              CachedNetworkImage(
+                                  imageUrl:    baseUrl +
                                       filteredBrandPaginationProvider
                                           .filteredBrandList[index].image
                                           .toString(),
                                   height: 112.h,
-                                  errorBuilder: (context, error, stackTrace) {
+                                  errorWidget: (context, error, stackTrace) {
                                 return Image.asset(
                                   'assets/images/errorimages.png',
                                   height: 112.h,

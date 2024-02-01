@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getall_categories_model.dart';
+import '../model/homePage/voucher_entity.dart';
 import '../model/search/filtered_brand_model.dart';
 
 // Provider for SearchPagePaginationController
@@ -26,9 +27,8 @@ class SearchPagePaginationController extends ChangeNotifier {
   void _initState() {
     _isLoading = true;
     allCategories(); // Fetch all categories
-    //getBrandByCategoryId(categoryId: "0", page: _page); // Fetch brands
+    getBrandByCategoryId(categoryId: "0", page: _page); // Fetch brands
     _isLoading = false;
-
     controller = ScrollController()..addListener(_loadMore);
   }
 
@@ -50,8 +50,8 @@ class SearchPagePaginationController extends ChangeNotifier {
   int _selectedCategoryId = 0;
   int get selectedCategoryId => _selectedCategoryId;
 
-  List<FilteredBrandModel> _filteredBrandList = [];
-  List<FilteredBrandModel> get filteredBrandList => _filteredBrandList;
+  List<VoucherEntity> _filteredBrandList = [];
+  List<VoucherEntity> get filteredBrandList => _filteredBrandList;
   List<CategoriesList> categoriesList = [];
 
   // Fetch all categories
@@ -61,6 +61,7 @@ class SearchPagePaginationController extends ChangeNotifier {
     //   categoriesList= List<CategoriesList>.from(prefs.getString('cat_data'));
     // }
     categoriesList = await homeRepo.getAllCategoriesService() ?? [];
+    notifyListeners();
     // prefs.setString('cat_data', categoriesList.toString());
     // print("Cache data");
     // print(prefs.getString('cat_data')0 );
@@ -143,7 +144,7 @@ class SearchPagePaginationController extends ChangeNotifier {
               query: searchQuery) ??
           [];
 
-      if (_filteredBrandList.length < 10) {
+      if (_filteredBrandList.length < 500) {
         _hasNextPage = false;
       }
 

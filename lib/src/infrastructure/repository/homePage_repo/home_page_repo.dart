@@ -35,17 +35,17 @@ class HomePageService {
     }
   }
 
-  Future<List<FilteredBrandModel>?> getBrandByCategoryId({
+  Future<List<VoucherEntity>?> getBrandByCategoryId({
     required String categoryId,
     required int page,
     required String query,
   }) async {
     try {
       final response = await dio.AuthPost(
-        '/api/ZyroGiftVoucher/GetBrandByCategoryId?Id=$categoryId&SearchValue=$query&Page=$page&PageSize=10',
+        '/api/ZyroGiftVoucher/GetBrandByCategoryId?Id=$categoryId&SearchValue=$query&Page=$page&PageSize=500',
         "",
       );
-      var res = GetFilteredBrandModel.fromJson(response);
+      var res = VoucherDataResponseModel.fromJson(response);
       if (res.status == 'success') {
         return res.data;
       } else {

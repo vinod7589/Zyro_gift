@@ -42,11 +42,11 @@ class _AboutThePageToggleWidgetState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'About the Brand',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 12.5,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.24,
                     ),

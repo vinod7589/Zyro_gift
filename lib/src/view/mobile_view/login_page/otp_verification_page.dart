@@ -5,6 +5,7 @@ import 'package:abc/src/view/widgets/dialogs/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../util/services/shared_preferences.dart';
 import '../../widgets/dialogs/loader.dart';
@@ -139,11 +140,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                               Icons.arrow_back,
                               color: Colors.white,
                             )),
-                        const Text(
-                          'Zyro Gifts',
+                        Text(
+                          'Zyro Pay',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 17.83,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.36,
                           ),
@@ -157,11 +158,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'enter the OTP sent to',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 20.sp,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 0.40,
                                 ),
@@ -171,22 +172,20 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                               ),
                               Row(
                                 children: [
-                                  const Text(
+                                  Text(
                                     '+91 ',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.29,
                                     ),
                                   ),
                                   Text(
                                     UserPreferences.userMobile,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.29,
                                     ),
                                   )
                                 ],
@@ -263,7 +262,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       'didn’t receive OTP? ',
                       style: TextStyle(
                         color: Color(0xFFB5B5B5),
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -282,7 +281,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                             : secondsRemaining.toString(),
                         style: TextStyle(
                           color: Color(0xFF676767),
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                           decoration: resentEnabled
                               ? TextDecoration.underline
@@ -312,12 +311,12 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                 onPressed: () {
                                   submitOtp();
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Verify',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Poppins',
-                                    fontSize: 15,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

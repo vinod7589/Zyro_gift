@@ -1,5 +1,7 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -12,11 +14,13 @@ class AccountDetailsPage extends StatefulWidget {
 }
 
 class _AccountDetailsPageState extends State<AccountDetailsPage> {
-  TextEditingController _referralTextEditingController =
+  final TextEditingController _referralTextEditingController =
       TextEditingController();
-  TextEditingController _emailTextEditingController = TextEditingController();
-  TextEditingController _dobTextEditingController = TextEditingController();
-  TextEditingController _dateOfBirth = TextEditingController();
+  final TextEditingController _emailTextEditingController =
+      TextEditingController();
+  final TextEditingController _dobTextEditingController =
+      TextEditingController();
+  final TextEditingController _dateOfBirth = TextEditingController();
 
   bool isEmail = UserPreferences.email.isEmpty ? true : false;
   bool isDob = UserPreferences.dob.isEmpty ? true : false;
@@ -73,11 +77,11 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               ),
             ),
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-            title: const Text(
+            title: Text(
               'Account Details',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 18.sp,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w500,
                 height: 1.11,
@@ -278,7 +282,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                   prefixIcon: GestureDetector(
                                                     onTap: () =>
                                                         _selectDate(context),
-                                                    child: Icon(
+                                                    child: const Icon(
                                                         Icons.calendar_today),
                                                   ),
                                                   focusedBorder:
@@ -334,8 +338,11 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                                           .text);
                                                           _emailTextEditingController
                                                               .clear();
-                                                          print(UserPreferences
-                                                              .email);
+                                                          if (kDebugMode) {
+                                                            print(
+                                                                UserPreferences
+                                                                    .email);
+                                                          }
 
                                                           Navigator.of(context)
                                                               .pop();
@@ -549,8 +556,11 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                                           .text);
                                                           _dobTextEditingController
                                                               .clear();
-                                                          print(UserPreferences
-                                                              .dob);
+                                                          if (kDebugMode) {
+                                                            print(
+                                                                UserPreferences
+                                                                    .dob);
+                                                          }
 
                                                           Navigator.of(context)
                                                               .pop();
@@ -734,7 +744,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                 ),
                                               ),
                                               hintStyle: TextStyle(
-                                                color: Color(0xFFBEBEBE),
+                                                color: const Color(0xFFBEBEBE),
                                                 fontSize: 15.sp,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -764,10 +774,13 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                                     _referralTextEditingController
                                                                         .text);
                                                     UserPreferences.referalCode;
-                                                    print(UserPreferences
-                                                        .referalCode);
-                                                    _referralTextEditingController
-                                                        .clear();
+                                                    if (kDebugMode) {
+                                                      print(UserPreferences
+                                                          .referalCode);
+                                                      _referralTextEditingController
+                                                          .clear();
+                                                    }
+
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: const Text(

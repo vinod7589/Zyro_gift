@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../../model/homePage/getbrand_details_model.dart';
 import '../../../../../model/redeem_step_model.dart';
@@ -66,7 +67,12 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? Center(
+            child: LoadingAnimationWidget.threeArchedCircle(
+              color: Colors.white,
+              size: 50,
+            ),
+          )
         : carddetails.data == null
             ? SizedBox()
             : Scaffold(
@@ -192,7 +198,7 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                     'Purchased On :  ',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12.06,
+                                      fontSize: 14.06.sp,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w300,
                                       letterSpacing: 0.24,
@@ -210,7 +216,7 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                     'Valid Till :  ',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12.06,
+                                      fontSize: 14.06.sp,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w300,
                                       letterSpacing: 0.24,
@@ -228,7 +234,7 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                     'Max Users :  ',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12.06,
+                                      fontSize: 14.06.sp,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w300,
                                       letterSpacing: 0.24,
@@ -238,7 +244,7 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                     '1 Claim per user',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 12.06,
+                                      fontSize: 14.06.sp,
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 0.24,

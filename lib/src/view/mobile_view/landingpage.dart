@@ -1,3 +1,4 @@
+import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/MyCard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../customicon_icons.dart';
@@ -22,7 +23,7 @@ class _LandingPageState extends State<LandingPage> {
         index: _selectedIndex,
         children: [
           HomePage(),
-          MyCardTab(),
+          MyCardPage(),
           ProfilePage(),
         ],
       ),

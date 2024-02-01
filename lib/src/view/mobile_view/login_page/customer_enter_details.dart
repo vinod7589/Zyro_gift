@@ -78,7 +78,7 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Text.rich(
                     TextSpan(
@@ -87,7 +87,7 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                           text: 'Welcome!\n',
                           style: TextStyle(
                             color: Color(0xFF212427),
-                            fontSize: 28.58,
+                            fontSize: 28.58.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -95,7 +95,7 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                           text: 'Lets get to know you better',
                           style: TextStyle(
                             color: Color(0xFF212427),
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -107,13 +107,13 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         'Full Name *',
                         style: TextStyle(
                           color: Color(0xFF676767),
-                          fontSize: 15,
+                          fontSize: 15.sp.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -124,7 +124,7 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                       textController: _fullName,
                       hintstyle: TextStyle(
                         color: Color(0xFFBEBEBE),
-                        fontSize: 15,
+                        fontSize: 15.sp.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                       ),
@@ -134,13 +134,13 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                             value ?? "", 1, 'Full Name');
                       },
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         'Email address',
                         style: TextStyle(
                           color: Color(0xFF676767),
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -150,19 +150,19 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                       textController: _email,
                       hintstyle: TextStyle(
                         color: Color(0xFFBEBEBE),
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                       ),
                       hintText: 'Enter your email address',
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         'Date Of Birth',
                         style: TextStyle(
                           color: Color(0xFF676767),
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -181,19 +181,19 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                       textController: _dateOfBirth,
                       hintstyle: TextStyle(
                         color: Color(0xFFBEBEBE),
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                       ),
                       hintText: 'Enter your date of birth',
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         'Referral Code (Optional) ',
                         style: TextStyle(
                           color: Color(0xFF676767),
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -203,19 +203,19 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                       textController: _referralCode,
                       hintstyle: TextStyle(
                         color: Color(0xFFBEBEBE),
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                       ),
                       hintText: 'Enter your referral code here',
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
                         'Referral code is shared by your friends or family who recommended Zyro gifts to you.',
                         style: TextStyle(
                           color: Color(0xFF7A7A7A),
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -257,12 +257,12 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                                       }
                                     }
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     'Continue',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Poppins',
-                                      fontSize: 15,
+                                      fontSize: 15.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   )),

@@ -126,11 +126,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   ),
                 ),
           backgroundColor: Color.fromRGBO(35, 35, 35, 1),
-          title: const Text(
+          title: Text(
             'Transactions',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 18.sp,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
               height: 1.11,
@@ -161,8 +161,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       return Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(bottom: 20, top: 20),
+                            padding: EdgeInsets.only(bottom: 15, top: 20),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
@@ -172,13 +173,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                         child: Center(
                                           child: Image.asset(
                                             'assets/images/card2.png',
-                                            height: 36,
+                                            height: 36.h,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
+                                      15.horizontalSpace,
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -190,7 +189,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                                 "",
                                             style: TextStyle(
                                               color: Color(0xFFF0F0F0),
-                                              fontSize: 15,
+                                              fontSize: 15.sp,
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w500,
                                               height: 1.29,
@@ -206,10 +205,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                                 "",
                                             style: TextStyle(
                                               color: Color(0xFFA2A2A2),
-                                              fontSize: 13,
+                                              fontSize: 13.sp,
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w400,
-                                              height: 1.29,
                                             ),
                                           )
                                         ],
@@ -224,7 +222,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                           .toString(),
                                   style: TextStyle(
                                     color: Color(0xFFF0F0F0),
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontFamily: 'Urbanist',
                                     fontWeight: FontWeight.w400,
                                     letterSpacing: 0.32,
@@ -232,6 +230,15 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                 )
                               ],
                             ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                transactionList[index].status,
+                                style: TextStyle(color: Colors.orange),
+                              ),
+                            ],
                           ),
                           Divider(
                             color: Color(0xFF303030),

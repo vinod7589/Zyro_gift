@@ -2,15 +2,13 @@ import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/my_card_model.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/My_cardDetails_page.dart';
-import 'package:abc/src/view/widgets/dialogs/loader.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
+import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
-import '../../../../../model/drawer_model/My_carddetails_model.dart';
-import '../../../../../model/homePage/getbrand_details_model.dart';
 
 class MyCardPage extends StatefulWidget {
   const MyCardPage({super.key});
@@ -82,7 +80,12 @@ class _MyCardPageState extends State<MyCardPage> {
             ),
           )),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: LoadingAnimationWidget.threeArchedCircle(
+                color: Colors.white,
+                size: 50,
+              ),
+            )
           : (myCardListItems.isEmpty)
               ? Center(
                   child: Text(
@@ -98,7 +101,7 @@ class _MyCardPageState extends State<MyCardPage> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     if (index < myCardListItems.length) {
-                      return InkWell(
+                      return GestureDetector(
                         onTap: () {
                           Navigator.push(
                               context,
@@ -183,14 +186,14 @@ class _MyCardPageState extends State<MyCardPage> {
                                             'Valid Till : ${myCardListItems[index].expiryOn.toString()}',
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 11.sp,
+                                                fontSize: 12.50.sp,
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           Text(
-                                            'Zyro Gifts',
+                                            'Zyro Pay',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 12.50,
+                                              fontSize: 12.50.sp,
                                               fontFamily: 'Urbanist',
                                               fontWeight: FontWeight.w600,
                                               letterSpacing: 0.25,
@@ -207,6 +210,7 @@ class _MyCardPageState extends State<MyCardPage> {
                         ),
                       );
                     }
+                    return null;
                   },
                   itemCount: myCardListItems.length + 1,
                 ),

@@ -37,31 +37,17 @@ class _OnboardingPage extends State<OnboardingPage> {
       ),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             20.verticalSpace,
             Padding(
               padding: const EdgeInsets.only(left: 40),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CustomerEnterDetails()));
-                        },
-                        child: Text(
-                          'Zyro Gifts',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Image.asset(
+                    'assets/images/zyropay.png',
+                    width: 99,
                   ),
                   SizedBox(
                     height: 20,
@@ -139,7 +125,7 @@ class _OnboardingPage extends State<OnboardingPage> {
                                       backgroundColor: MaterialStatePropertyAll(
                                           Colors.black)),
                                   onPressed: () {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>

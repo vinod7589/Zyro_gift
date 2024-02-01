@@ -18,7 +18,7 @@ class DateTimeFormatter extends StatelessWidget {
       formattedDateTime,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 12.06.sp,
+        fontSize: 15.06.sp,
         fontFamily: 'Poppins',
         fontWeight: FontWeight.w500,
         letterSpacing: 0.24,

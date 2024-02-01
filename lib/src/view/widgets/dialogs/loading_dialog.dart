@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../constants/color.dart';
 
 void showLoading(BuildContext context, {String? message}) {
@@ -9,38 +10,33 @@ void showLoading(BuildContext context, {String? message}) {
     barrierDismissible: false,
     builder: (context) {
       return Dialog(
-
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        child: Center(
-            child: SpinKitCubeGrid(
-
-          // color: primary,
-              duration: const Duration(milliseconds: 500),
-          size: 50.0,
-          itemBuilder: (context, index) {
-            final colors = [primary, purple];
-            final color = colors[index % colors.length];
-            return DecoratedBox(decoration: BoxDecoration(color: color));
-          },
-          // controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)
-        )),
-      );
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Center(
+            child: LoadingAnimationWidget.threeArchedCircle(
+              color: Colors.white,
+              size: 50,
+            ),
+          ));
     },
   );
 }
 
-showLoaderDialog(BuildContext context){
-  AlertDialog alert=AlertDialog(
+showLoaderDialog(BuildContext context) {
+  AlertDialog alert = AlertDialog(
     content: Row(
       children: [
         const CircularProgressIndicator(),
-        Container(margin: const EdgeInsets.only(left: 7),child:const Text("Loading..." )),
-      ],),
+        Container(
+            margin: const EdgeInsets.only(left: 7),
+            child: const Text("Loading...")),
+      ],
+    ),
   );
-  showDialog(barrierDismissible: false,
-    context:context,
-    builder:(BuildContext context){
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
       return alert;
     },
   );

@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     bool isDebugMode = false;
     assert(isDebugMode = true);
     return ScreenUtilInit(
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return MaterialApp(
               debugShowCheckedModeBanner: isDebugMode,
-              title: 'abc',
+              title: 'ZYRO Pay',
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,

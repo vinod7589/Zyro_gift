@@ -80,7 +80,8 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                     color: Colors.white,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top: 30, left: 10),
+                                    padding: const EdgeInsets.only(
+                                        top: 30, left: 10),
                                     child: Text.rich(
                                       TextSpan(
                                         children: [
@@ -94,7 +95,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                             ),
                                           ),
                                           TextSpan(
-                                            text: 'Zyro Gifts',
+                                            text: 'Zyro Pay ',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20.sp,
@@ -132,7 +133,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                     Text(
                       'Mobile number',
                       style: TextStyle(
-                        color: Color(0xFF7A7A7A),
+                        color: const Color(0xFF7A7A7A),
                         fontSize: 15.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
@@ -155,15 +156,16 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFFC7C7C7)),
+                          borderSide:
+                              const BorderSide(color: Color(0xFFC7C7C7)),
                         ),
                         prefixIcon: Padding(
-                          padding:
-                              EdgeInsets.only(top: 12.7, left: 15, right: 9),
+                          padding: const EdgeInsets.only(
+                              top: 12.7, left: 15, right: 9),
                           child: Text(
                             '+91',
                             style: TextStyle(
-                              color: Color(0xFF676767),
+                              color: const Color(0xFF676767),
                               fontSize: 16.8.sp,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
@@ -171,18 +173,20 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
+                            borderSide: const BorderSide(color: Colors.red),
                             borderRadius: BorderRadius.circular(8)),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFC7C7C7)),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFC7C7C7)),
                             borderRadius: BorderRadius.circular(8)),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFC7C7C7)),
+                          borderSide:
+                              const BorderSide(color: Color(0xFFC7C7C7)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         hintText: "10 Digit Number",
                         hintStyle: TextStyle(
-                          color: Color(0xFFBEBEBE),
+                          color: const Color(0xFFBEBEBE),
                           fontSize: 16.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -201,7 +205,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 15),
                       child: GestureDetector(
                         onTap: () {},
                         child: Text.rich(
@@ -210,7 +214,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                               TextSpan(
                                 text: 'By continuing, I agree ',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   fontFamily: 'Poppins',
                                   color: Color(0xFF676767),
                                   fontWeight: FontWeight.w500,
@@ -221,7 +225,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   color: Color(0xFF676767),
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -230,7 +234,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                 text: ' and ',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   color: Color(0xFF676767),
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -239,7 +243,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                 text: 'privacy policies',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   color: Color(0xFF676767),
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
@@ -249,7 +253,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                 text: ' ',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontSize: 12,
+                                  fontSize: 12.sp,
                                   color: Color(0xFF676767),
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -271,12 +275,12 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                 onPressed: () async {
                                   sendOtp();
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Continue',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
-                                    fontSize: 15,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 )),

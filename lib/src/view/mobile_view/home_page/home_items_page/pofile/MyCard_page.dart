@@ -2,8 +2,6 @@ import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/my_card_model.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/My_cardDetails_page.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +9,13 @@ import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 
 class MyCardPage extends StatefulWidget {
-  const MyCardPage({super.key});
+  final bool isfrombottom;
+
+  const MyCardPage({
+    super.key,
+    // required bool Isfrombottom,
+    required this.isfrombottom,
+  });
 
   @override
   State<MyCardPage> createState() => _MyCardPageState();
@@ -31,6 +35,7 @@ class _MyCardPageState extends State<MyCardPage> {
   }
 
   List<MyCardList> myCardListItems = [];
+
   Future<void> fetch() async {
     isLoading = true;
     myCardListItems = await drawerRepo.myCard(
@@ -59,15 +64,17 @@ class _MyCardPageState extends State<MyCardPage> {
       appBar: AppBar(
           scrolledUnderElevation: 0,
           titleSpacing: 5,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-          ),
+          leading: widget.isfrombottom == false
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                )
+              : SizedBox(),
           backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
           title: Text(
             'My Cards',

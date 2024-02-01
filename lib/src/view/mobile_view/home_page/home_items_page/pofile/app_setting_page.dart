@@ -1,9 +1,4 @@
 import 'package:abc/src/infrastructure/repository/auth_repo.dart';
-import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_failed.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_success.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_timer_count.dart';
-import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,22 +81,14 @@ class _AppSettingPageState extends State<AppSettingPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PaymentSuccessPage()));
-                  },
-                  child: Text(
-                    'Light Mode',
-                    style: TextStyle(
-                      color: Color(0xFFF0F0F0),
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      height: 1.29,
-                    ),
+                Text(
+                  'Light Mode',
+                  style: TextStyle(
+                    color: Color(0xFFF0F0F0),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    height: 1.29,
                   ),
                 ),
                 Container(

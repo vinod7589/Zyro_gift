@@ -7,6 +7,7 @@ import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -71,29 +72,9 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
     return currentRange;
   }
 
-  // getBrand() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   var res = await homeRepo.getBrandDetailsService(widget.brandCode);
-  //   setState(() {
-  //     brandData = res;
-  //     isLoading = false;
-  //   });
-  // }
-
   getBrandDetails(brandCode) async {
     try {
-      // setState(() {
-      //   isLoading = true;
-      // });
-      //var fixedCardProvider = ref.watch(fixedCardController(brandCode));
       var homePageController = ref.watch(HomePageController(brandCode));
-      // GetBrandDetailsList? brandDetails =
-      //     await homeRepo.getBrandDetailsService(brandCode);
-      // setState(() {
-      //   isLoading = false;
-      // });
 
       if (brandData!.brandType == 'Variable') {
         var res = manageDenomition(
@@ -333,7 +314,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   },
                   child: Text(
                     brandData!.brandType == ''
-                        ? 'Coming Soon'
+                        ? 'Coming Soon...'
                         : 'Get This Card',
                     style: const TextStyle(
                       color: Color(0xFF2C2C2C),
@@ -360,7 +341,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
               ),
               backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
               title: Text(
-                brandData!.brand.toString() ?? 'Demo',
+                brandData!.brand.toString(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -386,15 +367,14 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                     child: Column(
                       children: [
                         28.verticalSpace,
-                        Image.network(
-                          '$baseUrl${brandData?.image.toString()}',
-                          height: 40,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/images/noimage.png',
-                              height: 40,
-                            );
-                          },
+                        CachedNetworkImage(
+                          fadeInDuration: const Duration(milliseconds: 100),
+                          imageUrl: baseUrl + brandData.image.toString(),
+                          height: 40.h,
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/noimage.png', // Replace with the path to your error image
+                            height: 40.h,
+                          ),
                         ),
                         14.verticalSpace,
                         const Text(

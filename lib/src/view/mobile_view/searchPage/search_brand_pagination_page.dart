@@ -139,30 +139,36 @@ class _SearchBrandPaginationPageState
                             String branCode = filteredBrandPaginationProvider
                                 .filteredBrandList[index].brandCode
                                 .toString();
-                            if (branCode != null && branCode != '') {
+                            if (branCode != '') {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CardDetailsPage(
                                             brandCode: branCode,
-                                            voucher: VoucherEntity(),
+                                            voucher: filteredBrandList[index],
                                           )));
                             }
                           },
                           child: Row(
                             children: [
-                              CachedNetworkImage(
-                                  imageUrl:    baseUrl +
-                                      filteredBrandPaginationProvider
-                                          .filteredBrandList[index].image
-                                          .toString(),
-                                  height: 112.h,
-                                  errorWidget: (context, error, stackTrace) {
-                                return Image.asset(
-                                  'assets/images/errorimages.png',
-                                  height: 112.h,
-                                );
-                              }),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(17)),
+                                height: 113.h,
+                                width: 132.w,
+                                child: CachedNetworkImage(
+                                    fadeInDuration: Duration(milliseconds: 100),
+                                    imageUrl: baseUrl +
+                                        filteredBrandPaginationProvider
+                                            .filteredBrandList[index].image
+                                            .toString(),
+                                    fit: BoxFit.fill,
+                                    errorWidget: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/images/errorimages.png',
+                                      );
+                                    }),
+                              ),
                               20.horizontalSpace,
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,14 +179,18 @@ class _SearchBrandPaginationPageState
                                     children: [
                                       SizedBox(
                                         // width: 160,
-                                        child: Text(
-                                          trimmedString,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.sp,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                            letterSpacing: 0.09,
+                                        child: SizedBox(
+                                          width: 160.w,
+                                          child: Text(
+                                            trimmedString,
+                                            style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              color: Colors.white,
+                                              fontSize: 18.sp,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.09,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -249,9 +259,9 @@ class _SearchBrandPaginationPageState
                                         filteredBrandPaginationProvider
                                             .filteredBrandList[index].discount
                                             .toString(),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: Color(0xFF00A91B),
-                                          fontSize: 18.95,
+                                          fontSize: 18.95.sp,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w600,
                                           letterSpacing: 0.09,

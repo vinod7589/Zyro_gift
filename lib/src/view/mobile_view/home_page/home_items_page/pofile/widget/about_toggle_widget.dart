@@ -71,9 +71,9 @@ class _AboutThePageToggleWidgetState
                 10.verticalSpace,
                 Text(
                   "${widget.brandData != "" ? widget.brandData.replaceAll('"', '') : "Dummy is a one stop shop for all your fashion and lifestyle needs. Being India's largest e-commerce store for fashion and lifestyle products, Dummy aims at providing a hassle free and enjoyable shopping experience to shoppers across the country with the widest range of brands and products on its portal"}",
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12.06,
+                    fontSize: 13.sp,
                     fontFamily: 'Urbanist',
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0.24,

@@ -46,7 +46,10 @@ class PaymentSuccessPage extends StatelessWidget {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => MyCardPage()),
+                    MaterialPageRoute(
+                        builder: (context) => MyCardPage(
+                              isfrombottom: true,
+                            )),
                   );
                 },
                 child: Container(

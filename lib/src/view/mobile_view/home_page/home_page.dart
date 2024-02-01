@@ -3,6 +3,7 @@ import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
@@ -110,6 +111,11 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color(0xFF232323),
+        statusBarIconBrightness: Brightness.dark
+        // Set your desired color
+        ));
     var filteredBrandPaginationProvider =
         ref.watch(searchPagePaginationProvider);
 
@@ -155,8 +161,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                     borderRadius: BorderRadius.circular(17),
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    // onTap: () => Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (c) => SearchMobilePage())),
+                    onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (c) => SearchMobilePage())),
                     child: Container(
                       margin: const EdgeInsets.only(left: 20, right: 20),
                       height: 47.h,
@@ -203,7 +209,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                         itemCount: filteredBrandPaginationProvider
                             .categoriesList.length,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
+                          return InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               filteredBrandPaginationProvider
                                   .selectCategory(index);
@@ -1766,11 +1774,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ],
                       ),
                     ),
-                    30.verticalSpace,
-                    Container(
-                      margin: const EdgeInsets.only(left: 20),
-                      child: Image.asset('assets/images/referbanner.png'),
-                    ),
+                    // 30.verticalSpace,
+                    // Container(
+                    //   margin: const EdgeInsets.only(left: 20),
+                    //   child: Image.asset('assets/images/referbanner.png'),
+                    // ),
                     20.verticalSpace
                   ]),
                 ),

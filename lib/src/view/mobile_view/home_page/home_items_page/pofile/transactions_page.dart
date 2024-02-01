@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../widgets/dialogs/loading_dialog.dart';
 
 class TransactionsPage extends StatefulWidget {
@@ -139,7 +140,10 @@ class _TransactionsPageState extends State<TransactionsPage> {
           )),
       body: isLoading
           ? Center(
-              child: CircularProgressIndicator(),
+              child: LoadingAnimationWidget.threeArchedCircle(
+                color: Colors.white,
+                size: 50,
+              ),
             )
           : (transactionList.isEmpty)
               ? Center(
@@ -153,7 +157,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   ),
                 )
               : ListView.builder(
-                  padding: const EdgeInsets.only(left: 35, right: 35),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     if (index < searchTransactionList.length) {
@@ -161,7 +165,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       return Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(bottom: 15, top: 20),
+                            padding: EdgeInsets.only(bottom: 10, top: 10),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -236,7 +240,12 @@ class _TransactionsPageState extends State<TransactionsPage> {
                             children: [
                               Text(
                                 transactionList[index].status,
-                                style: TextStyle(color: Colors.orange),
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: transactionList[index].status ==
+                                            'SUCCESS'
+                                        ? Colors.transparent
+                                        : Colors.orange),
                               ),
                             ],
                           ),
@@ -248,7 +257,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                     }
                   },
                   // },
-                  itemCount: transactionList.length + 1),
+                  itemCount: transactionList.length),
     );
   }
 }

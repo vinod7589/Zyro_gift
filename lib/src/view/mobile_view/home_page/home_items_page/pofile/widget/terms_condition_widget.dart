@@ -39,12 +39,12 @@ class _TermsConditionWidgetState extends State<TermsConditionWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 5),
+                    padding: EdgeInsets.only(left: 5),
                     child: Text(
                       'Terms & Conditions',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12.06,
+                        fontSize: 18.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.24,
@@ -83,7 +83,7 @@ class _TermsConditionWidgetState extends State<TermsConditionWidget> {
                         '${widget.brandData!.replaceAll('"', '')}',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12.06,
+                          fontSize: 13.sp,
                           fontFamily: 'Urbanist',
                           fontWeight: FontWeight.w400,
                           letterSpacing: 0.24,

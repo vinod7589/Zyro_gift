@@ -609,215 +609,215 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
             const SizedBox(
               height: 16,
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 16, bottom: 16, left: 20),
-              width: double.infinity,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Color(0xFF454545)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Referral Code',
-                        style: TextStyle(
-                          color: const Color(0xFF676767),
-                          fontSize: 15.sp,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          height: 1.29,
-                        ),
-                      ),
-                      4.verticalSpace,
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            isreferral ? 'N/A' : UserPreferences.referalCode,
-                            style: TextStyle(
-                              color: const Color(0xFFBEBEBE),
-                              fontSize: 15.sp,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
-                              decoration: const BoxDecoration(
-                                  color: Color(0xFF2C2C2C),
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(12),
-                                      topLeft: Radius.circular(12))),
-                              // Customize the content of your bottom sheet here
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 25, right: 25, bottom: 20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 12),
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFF444444),
-                                                borderRadius:
-                                                    BorderRadius.circular(30)),
-                                            height: 5,
-                                            width: 100,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      const Text(
-                                        'Referral Code',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 0.40,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text(
-                                        'Referral Code is shared by your friend or family who recommended Zyro Gift to you ',
-                                        style: TextStyle(
-                                          color: Color(0xFFCDCDCD),
-                                          fontSize: 11,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.22,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 25),
-                                        child: TextFormField(
-                                          controller:
-                                              _referralTextEditingController,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          maxLength: 8,
-                                          decoration: InputDecoration(
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                borderSide: const BorderSide(
-                                                  color: Color(0xFFC7C7C7),
-                                                ),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                borderSide: const BorderSide(
-                                                  color: Color(0xFFC7C7C7),
-                                                ),
-                                              ),
-                                              hintStyle: TextStyle(
-                                                color: const Color(0xFFBEBEBE),
-                                                fontSize: 15.sp,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              hintText: "Enter referral Code",
-                                              border: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                  color: Color(0xFFC7C7C7),
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              )),
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              margin: const EdgeInsets.only(
-                                                  top: 20),
-                                              height: 51,
-                                              child: ElevatedButton(
-                                                  onPressed: () {
-                                                    isreferral ==
-                                                        UserPreferences
-                                                            .setReferalCode(
-                                                                referaCode:
-                                                                    _referralTextEditingController
-                                                                        .text);
-                                                    UserPreferences.referalCode;
-                                                    if (kDebugMode) {
-                                                      print(UserPreferences
-                                                          .referalCode);
-                                                      _referralTextEditingController
-                                                          .clear();
-                                                    }
-
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text(
-                                                    'Submit',
-                                                    style: TextStyle(
-                                                      color: Color(0xFF2C2C2C),
-                                                      fontSize: 16,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      height: 1.11,
-                                                      letterSpacing: 0.08,
-                                                    ),
-                                                  )),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: isreferral
-                          ? Image.asset(
-                              'assets/images/addimage.png',
-                              height: 22.h,
-                            )
-                          : const Text(''),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.only(top: 16, bottom: 16, left: 20),
+            //   width: double.infinity,
+            //   decoration: ShapeDecoration(
+            //     shape: RoundedRectangleBorder(
+            //       side: const BorderSide(color: Color(0xFF454545)),
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Text(
+            //             'Referral Code',
+            //             style: TextStyle(
+            //               color: const Color(0xFF676767),
+            //               fontSize: 15.sp,
+            //               fontFamily: 'Poppins',
+            //               fontWeight: FontWeight.w500,
+            //               height: 1.29,
+            //             ),
+            //           ),
+            //           4.verticalSpace,
+            //           Row(
+            //             crossAxisAlignment: CrossAxisAlignment.center,
+            //             children: [
+            //               Text(
+            //                 isreferral ? 'N/A' : UserPreferences.referalCode,
+            //                 style: TextStyle(
+            //                   color: const Color(0xFFBEBEBE),
+            //                   fontSize: 15.sp,
+            //                   fontFamily: 'Poppins',
+            //                   fontWeight: FontWeight.w500,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ],
+            //       ),
+            //       const Spacer(),
+            //       Padding(
+            //         padding: const EdgeInsets.only(right: 30),
+            //         child: InkWell(
+            //           onTap: () {
+            //             showModalBottomSheet(
+            //               isScrollControlled: true,
+            //               context: context,
+            //               builder: (BuildContext context) {
+            //                 return Container(
+            //                   padding: EdgeInsets.only(
+            //                       bottom:
+            //                           MediaQuery.of(context).viewInsets.bottom),
+            //                   decoration: const BoxDecoration(
+            //                       color: Color(0xFF2C2C2C),
+            //                       borderRadius: BorderRadius.only(
+            //                           topRight: Radius.circular(12),
+            //                           topLeft: Radius.circular(12))),
+            //                   // Customize the content of your bottom sheet here
+            //                   child: SingleChildScrollView(
+            //                     scrollDirection: Axis.vertical,
+            //                     child: Padding(
+            //                       padding: const EdgeInsets.only(
+            //                           left: 25, right: 25, bottom: 20),
+            //                       child: Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Row(
+            //                             mainAxisAlignment:
+            //                                 MainAxisAlignment.center,
+            //                             children: [
+            //                               Container(
+            //                                 margin:
+            //                                     const EdgeInsets.only(top: 12),
+            //                                 decoration: BoxDecoration(
+            //                                     color: const Color(0xFF444444),
+            //                                     borderRadius:
+            //                                         BorderRadius.circular(30)),
+            //                                 height: 5,
+            //                                 width: 100,
+            //                               ),
+            //                             ],
+            //                           ),
+            //                           const SizedBox(
+            //                             height: 30,
+            //                           ),
+            //                           const Text(
+            //                             'Referral Code',
+            //                             style: TextStyle(
+            //                               color: Colors.white,
+            //                               fontSize: 20,
+            //                               fontFamily: 'Poppins',
+            //                               fontWeight: FontWeight.w500,
+            //                               letterSpacing: 0.40,
+            //                             ),
+            //                           ),
+            //                           const SizedBox(
+            //                             height: 5,
+            //                           ),
+            //                           const Text(
+            //                             'Referral Code is shared by your friend or family who recommended Zyro Gift to you ',
+            //                             style: TextStyle(
+            //                               color: Color(0xFFCDCDCD),
+            //                               fontSize: 11,
+            //                               fontFamily: 'Poppins',
+            //                               fontWeight: FontWeight.w400,
+            //                               letterSpacing: 0.22,
+            //                             ),
+            //                           ),
+            //                           Padding(
+            //                             padding: const EdgeInsets.only(top: 25),
+            //                             child: TextFormField(
+            //                               controller:
+            //                                   _referralTextEditingController,
+            //                               style: const TextStyle(
+            //                                   color: Colors.white),
+            //                               maxLength: 8,
+            //                               decoration: InputDecoration(
+            //                                   enabledBorder: OutlineInputBorder(
+            //                                     borderRadius:
+            //                                         BorderRadius.circular(8),
+            //                                     borderSide: const BorderSide(
+            //                                       color: Color(0xFFC7C7C7),
+            //                                     ),
+            //                                   ),
+            //                                   focusedBorder: OutlineInputBorder(
+            //                                     borderRadius:
+            //                                         BorderRadius.circular(8),
+            //                                     borderSide: const BorderSide(
+            //                                       color: Color(0xFFC7C7C7),
+            //                                     ),
+            //                                   ),
+            //                                   hintStyle: TextStyle(
+            //                                     color: const Color(0xFFBEBEBE),
+            //                                     fontSize: 15.sp,
+            //                                     fontWeight: FontWeight.w500,
+            //                                   ),
+            //                                   hintText: "Enter referral Code",
+            //                                   border: OutlineInputBorder(
+            //                                     borderSide: const BorderSide(
+            //                                       color: Color(0xFFC7C7C7),
+            //                                     ),
+            //                                     borderRadius:
+            //                                         BorderRadius.circular(8),
+            //                                   )),
+            //                             ),
+            //                           ),
+            //                           Row(
+            //                             children: [
+            //                               Expanded(
+            //                                 child: Container(
+            //                                   margin: const EdgeInsets.only(
+            //                                       top: 20),
+            //                                   height: 51,
+            //                                   child: ElevatedButton(
+            //                                       onPressed: () {
+            //                                         isreferral ==
+            //                                             UserPreferences
+            //                                                 .setReferalCode(
+            //                                                     referaCode:
+            //                                                         _referralTextEditingController
+            //                                                             .text);
+            //                                         UserPreferences.referalCode;
+            //                                         if (kDebugMode) {
+            //                                           print(UserPreferences
+            //                                               .referalCode);
+            //                                           _referralTextEditingController
+            //                                               .clear();
+            //                                         }
+            //
+            //                                         Navigator.of(context).pop();
+            //                                       },
+            //                                       child: const Text(
+            //                                         'Submit',
+            //                                         style: TextStyle(
+            //                                           color: Color(0xFF2C2C2C),
+            //                                           fontSize: 16,
+            //                                           fontFamily: 'Poppins',
+            //                                           fontWeight:
+            //                                               FontWeight.w600,
+            //                                           height: 1.11,
+            //                                           letterSpacing: 0.08,
+            //                                         ),
+            //                                       )),
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           )
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 );
+            //               },
+            //             );
+            //           },
+            //           child: isreferral
+            //               ? Image.asset(
+            //                   'assets/images/addimage.png',
+            //                   height: 22.h,
+            //                 )
+            //               : const Text(''),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
           ]),
         ));
   }

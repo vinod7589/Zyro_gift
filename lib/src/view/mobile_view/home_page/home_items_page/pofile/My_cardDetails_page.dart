@@ -5,7 +5,9 @@ import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
+import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -64,6 +66,10 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
         .parse(carddetails.data!.card![0].expiryDate!);
   }
 
+  void _copyToClipboard(String text) {
+    showToast(message: 'Copied');
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -115,24 +121,24 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                 Image.network(
                                   "$baseUrl${carddetails.data!.card![0].brandImage}" ??
                                       "",
-                                  height: 38,
+                                  height: 50.h,
                                 ),
                                 7.verticalSpace,
-                                const Text(
+                                Text(
                                   'Card worth',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 12.06,
+                                    fontSize: 14.sp,
                                     fontFamily: 'Urbanist',
                                     fontWeight: FontWeight.w600,
                                     height: 0,
                                     letterSpacing: 0.24,
                                   ),
                                 ),
-                                13.verticalSpace,
+                                15.verticalSpace,
                                 Container(
-                                  width: 236,
-                                  height: 48,
+                                  width: 236.w,
+                                  padding: EdgeInsets.symmetric(vertical: 2.h),
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFF4A4A4A),
                                     shape: RoundedRectangleBorder(
@@ -145,26 +151,33 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                         carddetails.data!.card![0].cardNo!,
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 16,
+                                          fontSize: 17.sp,
                                           fontFamily: 'Inter',
                                           fontWeight: FontWeight.w400,
                                           height: 0.07,
                                           letterSpacing: 0.08,
                                         ),
                                       ),
-                                      23.horizontalSpace,
-                                      const Icon(
-                                        Icons.copy,
-                                        color: Colors.white,
-                                      ),
+                                      // 15.horizontalSpace,
+                                      IconButton(
+                                          alignment: Alignment.bottomRight,
+                                          onPressed: () {
+                                            _copyToClipboard(carddetails
+                                                .data!.card![0].cardNo!);
+                                          },
+                                          icon: Icon(
+                                            Icons.copy,
+                                            color: Colors.white54,
+                                            size: 21,
+                                          ))
                                     ],
                                   ),
                                 ),
                                 8.verticalSpace,
                                 Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                  padding: EdgeInsets.symmetric(vertical: 8),
                                   alignment: Alignment.center,
-                                  width: 236,
+                                  width: 236.w,
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFF4A4A4A),
                                     shape: RoundedRectangleBorder(

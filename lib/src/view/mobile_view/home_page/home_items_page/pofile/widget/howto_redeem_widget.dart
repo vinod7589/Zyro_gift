@@ -58,12 +58,12 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(left: 20),
                     child: Text(
                       'How To Redeem',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12.06,
+                        fontSize: 18.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.24,

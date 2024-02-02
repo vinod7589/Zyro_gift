@@ -99,8 +99,8 @@ class _timerCountPageState extends State<TimerCountPage> {
     CheckPaymentStatusModel checkStatus =
         await paymentservice.checkPaymentStatus(widget.merchantTransactionId);
     if (checkStatus.success == true) {
-      PurchaseGiftVoucherModel purchaseVoucher =
-          await paymentservice.purchaseGiftVoucherService(widget.cartDataDetails);
+      PurchaseGiftVoucherModel purchaseVoucher = await paymentservice
+          .purchaseGiftVoucherService(widget.cartDataDetails);
       if (purchaseVoucher.status == 'success') {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
@@ -209,51 +209,79 @@ class _timerCountPageState extends State<TimerCountPage> {
                               color: Colors.white),
                         ),
                         15.verticalSpace,
-                        InkWell(
-                          onTap: () {
-                            stopTimer();
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
-                            alignment: Alignment.center,
-                            height: 50.h,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: const Text(
-                              'STOP TRANSACTION',
-                              style: TextStyle(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                stopTimer();
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                width: 120.w,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                alignment: Alignment.center,
+                                height: 50.h,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: const Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                            20.horizontalSpace,
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                width: 120.w,
+                                alignment: Alignment.center,
+                                height: 50.h,
+                                decoration: BoxDecoration(
                                   color: Colors.white,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                      color: Color(0xFF2C2C2C),
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 50.h,
-                            width: 180,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(
-                                  color: Color(0xFF2C2C2C),
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     Navigator.pop(context);
+                        //   },
+                        //   child: Container(
+                        //     alignment: Alignment.center,
+                        //     height: 50.h,
+                        //     width: 180,
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(30),
+                        //     ),
+                        //     child: const Text(
+                        //       'Cancel',
+                        //       style: TextStyle(
+                        //           color: Color(0xFF2C2C2C),
+                        //           fontFamily: 'Poppins',
+                        //           fontWeight: FontWeight.w600),
+                        //     ),
+                        //   ),
+                        // ),
                         20.verticalSpace,
                       ],
                     ),

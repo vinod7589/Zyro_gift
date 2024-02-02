@@ -7,7 +7,7 @@ import 'package:abc/src/model/CartDataModel.dart';
 import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/Utility/constants.dart';
-import 'package:abc/src/view/mobile_view/payment_option_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/payment/payment_option_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -313,10 +313,12 @@ class _DenominationState extends ConsumerState<Denomination> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
+                      borderRadius: BorderRadius.circular(30),
                       onTap: () {
                         print(fixedCardProvider.totalCardWorth);
                         if (widget.availableLimit >=
-                            fixedCardProvider.totalCardWorth) {
+                                fixedCardProvider.totalCardWorth &&
+                            fixedCardProvider.totalCardWorth != 0) {
                           var vouchers = [];
                           fixedCardProvider.denominationVariant.entries
                               .forEach((element) {
@@ -352,19 +354,29 @@ class _DenominationState extends ConsumerState<Denomination> {
                         height: 51.h,
                         decoration: ShapeDecoration(
                           color: widget.availableLimit >=
-                                  fixedCardProvider.totalCardWorth
+                                      fixedCardProvider.totalCardWorth &&
+                                  fixedCardProvider.totalCardWorth != 0
                               ? Colors.white
-                              : Colors.black87,
+                              : Colors.grey.shade900,
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 1, color: Color(0xFF8C8C8C)),
+                            side: BorderSide(
+                                width: 1,
+                                color: widget.availableLimit >=
+                                            fixedCardProvider.totalCardWorth &&
+                                        fixedCardProvider.totalCardWorth != 0
+                                    ? Color(0xFF8C8C8C)
+                                    : Colors.white10),
                             borderRadius: BorderRadius.circular(66),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Proceed',
                           style: TextStyle(
-                            color: Color(0xFF2C2C2C),
+                            color: widget.availableLimit >=
+                                        fixedCardProvider.totalCardWorth &&
+                                    fixedCardProvider.totalCardWorth != 0
+                                ? Colors.black87
+                                : Colors.white30,
                             fontSize: 16,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/CartDataModel.dart';
-import '../mobile_view/payment_option_page.dart';
+import '../mobile_view/home_page/payment/payment_option_page.dart';
 
 class NumericKeypad extends StatefulWidget {
   final TextEditingController controller;
@@ -108,6 +108,7 @@ class _NumericKeypadState extends State<NumericKeypad> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
+              borderRadius: BorderRadius.circular(30),
               onTap: () {
                 if (current_net_value >= lower &&
                     current_net_value <= upper &&
@@ -142,16 +143,26 @@ class _NumericKeypadState extends State<NumericKeypad> {
                           current_net_value <= upper &&
                           current_net_value <= widget.availableLimit)
                       ? Colors.white
-                      : Colors.black54,
+                      : Colors.grey.shade900,
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 1, color: Color(0xFF8C8C8C)),
+                    side: BorderSide(
+                        width: 1,
+                        color: (current_net_value >= lower &&
+                                current_net_value <= upper &&
+                                current_net_value <= widget.availableLimit)
+                            ? Color(0xFF8C8C8C)
+                            : Colors.white10),
                     borderRadius: BorderRadius.circular(66),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Proceed',
                   style: TextStyle(
-                    color: Color(0xFF2C2C2C),
+                    color: (current_net_value >= lower &&
+                            current_net_value <= upper &&
+                            current_net_value <= widget.availableLimit)
+                        ? Colors.black87
+                        : Colors.white30,
                     fontSize: 16,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,

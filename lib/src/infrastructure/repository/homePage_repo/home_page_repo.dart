@@ -6,6 +6,7 @@ import 'package:abc/src/model/homePage/getbrand_details_model.dart';
 import 'package:abc/src/model/homePage/new_brands_model.dart';
 import 'package:abc/src/model/homePage/tripTravel_Model.dart';
 import 'package:flutter/cupertino.dart';
+import '../../../model/homePage/GetDashBoardBannerModel.dart';
 import '../../../model/homePage/getAll_brand_list_model.dart';
 import '../../../model/homePage/voucher_entity.dart';
 import '../../../model/search/filtered_brand_model.dart';
@@ -257,6 +258,33 @@ class HomePageService {
       debugPrint(error.toString());
       debugPrintStack(stackTrace: st);
       return VoucherDataResponseModel();
+    }
+  }
+
+  // Future<GetDashBoardBannerModel> bannerService() async {
+  //   try {
+  //     final response = await dio.AuthPost('/api/Admin/GetDashBoardBanner', {});
+  //     var res = GetDashBoardBannerModel.fromJson(response);
+  //     return res;
+  //   } catch (error, st) {
+  //     debugPrint(error.toString());
+  //     debugPrintStack(stackTrace: st);
+  //     return GetDashBoardBannerModel();
+  //   }
+  // }
+  Future<List<BannerData>?> bannerService() async {
+    try {
+      final response = await dio.AuthPost('/api/Admin/GetDashBoardBanner', {});
+      var res = GetDashBoardBannerModel.fromJson(response);
+      if (res.status == 'success') {
+        return res.data;
+      } else {
+        return null;
+      }
+    } catch (error, st) {
+      debugPrint(error.toString());
+      debugPrintStack(stackTrace: st);
+      return null;
     }
   }
 }

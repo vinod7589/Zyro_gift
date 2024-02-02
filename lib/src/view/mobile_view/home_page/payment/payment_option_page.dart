@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../Packages/loading_packags/build_loading_animation.dart';
-import '../../controller/fixed_card_controller.dart';
-import '../../model/CartDataModel.dart';
+import '../../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../../controller/fixed_card_controller.dart';
+import '../../../../model/CartDataModel.dart';
 
 class PaymentOptionPage extends ConsumerStatefulWidget {
   final CartDataModel cartDataDetails;
@@ -57,7 +57,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
     PaymentModel res = await paymentservice.paymentService(payableAmount);
     if (res.success == true) {
       paymentUrl = res.data!.intentUrl!;
-      merchantTransactionId = res.data!.merchantTransactionId!;
+      merchantTransactionId = res.data!.orderId!;
       if (paymentUrl != '') {
         if (psp == 'phonepe') {
           paymentUrl = paymentUrl.replaceAll('upi://', 'phonepe://');

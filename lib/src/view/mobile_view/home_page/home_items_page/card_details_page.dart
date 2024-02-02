@@ -2,7 +2,7 @@
 
 import 'package:abc/src/controller/home_page_controller.dart';
 import 'package:abc/src/view/Utility/constants.dart';
-import 'package:abc/src/view/mobile_view/payment_option_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/payment/payment_option_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
@@ -197,7 +197,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                                                       borderSide:
                                                           BorderSide.none),
                                               hintStyle: TextStyle(
-                                                  color: Colors.white),
+                                                  color: Colors.white54),
                                               hintText: '0'),
                                         ),
                                       ),
@@ -306,11 +306,14 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white)),
                   onPressed: () {
-                    if (brandData!.brandType != '') {
+                    if (brandData.brandType != '') {
                       var res = getBrandDetails(widget.brandCode);
                       // var res = cardDetailsController.getBrandDetails();
                       print("'variable and fix type' $res");
                     }
+                    // else if( == 0){
+                    //
+                    // }
                   },
                   child: Text(
                     brandData!.brandType == ''
@@ -341,7 +344,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
               ),
               backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
               title: Text(
-                brandData!.brand.toString(),
+                brandData.brand.toString(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

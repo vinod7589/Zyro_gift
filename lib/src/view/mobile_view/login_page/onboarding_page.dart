@@ -86,7 +86,7 @@ class _OnboardingPage extends State<OnboardingPage> {
                   Row(
                     children: [
                       Text(
-                        'save up to 10% on',
+                        'save up to 50% on',
                         style: TextStyle(
                           color: Color(0xFF5801B7),
                           fontSize: 14.61.sp,

@@ -47,10 +47,17 @@ dependencies:
   flutter_inappwebview: ^5.0.0
   getwidget: ^4.0.0
   cached_network_image: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
 
 
   flutter:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "app/src/main/res/drawable/splash.jpg"
+  min_sdk_android: 21
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -87,6 +94,7 @@ flutter:
   assets:
      - assets/images/
      - assets/images/animation-images/
+     - assets/images/lunhIcon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

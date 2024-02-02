@@ -12,7 +12,7 @@ class DrawerRepoService {
     try {
       final query = {
         'Page': 1,
-        'PageSize': 10,
+        'PageSize': 200,
       };
       final body = {
         'SearchValue': query,

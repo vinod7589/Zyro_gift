@@ -25,7 +25,7 @@ class PaymentModel {
 class PaymentData {
   String? paymentMethod;
   String? merchantId;
-  Null? orderId;
+  String? orderId;
   String? merchantTransactionId;
   String? transactionId;
   String? intentUrl;

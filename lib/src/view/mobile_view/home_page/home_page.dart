@@ -1,4 +1,5 @@
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
+import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
@@ -36,6 +37,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     // beauty();
     // entertainment();
     getAllVouchers();
+    bannerfetch();
+    print('bannerdat : ${bannerfetch()}');
     // allCategories();
     super.initState();
   }
@@ -78,7 +81,31 @@ class _HomePageState extends ConsumerState<HomePage> {
   //   isLoading = false;
   // }
 
+  // List bannerDataa = [];
   bool isLoading = true;
+  final CarouselController carouselController = CarouselController();
+  int currentIndex = 0;
+  List<BannerData> bannerList = [];
+  List<Map<String, String>> imageList = [];
+  Future<void> bannerfetch() async {
+    List<BannerData>? banners = await homeRepo.bannerService();
+    if (banners != null) {
+      setState(() {
+        bannerList = banners;
+        imageList =
+            bannerList.map((banner) => {'image': banner.image!}).toList();
+      });
+    }
+  }
+
+  // List<Map<String, String?>> imageList =
+  //     bannerList.map((banner) => {'image': banner.image}).toList();
+
+  // List<BannerList> bannerList = [];
+  // Future<void> bannerfetch() async {
+  //   bannerList = await homeRepo.bannerService() ?? [];
+  //   print('vinod$bannerList');
+  // }
 
   Future<void> getAllVouchers() async {
     setState(() {
@@ -168,7 +195,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       height: 47.h,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: Colors.white)),
+                          border: Border.all(color: Color(0xFF545454))),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
@@ -228,7 +255,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               //     : Colors.transparent,
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 30, right: 10),
+                                    const EdgeInsets.only(left: 20, right: 10),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -244,9 +271,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       textAlign: TextAlign.center,
                                       filteredBrandPaginationProvider
                                           .categoriesList[index].categoryName
-                                          .toString()
-                                          .split(" ")
-                                          .first,
+                                          .toString(),
                                       style: TextStyle(
                                         color: const Color(0xFFFAFAFA),
                                         fontSize: 12.07.sp,
@@ -523,83 +548,83 @@ class _HomePageState extends ConsumerState<HomePage> {
                               }),
                         ),
                         20.verticalSpace,
+                        5.verticalSpace,
                         SizedBox(
-                          // margin: const EdgeInsets.symmetric(horizontal: 5),
-                          height: 150.h,
+                          height: 168.h,
                           child: Stack(
                             children: [
-                              InkWell(
-                                borderRadius: BorderRadius.circular(17),
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () {
-                                  if (kDebugMode) {
-                                    print(homePage.currentIndex);
-                                  }
-                                },
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
                                 child: CarouselSlider(
-                                  items: homePage.imageList
-                                      .map(
-                                        (item) => Image.asset(
-                                          item['image_path'],
-                                          fit: BoxFit.fill,
-                                          width: double.infinity,
-                                        ),
-                                      )
+                                  items: bannerList
+                                      .map((item) => CachedNetworkImage(
+                                                fadeInDuration:
+                                                    Duration(milliseconds: 100),
+                                                imageUrl: baseUrl +
+                                                    item.image.toString(),
+                                                fit: BoxFit.fill,
+                                                width: double.infinity,
+                                              )
+
+                                          //     Image.network(
+                                          //   baseUrl + item.image.toString(),
+                                          //   fit: BoxFit.fill,
+                                          //   width: double.infinity,
+                                          // ),
+                                          )
                                       .toList(),
-                                  carouselController:
-                                      homePage.carouselController,
+                                  carouselController: carouselController,
                                   options: CarouselOptions(
-                                    scrollPhysics:
-                                        const BouncingScrollPhysics(),
+                                    scrollPhysics: BouncingScrollPhysics(),
                                     autoPlay: true,
-                                    height: 120.h,
+                                    height: 140.h,
                                     aspectRatio: 2,
                                     viewportFraction: 1,
                                     onPageChanged: (index, reason) {
                                       setState(() {
-                                        homePage.currentIndex = index;
+                                        currentIndex = index;
                                       });
                                     },
                                   ),
                                 ),
                               ),
                               Positioned(
-                                top: 135.h,
+                                top: 160.h,
                                 bottom: 0,
                                 left: 0,
                                 right: 0,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: homePage.imageList
+                                  children: imageList
                                       .asMap()
                                       .entries
-                                      .map((entry) {
-                                    return InkWell(
-                                      borderRadius: BorderRadius.circular(17),
-                                      splashColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () => homePage.carouselController
-                                          .animateToPage(entry.key),
-                                      child: Container(
-                                        width:
-                                            homePage.currentIndex == entry.key
+                                      .map(
+                                        (entry) => InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () => carouselController
+                                              .animateToPage(entry.key),
+                                          child: Container(
+                                            width: currentIndex == entry.key
                                                 ? 17
                                                 : 5,
-                                        height: 5.0,
-                                        margin: const EdgeInsets.symmetric(
-                                          horizontal: 3.0,
+                                            height: 5.0,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 3.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: currentIndex == entry.key
+                                                  ? Colors.white
+                                                  : Colors.grey,
+                                            ),
+                                          ),
                                         ),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: homePage.currentIndex ==
-                                                    entry.key
-                                                ? Colors.white
-                                                : Colors.grey),
-                                      ),
-                                    );
-                                  }).toList(),
+                                      )
+                                      .toList(),
                                 ),
                               ),
                             ],

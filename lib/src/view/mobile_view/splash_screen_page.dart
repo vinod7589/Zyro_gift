@@ -53,12 +53,9 @@ class splashScreenState extends State<splashScreen> {
       body: SafeArea(
           child: Container(
         child: Center(
-          child: Text(
-            'Zyro Pay',
-            style: TextStyle(
-                fontSize: 40.sp,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600),
+          child: Image.asset(
+            'assets/images/zyropay.png',
+            width: 190.h,
           ),
         ),
       )),

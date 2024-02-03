@@ -44,7 +44,7 @@ class _TermsConditionWidgetState extends State<TermsConditionWidget> {
                       'Terms & Conditions',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.24,

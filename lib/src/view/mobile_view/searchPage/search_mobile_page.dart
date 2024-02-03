@@ -60,7 +60,7 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                   color: const Color.fromRGBO(35, 35, 35, 1),
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextFormField(
-                      autofocus: true,
+                      // autofocus: true,
                       controller: filteredBrandPaginationProvider
                           .searchBarTextEditingController,
                       // isEnable = true;
@@ -70,8 +70,13 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                       onTapOutside: (e) => FocusScope.of(context).unfocus(),
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
+                              borderSide: BorderSide(color: Color(0xFF545454))),
                           focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Color(0xFF545454)),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
                           contentPadding: const EdgeInsets.only(
@@ -95,7 +100,7 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                       },
                                       icon: const Icon(
                                         Icons.clear,
-                                        color: Colors.white,
+                                        color: Colors.white70,
                                       )),
                                 )
                               : Container(
@@ -121,18 +126,18 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                               },
                               icon: Icon(
                                 Icons.arrow_back,
-                                color: Colors.white,
+                                color: Colors.white70,
                               )),
                           hintStyle: const TextStyle(
                             color: Color(0xFFB5B5B5),
                             fontWeight: FontWeight.w400,
-                            height: 1.29,
                           ),
                           hintText: "Search for Brands",
                           border: const OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50)),
-                              borderSide: BorderSide(color: Colors.white)))),
+                              borderSide:
+                                  BorderSide(color: Color(0xFF545454))))),
                 ),
               ),
               if (filteredBrandPaginationProvider.searchQuery != "")
@@ -149,7 +154,12 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                   backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                   flexibleSpace: Padding(
                     padding: EdgeInsets.only(left: 1),
-                    child: SizedBox(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                        color: Colors.grey.shade800.withOpacity(0.4),
+                      ))),
                       height: 86.h,
                       child: ListView.separated(
                         separatorBuilder: (context, index) => const SizedBox(

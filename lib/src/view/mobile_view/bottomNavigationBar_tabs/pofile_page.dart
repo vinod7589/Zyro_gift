@@ -50,7 +50,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   bottomRight: Radius.circular(30),
                                   bottomLeft: Radius.circular(30)),
                               child: Image.asset(
-                                  'assets/images/profileimage.png')),
+                                'assets/images/profileimage.png',
+                                height: 25.h,
+                              )),
                         ),
                       ),
                       Spacer(),
@@ -127,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               builder: (context) => AccountDetailsPage()));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 18, top: 25),
+                      padding: const EdgeInsets.only(bottom: 15, top: 25),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -146,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   'Account Details',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.sp,
+                                    fontSize: 15.sp,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
                                     letterSpacing: 0.44,
@@ -176,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   )));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 18, bottom: 18),
+                      padding: const EdgeInsets.only(top: 18, bottom: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -195,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   'My Cards',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.sp,
+                                    fontSize: 15.sp,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
                                     letterSpacing: 0.44,
@@ -223,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               builder: (context) => TransactionsPage()));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 18, bottom: 18),
+                      padding: const EdgeInsets.only(top: 18, bottom: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -234,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   width: 40,
                                   child: Image.asset(
                                     'assets/images/clock.png',
-                                    height: 25,
+                                    height: 25.h,
                                   ),
                                 ),
                                 25.horizontalSpace,
@@ -242,7 +244,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   'Transactions',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.sp,
+                                    fontSize: 15.sp,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
                                     letterSpacing: 0.44,
@@ -259,9 +261,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  // Divider(
-                  //   color: Color(0xFF3B3B3B),
-                  // ),
+                  Divider(
+                    color: Color(0xFF3B3B3B),
+                  ),
                   // InkWell(
                   //   onTap: () {
                   //     Navigator.push(
@@ -270,33 +272,33 @@ class _ProfilePageState extends State<ProfilePage> {
                   //             builder: (context) => AppSettingPage()));
                   //   },
                   //   child: Padding(
-                  //     padding: const EdgeInsets.only(top: 18, bottom: 18),
+                  //     padding: const EdgeInsets.only(top: 18, bottom: 15),
                   //     child: Row(
                   //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //       children: [
-                  //         Container(
-                  //           child: Row(
-                  //             children: [
-                  //               Image.asset(
-                  //                 'assets/images/settings.png',
-                  //                 height: 25,
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 34,
-                  //               ),
-                  //               Text(
-                  //                 'Settings',
-                  //                 style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontSize: 18.sp,
-                  //                   fontFamily: 'Poppins',
-                  //                   fontWeight: FontWeight.w500,
-                  //                   letterSpacing: 0.44,
-                  //                 ),
-                  //               )
-                  //             ],
-                  //           ),
-                  //         ),
+                  //         // Container(
+                  //         //   child: Row(
+                  //         //     children: [
+                  //         //       Image.asset(
+                  //         //         'assets/images/settings.png',
+                  //         //         height: 25,
+                  //         //       ),
+                  //         //       SizedBox(
+                  //         //         width: 34,
+                  //         //       ),
+                  //         //       Text(
+                  //         //         'Settings',
+                  //         //         style: TextStyle(
+                  //         //           color: Colors.white,
+                  //         //           fontSize: 15.sp,
+                  //         //           fontFamily: 'Poppins',
+                  //         //           fontWeight: FontWeight.w500,
+                  //         //           letterSpacing: 0.44,
+                  //         //         ),
+                  //         //       )
+                  //         //     ],
+                  //         //   ),
+                  //         // ),
                   //         Image.asset(
                   //           'assets/images/rightarrow.png',
                   //           height: 19,
@@ -308,42 +310,42 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Divider(
                   //   color: Color(0xFF3B3B3B),
                   // ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 18, bottom: 25),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Container(
-                  //         child: Row(
-                  //           children: [
-                  //             Image.asset(
-                  //               'assets/images/help.png',
-                  //               height: 25,
-                  //             ),
-                  //             SizedBox(
-                  //               width: 34,
-                  //             ),
-                  //             Text(
-                  //               'Help & Support',
-                  //               style: TextStyle(
-                  //                 color: Colors.white,
-                  //                 fontSize: 18.sp,
-                  //                 fontFamily: 'Poppins',
-                  //                 fontWeight: FontWeight.w500,
-                  //                 letterSpacing: 0.44,
-                  //               ),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       Image.asset(
-                  //         'assets/images/rightarrow.png',
-                  //         height: 19,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 40,
+                                child: Image.asset(
+                                  'assets/images/help.png',
+                                  height: 25.h,
+                                ),
+                              ),
+                              25.horizontalSpace,
+                              Text(
+                                'Help & Support',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.sp,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.44,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Image.asset(
+                          'assets/images/rightarrow.png',
+                          height: 19,
+                        ),
+                      ],
+                    ),
+                  ),
                   12.verticalSpace
                 ],
               ),

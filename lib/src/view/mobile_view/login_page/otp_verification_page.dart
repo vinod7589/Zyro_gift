@@ -143,6 +143,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         Text(
                           'Zyro Pay',
                           style: TextStyle(
+                            fontFamily: 'Poppins',
                             color: Colors.white,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
@@ -161,6 +162,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                               Text(
                                 'enter the OTP sent to',
                                 style: TextStyle(
+                                  fontFamily: 'Poppins',
                                   color: Colors.white,
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w500,
@@ -175,6 +177,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                   Text(
                                     '+91 ',
                                     style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       color: Colors.white,
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w400,
@@ -183,6 +186,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                   Text(
                                     UserPreferences.userMobile,
                                     style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       color: Colors.white,
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w400,

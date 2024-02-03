@@ -345,9 +345,9 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
               backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
               title: Text(
                 brandData.brand.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   height: 1.11,
                   letterSpacing: 0.08,

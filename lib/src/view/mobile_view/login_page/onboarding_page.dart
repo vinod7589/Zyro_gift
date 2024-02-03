@@ -125,7 +125,7 @@ class _OnboardingPage extends State<OnboardingPage> {
                                       backgroundColor: MaterialStatePropertyAll(
                                           Colors.black)),
                                   onPressed: () {
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>

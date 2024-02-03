@@ -46,8 +46,8 @@ class _AboutThePageToggleWidgetState
                     'About the Brand',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 0.24,
                     ),
                   ),

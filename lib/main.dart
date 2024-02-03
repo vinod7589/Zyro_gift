@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: isDebugMode,
               title: 'ZYRO Pay',
               theme: ThemeData(
+                fontFamily: 'Poppins',
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),

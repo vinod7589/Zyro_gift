@@ -4,6 +4,7 @@ import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/My_cardDetails_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
@@ -64,6 +65,7 @@ class _MyCardPageState extends State<MyCardPage> {
       appBar: AppBar(
           scrolledUnderElevation: 0,
           titleSpacing: 5,
+          leadingWidth: widget.isfrombottom == false ? 50.w : 20.w,
           leading: widget.isfrombottom == false
               ? IconButton(
                   onPressed: () {
@@ -117,6 +119,8 @@ class _MyCardPageState extends State<MyCardPage> {
                                         orderId: myCardListItems[index]
                                             .orderId
                                             .toString(),
+                                        totalCardworth: myCardListItems[index]
+                                            .totalVoucherAmount!,
                                       )));
                         },
                         child: Container(

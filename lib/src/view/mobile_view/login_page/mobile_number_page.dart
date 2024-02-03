@@ -88,6 +88,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                           TextSpan(
                                             text: 'Welcome to\n',
                                             style: TextStyle(
+                                              fontFamily: 'Poppins',
                                               color: Colors.white,
                                               fontSize: 26.58.sp,
                                               fontWeight: FontWeight.w500,
@@ -97,6 +98,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                                           TextSpan(
                                             text: 'Zyro Pay ',
                                             style: TextStyle(
+                                              fontFamily: 'Poppins',
                                               color: Colors.white,
                                               fontSize: 20.sp,
                                               fontWeight: FontWeight.w500,
@@ -122,7 +124,11 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                   Positioned(
                       bottom: 10,
                       right: 10,
-                      child: Image.asset('assets/images/gift.png'))
+                      child: Image.asset(
+                        'assets/images/gift.png',
+                        height: 142,
+                        width: 169,
+                      ))
                 ],
               ),
               Padding(
@@ -152,7 +158,7 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                       },
                       controller: _phoneNumerController,
                       style: TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 17.sp),
+                          fontWeight: FontWeight.w600, fontSize: 15.8.sp),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -165,8 +171,8 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                           child: Text(
                             '+91',
                             style: TextStyle(
-                              color: const Color(0xFF676767),
-                              fontSize: 16.8.sp,
+                              // color: const Color(0xFF676767),
+                              fontSize: 15.8.sp,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
                             ),

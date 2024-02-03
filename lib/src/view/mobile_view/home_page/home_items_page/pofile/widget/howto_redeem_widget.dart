@@ -63,7 +63,7 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                       'How To Redeem',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.24,

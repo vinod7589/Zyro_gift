@@ -20,10 +20,9 @@ import '../../../Time_remove_widget.dart';
 
 class MyCardDetailsPage extends ConsumerStatefulWidget {
   final String orderId;
-  MyCardDetailsPage({
-    super.key,
-    required this.orderId,
-  });
+  final num totalCardworth;
+  MyCardDetailsPage(
+      {super.key, required this.orderId, required this.totalCardworth});
 
   @override
   ConsumerState<MyCardDetailsPage> createState() => _MyCardDetailsPageState();
@@ -67,6 +66,7 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
   }
 
   void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
     showToast(message: 'Copied');
   }
 
@@ -112,7 +112,7 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       children: [
-                        31.verticalSpace,
+                        20.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -123,17 +123,33 @@ class _MyCardDetailsPageState extends ConsumerState<MyCardDetailsPage> {
                                       "",
                                   height: 50.h,
                                 ),
-                                7.verticalSpace,
-                                Text(
-                                  'Card worth',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontFamily: 'Urbanist',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                    letterSpacing: 0.24,
-                                  ),
+                                15.verticalSpace,
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Card worth',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                        letterSpacing: 0.24,
+                                      ),
+                                    ),
+                                    10.horizontalSpace,
+                                    Text(
+                                      "₹ ${widget.totalCardworth.toString()}",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontFamily: 'Urbanist',
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                        letterSpacing: 0.24,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 15.verticalSpace,
                                 Container(

@@ -160,7 +160,8 @@ class _SearchBrandPaginationPageState
                                     fadeInDuration: Duration(milliseconds: 100),
                                     imageUrl: baseUrl +
                                         filteredBrandPaginationProvider
-                                            .filteredBrandList[index].image
+                                            .filteredBrandList[index]
+                                            .defaultImage
                                             .toString(),
                                     fit: BoxFit.fill,
                                     errorWidget: (context, error, stackTrace) {

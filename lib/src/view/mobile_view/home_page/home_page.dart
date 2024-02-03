@@ -223,7 +223,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                   pinned: true,
                   delegate: MySliverAppBarDelegate(
                     child: Container(
-                      color: const Color.fromRGBO(35, 35, 35, 1),
+                      decoration: BoxDecoration(
+                          color: const Color.fromRGBO(35, 35, 35, 1),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0, 1),
+                              color: Colors.grey.shade800.withOpacity(0.4),
+                              blurRadius: 0,
+                              spreadRadius: 0.1,
+                            )
+                          ]),
                       // color: Colors.red,
                       // height: 90.h,
                       padding: EdgeInsets.only(top: 11.5.h),

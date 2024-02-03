@@ -59,7 +59,9 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -109,12 +111,27 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        'Full Name *',
-                        style: TextStyle(
-                          color: Color(0xFF676767),
-                          fontSize: 15.sp.sp,
-                          fontWeight: FontWeight.w500,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Full Name',
+                              style: TextStyle(
+                                color: Color(0xFF676767),
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Color(
+                                    0xFFB91E1E), // Change the color as per your preference
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -212,7 +229,7 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                     Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        'Referral code is shared by your friends or family who recommended Zyro gifts to you.',
+                        'Referral code is shared by your friends or family who recommended Zyro pay to you.',
                         style: TextStyle(
                           color: Color(0xFF7A7A7A),
                           fontSize: 13.sp,

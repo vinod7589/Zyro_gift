@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 
-import '../../widgets/internet_check_statusPage.dart';
+import '../../../controller/internet_check_status_controller.dart';
 
 class SearchMobilePage extends ConsumerStatefulWidget {
   const SearchMobilePage({super.key});

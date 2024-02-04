@@ -11,7 +11,7 @@ import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../Packages/page_transition/enum.dart';
 import '../../../../../Packages/page_transition/page_transition.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
-import '../../../../widgets/internet_check_statusPage.dart';
+import '../../../../../controller/internet_check_status_controller.dart';
 
 class MyCardPage extends StatefulWidget {
   final bool isfrombottom;

@@ -360,7 +360,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                   Container(
                     margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
                     width: double.infinity,
-                    height: 184,
+                    height: 180.h,
                     decoration: BoxDecoration(
                         color: Colors.deepPurple.shade800.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10),
@@ -373,18 +373,18 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                         CachedNetworkImage(
                           fadeInDuration: const Duration(milliseconds: 100),
                           imageUrl: baseUrl + brandData.image.toString(),
-                          height: 40.h,
+                          height: 30.h,
                           errorWidget: (context, url, error) => Image.asset(
                             'assets/images/noimage.png', // Replace with the path to your error image
                             height: 40.h,
                           ),
                         ),
                         14.verticalSpace,
-                        const Text(
+                        Text(
                           'Card worth',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 12.06,
+                            fontSize: 13.06.sp,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.24,
                           ),
@@ -394,9 +394,9 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                           'Get ' +
                               (brandData.discount ?? 0).toString() +
                               '% off',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Color(0xFFAC61FF),
-                            fontSize: 21.14,
+                            fontSize: 21.14.sp,
                             fontFamily: 'Urbanist',
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.46,

@@ -1,12 +1,14 @@
 class GetUserDetailModel {
-  Data? data;
+  UserDetailsList? data;
   String? status;
   String? description;
 
   GetUserDetailModel({this.data, this.status, this.description});
 
   GetUserDetailModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? new UserDetailsList.fromJson(json['data'])
+        : null;
     status = json['status'];
     description = json['description'];
   }
@@ -22,16 +24,17 @@ class GetUserDetailModel {
   }
 }
 
-class Data {
+class UserDetailsList {
   String? mobileNumber;
   String? userId;
   String? name;
   String? email;
   String? dob;
 
-  Data({this.mobileNumber, this.userId, this.name, this.email, this.dob});
+  UserDetailsList(
+      {this.mobileNumber, this.userId, this.name, this.email, this.dob});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserDetailsList.fromJson(Map<String, dynamic> json) {
     mobileNumber = json['mobileNumber'];
     userId = json['user_Id'];
     name = json['name'];

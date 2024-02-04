@@ -218,7 +218,7 @@ packages:
     source: hosted
     version: "1.17.1"
   connectivity_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: connectivity_plus
       sha256: b74247fad72c171381dbe700ca17da24deac637ab6d43c343b42867acb95c991
@@ -386,10 +386,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_no_internet_widget
-      sha256: "797b5d439727c931c84b1a913cd04bfd888ff54f9c80d0894b34088795f7aa38"
+      sha256: "4357330f2c789bfd6c552279c50a7d446b411a3fd5d048c53f0256578087d82f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.9+17"
+    version: "1.0.0+18-dev.1"
   flutter_riverpod:
     dependency: "direct main"
     description:

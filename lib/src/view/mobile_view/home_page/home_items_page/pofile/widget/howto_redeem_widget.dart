@@ -19,6 +19,7 @@ class HowToRedeemWidget extends ConsumerStatefulWidget {
 
 class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
   bool isExpended = false;
+
   List<RedeemStepEntityModel> redeemSteps = [];
 
   @override
@@ -120,7 +121,7 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                                     child: Image.network(
                                       redeemSteps[index].image != ''
                                           ? redeemSteps[index].image!
-                                          : 'assets/images/bigbasket.png',
+                                          : '',
                                       height: 150,
                                       fit: BoxFit.fill,
                                     ),

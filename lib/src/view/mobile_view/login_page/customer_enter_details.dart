@@ -204,39 +204,39 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                       ),
                       hintText: 'Enter your date of birth',
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        'Referral Code (Optional) ',
-                        style: TextStyle(
-                          color: Color(0xFF676767),
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    6.verticalSpace,
-                    AppTextField(
-                      textController: _referralCode,
-                      hintstyle: TextStyle(
-                        color: Color(0xFFBEBEBE),
-                        fontSize: 15.sp,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                      hintText: 'Enter your referral code here',
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Referral code is shared by your friends or family who recommended Zyro pay to you.',
-                        style: TextStyle(
-                          color: Color(0xFF7A7A7A),
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    )
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 10),
+                    //   child: Text(
+                    //     'Referral Code (Optional) ',
+                    //     style: TextStyle(
+                    //       color: Color(0xFF676767),
+                    //       fontSize: 15.sp,
+                    //       fontWeight: FontWeight.w500,
+                    //     ),
+                    //   ),
+                    // ),
+                    // 6.verticalSpace,
+                    // AppTextField(
+                    //   textController: _referralCode,
+                    //   hintstyle: TextStyle(
+                    //     color: Color(0xFFBEBEBE),
+                    //     fontSize: 15.sp,
+                    //     fontFamily: 'Poppins',
+                    //     fontWeight: FontWeight.w500,
+                    //   ),
+                    //   hintText: 'Enter your referral code here',
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 10),
+                    //   child: Text(
+                    //     'Referral code is shared by your friends or family who recommended Zyro pay to you.',
+                    //     style: TextStyle(
+                    //       color: Color(0xFF7A7A7A),
+                    //       fontSize: 13.sp,
+                    //       fontWeight: FontWeight.w400,
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
                 const Spacer(),

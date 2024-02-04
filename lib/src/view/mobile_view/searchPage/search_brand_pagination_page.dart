@@ -1,3 +1,5 @@
+import 'package:abc/src/Packages/page_transition/enum.dart';
+import 'package:abc/src/Packages/page_transition/page_transition.dart';
 import 'package:abc/src/controller/search_page_pagination_controller.dart';
 import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -142,11 +144,19 @@ class _SearchBrandPaginationPageState
                             if (branCode != '') {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CardDetailsPage(
-                                            brandCode: branCode,
-                                            voucher: filteredBrandList[index],
-                                          )));
+                                  PageTransition(
+                                      child: CardDetailsPage(
+                                        brandCode: branCode,
+                                        voucher: filteredBrandList[index],
+                                      ),
+                                      type: PageTransitionType.theme));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => CardDetailsPage(
+                              //               brandCode: branCode,
+                              //               voucher: filteredBrandList[index],
+                              //             )));
                             }
                           },
                           child: Row(
@@ -154,8 +164,8 @@ class _SearchBrandPaginationPageState
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(17)),
-                                height: 113.h,
-                                width: 132.w,
+                                // height: 113.h,
+                                // width: 132.w,
                                 child: CachedNetworkImage(
                                     fadeInDuration: Duration(milliseconds: 100),
                                     imageUrl: baseUrl +
@@ -164,6 +174,7 @@ class _SearchBrandPaginationPageState
                                             .defaultImage
                                             .toString(),
                                     fit: BoxFit.fill,
+                                    height: 130.h,
                                     errorWidget: (context, error, stackTrace) {
                                       return Image.asset(
                                         'assets/images/errorimages.png',
@@ -290,9 +301,15 @@ class _SearchBrandPaginationPageState
                     itemCount: filteredBrandList.length,
                     // ),
                   )
-                : const SliverToBoxAdapter(
+                : SliverToBoxAdapter(
                     child: SizedBox(
-                        height: 400, child: Center(child: Text("Not found"))),
+                        height: 400,
+                        child: Center(
+                            child: Text(
+                          "Not found",
+                          style:
+                              TextStyle(fontSize: 20.sp, color: Colors.white),
+                        ))),
                   );
   }
 }

@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Packages/page_transition/enum.dart';
+import '../../../Packages/page_transition/page_transition.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
 import '../home_page/home_items_page/pofile/MyCard_page.dart';
 
@@ -125,8 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AccountDetailsPage()));
+                          PageTransition(
+                              child: AccountDetailsPage(),
+                              type: PageTransitionType.theme));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 15, top: 25),
@@ -172,10 +175,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => MyCardPage(
-                                    isfrombottom: false,
-                                  )));
+                          PageTransition(
+                              child: MyCardPage(
+                                isfrombottom: false,
+                              ),
+                              type: PageTransitionType.theme));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 18, bottom: 15),
@@ -221,8 +225,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => TransactionsPage()));
+                          PageTransition(
+                              child: TransactionsPage(),
+                              type: PageTransitionType.theme));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 18, bottom: 15),
@@ -312,11 +317,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 18, bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
                               SizedBox(
                                 width: 40,
@@ -338,12 +344,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               )
                             ],
                           ),
-                        ),
-                        Image.asset(
-                          'assets/images/rightarrow.png',
-                          height: 19,
-                        ),
-                      ],
+                          Image.asset(
+                            'assets/images/rightarrow.png',
+                            height: 19,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   12.verticalSpace
@@ -354,7 +360,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
+                InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     showDialog(
                       context: context,

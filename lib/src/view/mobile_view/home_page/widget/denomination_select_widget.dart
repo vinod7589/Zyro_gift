@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:abc/src/Packages/page_transition/enum.dart';
+import 'package:abc/src/Packages/page_transition/page_transition.dart';
 import 'package:abc/src/model/CartDataModel.dart';
 import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:abc/src/util/services/shared_preferences.dart';
@@ -342,10 +344,11 @@ class _DenominationState extends ConsumerState<Denomination> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PaymentOptionPage(
-                                        cartDataDetails: cart,
-                                        brandCode: widget.brandCode,
-                                      )));
+                                builder: (context) => PaymentOptionPage(
+                                  cartDataDetails: cart,
+                                  brandCode: widget.brandCode,
+                                ),
+                              ));
                         } else {}
                       },
                       child: Container(

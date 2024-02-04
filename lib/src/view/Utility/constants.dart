@@ -10,7 +10,6 @@ class constants {
   static double percentagetext = 30; // HEIGHT OF ALL percentage text
   static double offpercentagetext = 18; // HEIGHT OF ALL percentage text
   static double containertext = 16; // HEIGHT OF ALL container text
-  static bool is_prod = true; // DETECT THE PLATFORM
   static int commonCount = 20; // NUMBER OF ITEM ON EACH PAGE
   static int CommonRowCountFromAPI =
       60; //FILTER NUMBER ITEMS PER API CALL IN PAGEINATION FOR PAGESIZE

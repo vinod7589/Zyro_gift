@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,12 +34,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   void initState() {
-    // getPopularBrands();
-    // NewBrand();
-    // travelTrip();
-    // fashion();
-    // beauty();
-    // entertainment();
     getAllVouchers();
     bannerfetch();
     print('bannerdat : ${bannerfetch()}');
@@ -51,37 +49,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   List<VoucherEntity> beautyList = [];
   List<VoucherEntity> entertainmentList = [];
 
-  // Future<void> allCategories() async {
-  //   categoriesList = await homeRepo.getAllCategoriesService() ?? [];
-  // }
-  //
-  // Future<void> travelTrip() async {
-  //   tripTravelList = await homeRepo.travelTripService() ?? [];
-  // }
-  //
-  // Future<void> NewBrand() async {
-  //   newBrandList = await homeRepo.newBrandListService("") ?? [];
-  // }
-  //
-  // Future<void> fashion() async {
-  //   fashionList = await homeRepo.fashionService() ?? [];
-  // }
-  //
-  // Future<void> beauty() async {
-  //   beautyList = await homeRepo.beautyService() ?? [];
-  // }
-  //
-  // Future<void> entertainment() async {
-  //   entertainmentList = await homeRepo.entertainmentService() ?? [];
-  // }
-
-  // Future<void> getPopularBrands() async {
-  //   isLoading = true;
-  //   allPopularBrands = await homeRepo.getAllPopularBrandsService() ?? [];
-  //   isLoading = false;
-  // }
-
-  // List bannerDataa = [];
   bool isLoading = true;
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
@@ -188,8 +155,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                     borderRadius: BorderRadius.circular(17),
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (c) => SearchMobilePage())),
+                    onTap: () => Navigator.push(
+                        context,
+                        PageTransition(
+                            child: SearchMobilePage(),
+                            type: PageTransitionType.theme)),
                     child: Container(
                       margin: const EdgeInsets.only(left: 20, right: 20),
                       height: 47.h,
@@ -251,8 +221,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                             onTap: () {
                               filteredBrandPaginationProvider
                                   .selectCategory(index);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (c) => const SearchMobilePage()));
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: SearchMobilePage(),
+                                      type: PageTransitionType.theme));
+                              // Navigator.of(context).push(PageTransition( builder: (c) => const SearchMobilePage()));
                             },
                             child: SizedBox(
                               // width: 85,
@@ -300,9 +274,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
                 ),
-                // Add more Slivers if needed
-                // Add more Slivers if needed
-
                 SliverToBoxAdapter(
                   child: Column(children: [
                     15.verticalSpace,
@@ -418,13 +389,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       if (brand != '') {
                                         Navigator.push(
                                             context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CardDetailsPage(
-                                                      brandCode: brand,
-                                                      voucher: allPopularBrands[
-                                                          index],
-                                                    )));
+                                            PageTransition(
+                                                child: CardDetailsPage(
+                                                  brandCode: brand,
+                                                  voucher:
+                                                      allPopularBrands[index],
+                                                ),
+                                                type:
+                                                    PageTransitionType.theme));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             CardDetailsPage(
+                                        //               brandCode: brand,
+                                        //               voucher: allPopularBrands[
+                                        //                   index],
+                                        //             )));
                                       }
                                       isLoading = false;
                                     },
@@ -585,6 +566,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       .toList(),
                                   carouselController: carouselController,
                                   options: CarouselOptions(
+                                    enlargeCenterPage: true,
                                     scrollPhysics: BouncingScrollPhysics(),
                                     autoPlay: true,
                                     height: 140.h,
@@ -802,13 +784,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           if (brandCode != '') {
                                             Navigator.push(
                                                 context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CardDetailsPage(
-                                                          brandCode: brandCode,
-                                                          voucher: newBrandList[
-                                                              index],
-                                                        )));
+                                                PageTransition(
+                                                    child: CardDetailsPage(
+                                                      brandCode: brandCode,
+                                                      voucher:
+                                                          newBrandList[index],
+                                                    ),
+                                                    type: PageTransitionType
+                                                        .theme));
                                           }
                                         },
                                         child: Stack(
@@ -911,14 +894,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           if (brandCode != '') {
                                             Navigator.push(
                                                 context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CardDetailsPage(
-                                                          brandCode: brandCode,
-                                                          voucher:
-                                                              tripTravelList[
-                                                                  index],
-                                                        )));
+                                                PageTransition(
+                                                    child: CardDetailsPage(
+                                                      brandCode: brandCode,
+                                                      voucher:
+                                                          tripTravelList[index],
+                                                    ),
+                                                    type: PageTransitionType
+                                                        .theme));
                                           }
                                         },
                                         child: Column(
@@ -1107,13 +1090,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         if (branCode != '') {
                                           Navigator.push(
                                               context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CardDetailsPage(
-                                                        brandCode: branCode,
-                                                        voucher:
-                                                            fashionList[index],
-                                                      )));
+                                              PageTransition(
+                                                  child: CardDetailsPage(
+                                                    brandCode: branCode,
+                                                    voucher: fashionList[index],
+                                                  ),
+                                                  type: PageTransitionType
+                                                      .theme));
                                         }
                                       },
                                       child: Row(
@@ -1125,7 +1108,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                 fashionList[index]
                                                     .defaultImage
                                                     .toString(),
-                                            height: 140.h,
+                                            height: 130.h,
                                           ),
                                           // Image.network(
                                           //   baseUrl +
@@ -1380,15 +1363,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               if (branCode != '') {
                                                 Navigator.push(
                                                     context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CardDetailsPage(
-                                                              brandCode:
-                                                                  branCode,
-                                                              voucher:
-                                                                  beautyList[
-                                                                      index],
-                                                            )));
+                                                    PageTransition(
+                                                        child: CardDetailsPage(
+                                                          brandCode: branCode,
+                                                          voucher:
+                                                              beautyList[index],
+                                                        ),
+                                                        type: PageTransitionType
+                                                            .theme));
                                               }
                                             },
                                             child: Column(
@@ -1580,14 +1562,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           if (branCode != '') {
                                             Navigator.push(
                                                 context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CardDetailsPage(
-                                                          brandCode: branCode,
-                                                          voucher:
-                                                              entertainmentList[
-                                                                  index],
-                                                        )));
+                                                PageTransition(
+                                                    child: CardDetailsPage(
+                                                      brandCode: branCode,
+                                                      voucher:
+                                                          entertainmentList[
+                                                              index],
+                                                    ),
+                                                    type: PageTransitionType
+                                                        .theme));
                                           }
                                         },
                                         child: Row(
@@ -1597,7 +1580,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                   milliseconds: 100),
                                               imageUrl:
                                                   '$baseUrl${entertainmentList[index].defaultImage.toString()}',
-                                              height: 140.h,
+                                              height: 130.h,
                                             ),
                                             // Image.network(
                                             //   '$baseUrl${entertainmentList[index].defaultImage.toString()}',

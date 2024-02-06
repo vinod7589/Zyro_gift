@@ -25,6 +25,7 @@ class _LandingPageState extends State<LandingPage> {
         index: _selectedIndex,
         children: const [
           HomePage(),
+
           MyCardPage(
             isfrombottom: true,
             // Isfrombottom: true,

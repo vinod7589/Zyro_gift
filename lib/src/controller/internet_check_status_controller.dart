@@ -7,18 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final CheckInternetController =
-    ChangeNotifierProvider.autoDispose<checkinternet>((ref) {
-  return checkinternet(ref.read);
+    ChangeNotifierProvider<checkinternet>((ref) {
+  return checkinternet();
 });
 
 class checkinternet extends ChangeNotifier {
   checkinternet(
-    this._reader,
   ) {
     startStreaming();
   }
 
-  final Reader _reader;
   late ConnectivityResult result;
   late StreamSubscription subscription;
   var isConnected = true;

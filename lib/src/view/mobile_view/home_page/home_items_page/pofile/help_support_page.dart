@@ -55,7 +55,7 @@ class HelpSupportPage extends StatelessWidget {
                 ),
                 5.verticalSpace,
                 Text(
-                  '+91 8470974888',
+                  '+91 9311660676',
                   style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
@@ -89,7 +89,7 @@ class HelpSupportPage extends StatelessWidget {
                 ),
                 5.verticalSpace,
                 Text(
-                  'support@zyro.in',
+                  'support@myzyro.com',
                   style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,

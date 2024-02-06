@@ -21,7 +21,7 @@ class checkinternet extends ChangeNotifier {
   final Reader _reader;
   late ConnectivityResult result;
   late StreamSubscription subscription;
-  var isConnected = false;
+  var isConnected = true;
 
   // Additional method to check internet connectivity
   Future<void> checkConnectivity() async {

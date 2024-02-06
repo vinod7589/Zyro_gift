@@ -544,19 +544,20 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   child: CarouselSlider(
                                     items: bannerList
                                         .map(
-                                          (item) =>
-                                              // CachedNetworkImage( fadeInDuration: Duration(milliseconds: 100),
-                                              //                                                   imageUrl: baseUrl +
-                                              //                                                       item.image.toString(),
-                                              //                                                   fit: BoxFit.fill,
-                                              //                                                   width: double.infinity,
-                                              //                                                 )
-
-                                              Image.network(
-                                            baseUrl + item.image.toString(),
+                                          (item) => CachedNetworkImage(
+                                            fadeInDuration:
+                                                Duration(milliseconds: 100),
+                                            imageUrl:
+                                                baseUrl + item.image.toString(),
                                             fit: BoxFit.fill,
                                             width: double.infinity,
                                           ),
+
+                                          //     Image.network(
+                                          //   baseUrl + item.image.toString(),
+                                          //   fit: BoxFit.fill,
+                                          //   width: double.infinity,
+                                          // ),
                                         )
                                         .toList(),
                                     carouselController: carouselController,

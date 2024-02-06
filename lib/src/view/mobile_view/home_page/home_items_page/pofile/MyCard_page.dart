@@ -273,9 +273,9 @@ class _MyCardPageState extends ConsumerState<MyCardPage> {
                         itemCount: myCardListItems.length + 1,
                       ),
           )
-        : NoInternetPageWithoutBackButton(() {
+        : NoInternetPage(() {
             fetch();
-          }, context);
+          }, context,showBackButton: false);
     // : SizedBox();
   }
 }

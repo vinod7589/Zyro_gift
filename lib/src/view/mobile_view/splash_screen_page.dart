@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:abc/src/view/mobile_view/no_internet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../controller/internet_check_status_controller.dart';
 import '../../util/services/shared_preferences.dart';
 import 'login_page/onboarding_page.dart';
 import 'landingpage.dart';
@@ -21,20 +25,33 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> navigateToOnBoard() async {
-    var mobile = UserPreferences.userMobile;
-    // if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
-    if (mobile != "" && mobile != 'userMobile' && mobile.isNotEmpty) {
-      await Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LandingPage()));
-      });
+    var userId = UserPreferences.userId;
+    await ref.read(CheckInternetController).checkConnectivity();
+    bool isInternetConnected = ref.read(CheckInternetController).isConnected;
+
+    if (isInternetConnected) {
+      if (userId != "" && userId != 'userMobile' && userId.isNotEmpty) {
+        await Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LandingPage()));
+        });
+      } else {
+        await Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => OnboardingPage()),
+          );
+        });
+      }
     } else {
-      await Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushReplacement(
+      log("asdfhafhshdsfjdfhsa");
+      Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => OnboardingPage()),
-        );
-      });
+          MaterialPageRoute(
+              builder: (context) => NoInternetPage(() {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => LandingPage()));
+                  }, context,showBackButton: false)));
     }
 
     // await Future.delayed(const Duration(seconds: 2), () {

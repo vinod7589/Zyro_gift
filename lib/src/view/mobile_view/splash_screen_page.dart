@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../util/services/shared_preferences.dart';
 import 'login_page/onboarding_page.dart';
 import 'landingpage.dart';
 
-class splashScreen extends StatefulWidget {
-  const splashScreen({super.key});
+class SplashScreen extends ConsumerStatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<splashScreen> createState() => splashScreenState();
+  ConsumerState<SplashScreen> createState() => SplashScreenState();
 }
 
-class splashScreenState extends State<splashScreen> {
+class SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
     navigateToOnBoard();
     // Delay for 3 seconds and then navigate to the main screen
   }

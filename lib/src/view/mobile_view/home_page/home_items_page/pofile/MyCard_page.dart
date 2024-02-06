@@ -1,19 +1,24 @@
+import 'package:abc/src/constants/color.dart';
 import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/my_card_model.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/My_cardDetails_page.dart';
+import 'package:abc/src/view/mobile_view/no_internet_page.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../Packages/page_transition/enum.dart';
 import '../../../../../Packages/page_transition/page_transition.dart';
-import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../../controller/internet_check_status_controller.dart';
+import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 
-class MyCardPage extends StatefulWidget {
+class MyCardPage extends ConsumerStatefulWidget {
   final bool isfrombottom;
 
   const MyCardPage({
@@ -23,10 +28,10 @@ class MyCardPage extends StatefulWidget {
   });
 
   @override
-  State<MyCardPage> createState() => _MyCardPageState();
+  ConsumerState<MyCardPage> createState() => _MyCardPageState();
 }
 
-class _MyCardPageState extends State<MyCardPage> {
+class _MyCardPageState extends ConsumerState<MyCardPage> {
   HomePageService homeRepo = HomePageService();
   DrawerRepoService drawerRepo = DrawerRepoService();
 
@@ -36,7 +41,10 @@ class _MyCardPageState extends State<MyCardPage> {
   @override
   void initState() {
     super.initState();
-    fetch();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.watch(CheckInternetController.notifier).startStreaming();
+      fetch();
+    });
   }
 
   List<MyCardList> myCardListItems = [];
@@ -53,10 +61,15 @@ class _MyCardPageState extends State<MyCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ConnectivityResult>(
-        stream: Connectivity().onConnectivityChanged,
-        builder: (context, snapshot) {
-          return Scaffold(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:
+          Color.fromRGBO(35, 35, 35, 1), // Set your desired color here
+      statusBarIconBrightness:
+          Brightness.light, // Use Brightness.dark for dark status bar icons
+    ));
+    var checkInternetController = ref.watch(CheckInternetController);
+    return checkInternetController.isConnected
+        ? Scaffold(
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
             appBar: AppBar(
                 scrolledUnderElevation: 0,
@@ -72,7 +85,7 @@ class _MyCardPageState extends State<MyCardPage> {
                           color: Colors.white,
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                 title: Text(
                   'My Cards',
@@ -92,15 +105,46 @@ class _MyCardPageState extends State<MyCardPage> {
                     ),
                   )
                 : (myCardListItems.isEmpty)
-                    ? Center(
-                        child: Text(
-                          'No Cards found.',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontFamily: 'Poppins',
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/nocardfound2.png',
+                                height: 295,
+                              ),
+                            ],
                           ),
-                        ),
+                          23.verticalSpace,
+                          Text(
+                            textAlign: TextAlign.center,
+                            "It seems you haven't made any card\n purchases yet!",
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                          58.verticalSpace,
+                          widget.isfrombottom == false
+                              ? Container(
+                                  height: 51.h,
+                                  width: 162.w,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(),
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      'Back',
+                                      style: TextStyle(
+                                          color: Color(0xFE2D2D2D),
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox()
+                        ],
                       )
                     : ListView.builder(
                         shrinkWrap: true,
@@ -171,10 +215,7 @@ class _MyCardPageState extends State<MyCardPage> {
                                       height: 5,
                                     ),
                                     Text(
-                                      '₹' +
-                                          myCardListItems[index]
-                                              .totalVoucherAmount
-                                              .toString(),
+                                      '₹${myCardListItems[index].totalVoucherAmount}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 23.14,
@@ -189,7 +230,7 @@ class _MyCardPageState extends State<MyCardPage> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 bottom: 10,
                                                 left: 20,
                                                 right: 20),
@@ -231,7 +272,10 @@ class _MyCardPageState extends State<MyCardPage> {
                         },
                         itemCount: myCardListItems.length + 1,
                       ),
-          );
-        });
+          )
+        : NoInternetPageWithoutBackButton(() {
+            fetch();
+          }, context);
+    // : SizedBox();
   }
 }

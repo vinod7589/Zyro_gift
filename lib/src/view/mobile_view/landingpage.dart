@@ -45,35 +45,35 @@ class _LandingPageState extends State<LandingPage> {
         selectedItemColor: Colors.white,
         selectedLabelStyle: TextStyle(
           color: Colors.white,
-          fontSize: 14.sp,
+          fontSize: 13.sp,
           fontWeight: FontWeight.w500,
           fontFamily: 'Poppins',
         ),
         unselectedLabelStyle: TextStyle(
           fontFamily: 'Poppins',
           color: Colors.grey,
-          fontSize: 14.sp,
+          fontSize: 13.sp,
           fontWeight: FontWeight.w500,
         ),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Customicon.home,
-              size: 26.h,
+              size: 23,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.account_balance_wallet_outlined,
-              size: 26.h,
+              size: 23,
             ),
             label: 'My Cards',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Customicon.profile,
-              size: 26.h,
+              size: 23,
             ),
             label: 'Profile',
           ),

@@ -380,9 +380,9 @@ class _DenominationState extends ConsumerState<Denomination> {
                                     fixedCardProvider.totalCardWorth != 0
                                 ? Colors.black87
                                 : Colors.white30,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                             letterSpacing: 0.08,
                           ),
                         ),

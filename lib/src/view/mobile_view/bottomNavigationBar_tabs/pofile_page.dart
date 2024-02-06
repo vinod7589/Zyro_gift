@@ -1,6 +1,7 @@
 import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/account_details_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/app_setting_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/help_support_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/transactions_page.dart';
 import 'package:abc/src/view/mobile_view/landingpage.dart';
 
@@ -318,7 +319,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 18, bottom: 20),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: HelpSupportPage(),
+                                type: PageTransitionType.theme));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

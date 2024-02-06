@@ -14,7 +14,9 @@ final CheckInternetController =
 class checkinternet extends ChangeNotifier {
   checkinternet(
     this._reader,
-  );
+  ) {
+    startStreaming();
+  }
 
   final Reader _reader;
   late ConnectivityResult result;
@@ -25,7 +27,7 @@ class checkinternet extends ChangeNotifier {
   Future<void> checkConnectivity() async {
     result = await Connectivity().checkConnectivity();
     isConnected = result != ConnectivityResult.none;
-    // notifyListeners();
+    notifyListeners();
   }
 
   startStreaming() {

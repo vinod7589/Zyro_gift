@@ -163,9 +163,9 @@ class _NumericKeypadState extends State<NumericKeypad> {
                             current_net_value <= widget.availableLimit)
                         ? Colors.black87
                         : Colors.white30,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: 0.08,
                   ),
                 ),

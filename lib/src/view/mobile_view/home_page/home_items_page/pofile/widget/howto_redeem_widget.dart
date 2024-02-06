@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:abc/src/view/Utility/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -113,20 +114,26 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                                       fontFamily: 'Poppins'),
                                 ),
                                 10.verticalSpace,
-                                Container(
-                                  height: 250,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                      redeemSteps[index].image != ''
-                                          ? redeemSteps[index].image!
-                                          : '',
-                                      height: 150,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                )
+                                redeemSteps[index].image != ''
+                                    ? Container(
+                                        // height: 250,
+                                        width: double.infinity,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image.network(
+                                            baseUrl +
+                                                        redeemSteps[index]
+                                                            .image !=
+                                                    ''
+                                                ? redeemSteps[index].image!
+                                                : '',
+                                            height: 150,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox()
                               ],
                             ),
                           );

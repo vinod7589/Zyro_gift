@@ -8,8 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../controller/internet_check_status_controller.dart';
 import '../../Utility/constants.dart';
 import '../home_page/home_items_page/card_details_page.dart';
+import '../no_internet_page.dart';
 
 class SearchBrandPaginationPage extends ConsumerStatefulWidget {
   const SearchBrandPaginationPage({super.key});
@@ -23,6 +25,7 @@ class _SearchBrandPaginationPageState
     extends ConsumerState<SearchBrandPaginationPage> {
   @override
   Widget build(BuildContext context) {
+    var checkInternetController = ref.watch(CheckInternetController);
     var filteredBrandPaginationProvider =
         ref.watch(searchPagePaginationProvider);
     final filteredBrandList = filteredBrandPaginationProvider.filteredBrandList;
@@ -177,7 +180,7 @@ class _SearchBrandPaginationPageState
                                     height: 130.h,
                                     errorWidget: (context, error, stackTrace) {
                                       return Image.asset(
-                                        'assets/images/errorimages.png',
+                                        'assets/images/errorimages1.png',
                                       );
                                     }),
                               ),

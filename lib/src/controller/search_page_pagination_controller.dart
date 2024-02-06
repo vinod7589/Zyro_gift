@@ -122,7 +122,6 @@ class SearchPagePaginationController extends ChangeNotifier {
   Future<void> searchClear() async {
     _isLoading = true;
     notifyListeners();
-
     searchBarTextEditingController.clear();
     search();
     _isLoading = false;
@@ -216,6 +215,7 @@ class SearchPagePaginationController extends ChangeNotifier {
   // Dispose of the controller when it is no longer needed
   @override
   void dispose() {
+    searchBarTextEditingController.clear();
     controller.removeListener(_loadMore);
     super.dispose();
   }

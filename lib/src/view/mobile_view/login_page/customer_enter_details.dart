@@ -1,6 +1,7 @@
 import 'package:abc/src/view/widgets/textfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
@@ -12,11 +13,12 @@ import '../../../util/services/shared_preferences.dart';
 import '../../Utility/validator.dart';
 import '../landingpage.dart';
 
-class CustomerEnterDetails extends StatefulWidget {
+class CustomerEnterDetails extends ConsumerStatefulWidget {
   CustomerEnterDetails({super.key});
 
   @override
-  State<CustomerEnterDetails> createState() => _CustomerEnterDetailsState();
+  ConsumerState<CustomerEnterDetails> createState() =>
+      _CustomerEnterDetailsState();
 }
 
 final _formKey = GlobalKey<FormState>();
@@ -26,7 +28,7 @@ TextEditingController _email = TextEditingController();
 TextEditingController _referralCode = TextEditingController();
 TextEditingController _dateOfBirth = TextEditingController();
 
-class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
+class _CustomerEnterDetailsState extends ConsumerState<CustomerEnterDetails> {
   AuthRepo auth = AuthRepo();
   @override
   void dispose() {
@@ -266,11 +268,13 @@ class _CustomerEnterDetailsState extends State<CustomerEnterDetails> {
                                           context);
                                       if (res?.status == 'success') {
                                         await auth.getUserDetail();
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LandingPage()));
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LandingPage()),
+                                          (Route<dynamic> route) => false,
+                                        );
                                       }
                                     }
                                   },

@@ -107,9 +107,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     var filteredBrandPaginationProvider =
         ref.watch(searchPagePaginationProvider);
     return
-      // isInternetConnected
-      //   ?
-    Scaffold(
+        // isInternetConnected
+        //   ?
+        Scaffold(
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
             body: isLoading
                 ? Center(
@@ -1930,7 +1930,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ]),
                   ));
-        // : NoInternetPage(() {}, context);
+    // : NoInternetPage(() {}, context);
     // : NoInternetPageWithoutBackButton(() {
     //     getAllVouchers();
     //     bannerfetch();
@@ -1948,10 +1948,10 @@ class MySliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   MySliverAppBarDelegate({required this.child});
 
   @override
-  double get minExtent => 75.h; // adjust as needed
+  double get minExtent => 80.h; // adjust as needed
 
   @override
-  double get maxExtent => 75.h; // adjust as needed
+  double get maxExtent => 80.h; // adjust as needed
 
   @override
   Widget build(

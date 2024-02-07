@@ -26,11 +26,17 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
 
   Future<void> navigateToOnBoard() async {
     var userId = UserPreferences.userId;
+    var name = UserPreferences.fullName;
     await ref.read(CheckInternetController).checkConnectivity();
     bool isInternetConnected = ref.read(CheckInternetController).isConnected;
-
+    print(name);
     if (isInternetConnected) {
-      if (userId != "" && userId != 'userMobile' && userId.isNotEmpty) {
+      if (userId != "" &&
+          userId != 'userMobile' &&
+          userId.isNotEmpty &&
+          name.isNotEmpty &&
+          name != '' &&
+          name != 'full_Name') {
         await Future.delayed(const Duration(seconds: 1), () {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => LandingPage()));
@@ -51,7 +57,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
               builder: (context) => NoInternetPage(() {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => LandingPage()));
-                  }, context,showBackButton: false)));
+                  }, context, showBackButton: false)));
     }
 
     // await Future.delayed(const Duration(seconds: 2), () {

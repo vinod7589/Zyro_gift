@@ -81,7 +81,9 @@ class _timerCountPageState extends State<TimerCountPage> {
     _statusTimer =
         Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
       if (_start > 1) {
-        await onCheckStatus();
+        if (rrn == '') {
+          await onCheckStatus();
+        }
       } else {
         if (_timer.isActive) {
           _timer.cancel();
@@ -95,17 +97,28 @@ class _timerCountPageState extends State<TimerCountPage> {
     });
   }
 
+  String rrn = '';
+  bool isGiftCreated = false;
+
   onCheckStatus() async {
     CheckPaymentStatusModel checkStatus =
         await paymentservice.checkPaymentStatus(widget.merchantTransactionId);
     if (checkStatus.success == true) {
-      PurchaseGiftVoucherModel purchaseVoucher = await paymentservice
-          .purchaseGiftVoucherService(widget.cartDataDetails);
-      if (purchaseVoucher.status == 'success') {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
-        _timer.cancel();
-        _statusTimer.cancel();
+      setState(() {
+        rrn = checkStatus.bankReference!;
+      });
+      if (isGiftCreated == false) {
+        PurchaseGiftVoucherModel purchaseVoucher = await paymentservice
+            .purchaseGiftVoucherService(widget.cartDataDetails);
+        setState(() {
+          isGiftCreated = true;
+        });
+        if (purchaseVoucher.status == 'success') {
+          _timer.cancel();
+          _statusTimer.cancel();
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
+        }
       }
     } else {}
   }

@@ -270,12 +270,12 @@ class _MyCardPageState extends ConsumerState<MyCardPage> {
                           }
                           return null;
                         },
-                        itemCount: myCardListItems.length + 1,
+                        itemCount: myCardListItems.length,
                       ),
           )
         : NoInternetPage(() {
             fetch();
-          }, context,showBackButton: false);
+          }, context, showBackButton: false);
     // : SizedBox();
   }
 }

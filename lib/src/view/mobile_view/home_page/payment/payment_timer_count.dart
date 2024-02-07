@@ -29,99 +29,201 @@ class TimerCountPage extends StatefulWidget {
 
 class _timerCountPageState extends State<TimerCountPage> {
   PaymentRepo paymentservice = PaymentRepo();
-  late Timer _timer;
+
   late Timer _statusTimer;
-  int _start = 5 * 60; // 5 minutes
-
-  void startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
-    );
-  }
-
-  void stopTimer() {
-    _timer.cancel();
-    _statusTimer.cancel();
-    setState(() {
-      _start = 0;
-    });
-  }
-
-  @override
-  void dispose() {
-    if (_timer.isActive) {
-      _timer.cancel();
-    }
-    if (_statusTimer.isActive) {
-      _statusTimer.cancel();
-    }
-    super.dispose();
-  }
+  late DateTime _startTime;
+  late bool _statusChecked;
+  late int _remainingTime;
+  String rrn = "";
 
   @override
   void initState() {
     super.initState();
-    startTimer();
-    checkStatusPeriodically();
+    _statusChecked = false;
+    _startTime = DateTime.now();
+    _remainingTime = 300; // 5 minutes in seconds
+    startStatusTimer();
   }
 
-  void checkStatusPeriodically() {
-    _statusTimer =
-        Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
-      if (_start > 1) {
-        if (rrn == '') {
-          await onCheckStatus();
-        }
+  @override
+  void dispose() {
+    _statusTimer.cancel();
+    super.dispose();
+  }
+
+  void startStatusTimer() {
+    const int interval = 1; // 5 second interval
+    _statusTimer = Timer.periodic(Duration(seconds: interval), (timer) async {
+      setState(() {
+        // Calculate remaining time
+        // _remainingTime = 300 - DateTime.now().difference(_startTime).inSeconds;
+        _remainingTime--;
+      });
+      // Check if 5 minutes have elapsed
+      if (_remainingTime <= 0) {
+        // Cancel timer and navigate to failure page
+        _statusTimer.cancel();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PaymentFailedPage()),
+        );
       } else {
-        if (_timer.isActive) {
-          _timer.cancel();
+        if (_remainingTime % 5 == 0) {
+          if (!_statusChecked) {
+            // await Future.delayed(Duration(seconds: 1));
+            checkStatus(); // Your method to check status
+          }
         }
-        if (_statusTimer.isActive) {
-          _statusTimer.cancel();
-        }
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PaymentFailedPage()));
       }
     });
   }
 
-  String rrn = '';
-  bool isGiftCreated = false;
+  void checkStatus() async {
+    // Simulated status check
+    bool success = await getStatusFromAPI(); //Replace with your actual API call
 
-  onCheckStatus() async {
+    if (success) {
+      setState(() {
+        _statusChecked = true;
+      });
+      // Navigate to success page
+      // createVoucher();
+      _statusTimer.cancel();
+    }
+  }
+
+  void stopTimer() {
+    // Cancel the status timer and navigate to failure page
+    _statusTimer.cancel();
+  }
+
+  getStatusFromAPI() async {
     CheckPaymentStatusModel checkStatus =
         await paymentservice.checkPaymentStatus(widget.merchantTransactionId);
     if (checkStatus.success == true) {
       setState(() {
         rrn = checkStatus.bankReference!;
       });
-      if (isGiftCreated == false) {
-        PurchaseGiftVoucherModel purchaseVoucher = await paymentservice
-            .purchaseGiftVoucherService(widget.cartDataDetails);
-        setState(() {
-          isGiftCreated = true;
-        });
-        if (purchaseVoucher.status == 'success') {
-          _timer.cancel();
-          _statusTimer.cancel();
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
-        }
-      }
-    } else {}
+    }
+    return checkStatus.success;
   }
+
+  createVoucher() async {
+    await Future.delayed(Duration(seconds: 2));
+    var req = {
+      "userId": widget.cartDataDetails.userId,
+      "brandcode": widget.cartDataDetails.brandcode,
+      "discount": widget.cartDataDetails.discount,
+      "rrn": rrn,
+      "vouchers": widget.cartDataDetails.vouchers
+    };
+    PurchaseGiftVoucherModel purchaseVoucher =
+        await paymentservice.purchaseGiftVoucherService(req);
+    if (purchaseVoucher.status == 'success') {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
+    }
+  }
+  // late Timer _timer;
+  // late Timer _statusTimer;
+  // int _start = 5 * 60; // 5 minutes
+  //
+  // void startTimer() {
+  //   const oneSec = Duration(seconds: 1);
+  //   _timer = Timer.periodic(
+  //     oneSec,
+  //     (Timer timer) {
+  //       if (_start == 0) {
+  //         setState(() {
+  //           timer.cancel();
+  //         });
+  //       } else {
+  //         setState(() {
+  //           _start--;
+  //         });
+  //       }
+  //     },
+  //   );
+  // }
+  //
+  // void stopTimer() {
+  //   _timer.cancel();
+  //   _statusTimer.cancel();
+  //   setState(() {
+  //     _start = 0;
+  //   });
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   if (_timer.isActive) {
+  //     _timer.cancel();
+  //   }
+  //   // if (_statusTimer.isActive) {
+  //   //   _statusTimer.cancel();
+  //   // }
+  //   super.dispose();
+  // }
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   startTimer();
+  //   checkStatusPeriodically();
+  // }
+  //
+  // void checkStatusPeriodically() {
+  //   _statusTimer =
+  //       Timer.periodic(const Duration(seconds: 5), (Timer timer) async {
+  //     if (_start > 1) {
+  //       if (rrn == '') {
+  //         await onCheckStatus();
+  //       }
+  //     } else {
+  //       if (_timer.isActive) {
+  //         _timer.cancel();
+  //       }
+  //       if (_statusTimer.isActive) {
+  //         _statusTimer.cancel();
+  //       }
+  //       Navigator.push(context,
+  //           MaterialPageRoute(builder: (context) => const PaymentFailedPage()));
+  //     }
+  //   });
+  // }
+  //
+  // String rrn = '';
+  // bool isGiftCreated = false;
+  //
+  // onCheckStatus() async {
+  //   CheckPaymentStatusModel checkStatus =
+  //       await paymentservice.checkPaymentStatus(widget.merchantTransactionId);
+  //   if (checkStatus.success == true) {
+  //     setState(() {
+  //       rrn = checkStatus.bankReference!;
+  //       _timer.cancel();
+  //       _statusTimer.cancel();
+  //     });
+  //     if (isGiftCreated == false) {
+  //       var req = {
+  //         "userId": widget.cartDataDetails.userId,
+  //         "brandcode": widget.cartDataDetails.brandcode,
+  //         "discount": widget.cartDataDetails.discount,
+  //         "rrn": rrn,
+  //         "vouchers": widget.cartDataDetails.vouchers
+  //       };
+  //       PurchaseGiftVoucherModel purchaseVoucher =
+  //           await paymentservice.purchaseGiftVoucherService(req);
+  //       setState(() {
+  //         isGiftCreated = true;
+  //       });
+  //       if (purchaseVoucher.status == 'success') {
+  //         Navigator.pushReplacement(context,
+  //             MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
+  //       }
+  //     }
+  //   } else {}
+  // }
 
   String formatTime(int seconds) {
     int minutes = seconds ~/ 60;
@@ -157,7 +259,7 @@ class _timerCountPageState extends State<TimerCountPage> {
                   Positioned(
                     // Positioned text in the center
                     child: Text(
-                      formatTime(_start),
+                      formatTime(_remainingTime),
                       style: TextStyle(
                           fontSize: 25.sp,
                           fontWeight: FontWeight.w500,

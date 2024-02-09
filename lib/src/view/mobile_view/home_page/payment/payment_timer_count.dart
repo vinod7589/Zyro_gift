@@ -89,6 +89,8 @@ class _timerCountPageState extends State<TimerCountPage> {
       // Navigate to success page
       // createVoucher();
       _statusTimer.cancel();
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
     }
   }
 

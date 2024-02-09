@@ -60,7 +60,11 @@ class AuthRepo {
         // showToast(message: 'Verify successfully');
         UserPreferences.setTokenId(token: res.token.toString());
         Navigator.pop(context);
-        if (res.isRegistered == true) {
+        // var name = UserPreferences.fullName;
+        if (res.isRegistered == true &&
+            res.user!.name!.isNotEmpty &&
+            res.user!.name! != '' &&
+            res.user!.name! != 'full_Name') {
           await getUserDetail();
           Navigator.pushAndRemoveUntil(
             context,

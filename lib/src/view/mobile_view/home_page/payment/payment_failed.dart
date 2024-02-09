@@ -55,7 +55,7 @@ class PaymentFailedPage extends StatelessWidget {
                       20.verticalSpace,
                       Text(
                         textAlign: TextAlign.center,
-                        'Unfortunately we have an issue\n with your payment, try again later.',
+                        'Payment Time Out',
                         style: TextStyle(
                             color: Colors.grey,
                             fontFamily: 'Poppins',

@@ -56,7 +56,8 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
     });
     num payableAmount =
         amount - (amount * widget.cartDataDetails.discount! / 100);
-    PaymentModel res = await paymentservice.paymentService(payableAmount);
+    PaymentModel res = await paymentservice.paymentService(
+        payableAmount, widget.cartDataDetails);
     if (res.success == true) {
       paymentUrl = res.data!.intentUrl!;
       merchantTransactionId = res.data!.orderId!;

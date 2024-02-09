@@ -2,19 +2,28 @@ import 'package:abc/src/model/payment/check_payment_status_model.dart';
 import 'package:abc/src/model/payment/payment_model.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../model/CartDataModel.dart';
 import '../../model/payment/purchasegift_voucher_model.dart';
 import '../dio/dio_api_service.dart';
 
 class PaymentRepo {
   DioApiService dio = DioApiService();
 
-  Future<PaymentModel> paymentService(num payableAmount) async {
+  Future<PaymentModel> paymentService(
+      num payableAmount, CartDataModel cartDataDetails) async {
     try {
       var request = {
         "amount": payableAmount,
         "mode": "INTENT",
         "vpa": "",
-        "customer_email": "test@example.com"
+        "customer_email": "test@example.com",
+        "vouchersData": {
+          "userId": cartDataDetails.userId,
+          "brandcode": cartDataDetails.brandcode,
+          "discount": cartDataDetails.discount,
+          "rrn": "",
+          "vouchers": cartDataDetails.vouchers
+        }
       };
       final response =
           await dio.AuthPost('/api/PaymentGateway/Initiate', request);

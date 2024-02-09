@@ -34,7 +34,6 @@ class HelpSupportPage extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 50),
             width: double.infinity,
-            height: 159.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: Color(0xFE2E2E2E)),
@@ -60,7 +59,8 @@ class HelpSupportPage extends StatelessWidget {
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
-                )
+                ),
+                30.verticalSpace,
               ],
             ),
           ),
@@ -68,7 +68,6 @@ class HelpSupportPage extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 50),
             width: double.infinity,
-            height: 159.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: Color(0xFE2E2E2E)),
@@ -94,7 +93,8 @@ class HelpSupportPage extends StatelessWidget {
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
-                )
+                ),
+                30.verticalSpace,
               ],
             ),
           ),

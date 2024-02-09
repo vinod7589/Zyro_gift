@@ -164,26 +164,19 @@ class _SearchBrandPaginationPageState
                           },
                           child: Row(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(17)),
-                                // height: 113.h,
-                                // width: 132.w,
-                                child: CachedNetworkImage(
-                                    fadeInDuration: Duration(milliseconds: 100),
-                                    imageUrl: baseUrl +
-                                        filteredBrandPaginationProvider
-                                            .filteredBrandList[index]
-                                            .defaultImage
-                                            .toString(),
-                                    fit: BoxFit.fill,
-                                    height: 130.h,
-                                    errorWidget: (context, error, stackTrace) {
-                                      return Image.asset(
-                                        'assets/images/errorimages1.png',
-                                      );
-                                    }),
-                              ),
+                              CachedNetworkImage(
+                                  fadeInDuration: Duration(milliseconds: 100),
+                                  imageUrl: baseUrl +
+                                      filteredBrandPaginationProvider
+                                          .filteredBrandList[index].defaultImage
+                                          .toString(),
+                                  fit: BoxFit.fill,
+                                  height: 130.h,
+                                  errorWidget: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/errorimages1.png',
+                                    );
+                                  }),
                               20.horizontalSpace,
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

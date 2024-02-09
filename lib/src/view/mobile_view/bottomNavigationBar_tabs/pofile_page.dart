@@ -317,7 +317,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   //   color: Color(0xFF3B3B3B),
                   // ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 18, bottom: 20),
+                    padding: const EdgeInsets.only(top: 18, bottom: 28),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -359,7 +359,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  12.verticalSpace
+                  // 12.verticalSpace
                 ],
               ),
             ),

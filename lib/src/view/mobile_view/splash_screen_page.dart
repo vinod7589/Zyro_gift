@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../controller/internet_check_status_controller.dart';
 import '../../util/services/shared_preferences.dart';
 import 'login_page/onboarding_page.dart';
-import 'landingpage.dart';
+import 'bottomNavigationBar.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});

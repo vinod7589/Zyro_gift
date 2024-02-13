@@ -71,7 +71,7 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                       padding: EdgeInsets.only(top: 15),
                       sliver: SliverAppBar(
                         leading: SizedBox(),
-                        toolbarHeight: 65.h,
+                        // toolbarHeight: 65.h,
                         pinned: false,
                         floating: true,
                         scrolledUnderElevation: 0,
@@ -216,9 +216,9 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                             fadeInDuration:
                                                 Duration(milliseconds: 100),
                                             fadeOutDuration:
-                                                Duration(seconds: 5),
+                                                Duration(milliseconds: 100),
                                             placeholderFadeInDuration:
-                                                Duration(milliseconds: 2),
+                                                Duration(milliseconds: 50),
                                             imageUrl:
                                                 '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
                                             height: 33.h,
@@ -230,6 +230,7 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                                   .categoriesList[index]
                                                   .categoryName
                                                   .toString(),
+                                              maxLines: 1,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontFamily: 'Poppins',

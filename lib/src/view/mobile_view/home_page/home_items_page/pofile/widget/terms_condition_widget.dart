@@ -80,7 +80,7 @@ class _TermsConditionWidgetState extends State<TermsConditionWidget> {
                     // ),
                     Expanded(
                       child: Text(
-                        '${widget.brandData!.replaceAll('"', '')}',
+                        widget.brandData!.replaceAll('<br/>', '\n\n'),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 13.sp,

@@ -11,7 +11,7 @@ import '../../../model/auth/get_user_detail_model.dart';
 import '../../../model/auth/registration_model.dart';
 import '../../../util/services/shared_preferences.dart';
 import '../../Utility/validator.dart';
-import '../landingpage.dart';
+import '../bottomNavigationBar.dart';
 
 class CustomerEnterDetails extends ConsumerStatefulWidget {
   CustomerEnterDetails({super.key});

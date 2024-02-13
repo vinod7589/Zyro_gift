@@ -3,7 +3,7 @@ import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/accoun
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/app_setting_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/help_support_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/transactions_page.dart';
-import 'package:abc/src/view/mobile_view/landingpage.dart';
+import 'package:abc/src/view/mobile_view/bottomNavigationBar.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

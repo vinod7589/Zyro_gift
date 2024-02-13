@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletons/skeletons.dart';
 
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../controller/internet_check_status_controller.dart';
@@ -25,7 +26,7 @@ class _SearchBrandPaginationPageState
     extends ConsumerState<SearchBrandPaginationPage> {
   @override
   Widget build(BuildContext context) {
-    var checkInternetController = ref.watch(CheckInternetController);
+    // var checkInternetController = ref.watch(CheckInternetController);
     var filteredBrandPaginationProvider =
         ref.watch(searchPagePaginationProvider);
     final filteredBrandList = filteredBrandPaginationProvider.filteredBrandList;
@@ -165,18 +166,43 @@ class _SearchBrandPaginationPageState
                           child: Row(
                             children: [
                               CachedNetworkImage(
-                                  fadeInDuration: Duration(milliseconds: 100),
-                                  imageUrl: baseUrl +
-                                      filteredBrandPaginationProvider
-                                          .filteredBrandList[index].defaultImage
-                                          .toString(),
-                                  fit: BoxFit.fill,
-                                  height: 130.h,
-                                  errorWidget: (context, error, stackTrace) {
-                                    return Image.asset(
-                                      'assets/images/errorimages1.png',
-                                    );
-                                  }),
+                                fadeInDuration: Duration(milliseconds: 100),
+                                imageUrl: baseUrl +
+                                    filteredBrandPaginationProvider
+                                        .filteredBrandList[index].defaultImage
+                                        .toString(),
+                                fit: BoxFit.fill,
+                                height: 130.h,
+                                errorWidget: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    'assets/images/errorimages1.png',
+                                  );
+                                },
+                                placeholder: (context, url) => Skeleton(
+                                  shimmerGradient: const LinearGradient(
+                                    colors: [
+                                      Colors.black54,
+                                      Colors.white70,
+                                      Colors.black54,
+                                    ],
+                                    stops: [
+                                      0.1,
+                                      0.5,
+                                      1,
+                                    ],
+                                  ),
+                                  isLoading: filteredBrandPaginationProvider
+                                          .isLoading ==
+                                      true,
+                                  skeleton: const SizedBox(),
+                                  child: SkeletonAvatar(
+                                      style: SkeletonAvatarStyle(
+                                          borderRadius:
+                                              BorderRadius.circular(14),
+                                          width: 152.h,
+                                          height: 132.h)),
+                                ),
+                              ),
                               20.horizontalSpace,
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,43 +248,53 @@ class _SearchBrandPaginationPageState
                                     ],
                                   ),
                                   3.verticalSpace,
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Fashion',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.sp,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.06,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        height: 3.h,
-                                        width: 3.w,
-                                        decoration: const BoxDecoration(
+                                  SizedBox(
+                                    width: 150,
+                                    child: Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      alignment: WrapAlignment.start,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          filteredBrandPaginationProvider
+                                              .filteredBrandList[index].category
+                                              .toString()
+                                              .split('&')[0]
+                                              .trim(),
+                                          style: TextStyle(
                                             color: Colors.white,
-                                            shape: BoxShape.circle),
-                                      ),
-                                      Text(
-                                        filteredBrandPaginationProvider
-                                            .filteredBrandList[index]
-                                            .redemptionProcess
-                                            .toString(),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10.sp,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.06,
+                                            fontSize: 13.sp,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.06,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          height: 3.h,
+                                          width: 3.w,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle),
+                                        ),
+                                        Text(
+                                          filteredBrandPaginationProvider
+                                              .filteredBrandList[index]
+                                              .redemptionProcess
+                                              .toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10.sp,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.06,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   9.verticalSpace,
                                   Row(

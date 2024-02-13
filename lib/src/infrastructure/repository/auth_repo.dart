@@ -5,7 +5,7 @@ import 'package:abc/src/model/auth/generate_otp_model.dart';
 import 'package:abc/src/model/auth/verify_otp_model.dart';
 import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
 import 'package:abc/src/view/mobile_view/login_page/onboarding_page.dart';
-import 'package:abc/src/view/mobile_view/landingpage.dart';
+import 'package:abc/src/view/mobile_view/bottomNavigationBar.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
 

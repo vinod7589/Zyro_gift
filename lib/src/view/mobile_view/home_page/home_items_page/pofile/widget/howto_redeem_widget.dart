@@ -105,15 +105,18 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
+                                  textAlign: TextAlign.start,
                                   '* ${redeemSteps[index].title}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: 'Poppins'),
                                 ),
-                                10.verticalSpace,
+                                // 10.verticalSpace,
                                 redeemSteps[index].image != ''
                                     ? Container(
                                         // height: 250,
@@ -141,7 +144,7 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                         separatorBuilder: (context, index) => SizedBox(
                               height: 30,
                             ),
-                        itemCount: 2),
+                        itemCount: redeemSteps.length),
                 10.verticalSpace,
                 // Row(
                 //   children: [

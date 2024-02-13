@@ -4,25 +4,22 @@ import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.d
 import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
-import '../../../controller/internet_check_status_controller.dart';
 import '../../../controller/search_page_pagination_controller.dart';
 import '../../../model/homePage/voucher_entity.dart';
 import '../bottomNavigationBar_tabs/pofile_page.dart';
-import '../no_internet_page.dart';
 import '../searchPage/search_mobile_page.dart';
 import 'home_items_page/card_details_page.dart';
-import 'widget/Home_globalPage.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -36,15 +33,15 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   void initState() {
+    checkForUpdateAndLaunch();
+    // checkForUpdate();
+    // print("'check' +${checkForUpdate()}");
     getAllVouchers();
     bannerfetch();
+    super.initState();
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   ref.watch(CheckInternetController.notifier).startStreaming();
-    //
     // });
-
-    // allCategories();
-    super.initState();
   }
 
   List<VoucherEntity> allPopularBrands = [];
@@ -100,6 +97,60 @@ class _HomePageState extends ConsumerState<HomePage> {
   //////////TextEditingController////////////////
   TextEditingController searchBarTextEditingController =
       TextEditingController();
+/////////////////////////////////////////////////////
+
+  ///////////////UPDATE APK///////////////////
+  Future<void> checkForUpdateAndLaunch() async {
+    print('Checking for update');
+    await InAppUpdate.checkForUpdate().then((updateInfo) {
+      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+        showUpdateDialog(context); // Launch app update if available
+      } else {
+        print('No update available');
+        // Optionally, display a message to the user indicating no update is available
+      }
+    }).catchError((error) {
+      // Handle error checking for update
+      print('Error checking for update: $error');
+    });
+  }
+
+  void showUpdateDialog(BuildContext context) {
+    showDialog(
+      useRootNavigator: false,
+      barrierDismissible:
+          false, // Prevents dismissal when tapping outside or pressing back button
+      context: context,
+      builder: (BuildContext context) {
+        return WillPopScope(
+            onWillPop: () async => false, // Disable back button pop
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: Center(
+                  child: GestureDetector(
+                onTap: () {
+                  launchAppUpdate();
+                },
+                child: Image.asset(
+                  'assets/images/updateui.png',
+                ),
+              )),
+            ));
+      },
+    );
+  }
+
+  Future<void> launchAppUpdate() async {
+    const String packageName =
+        'com.ZyroPay'; // Package name of your app on Google Play Store
+    const String url =
+        'https://play.google.com/store/apps/details?id=$packageName';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -545,8 +596,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         return null;
                                       }),
                                 ),
-                                20.verticalSpace,
-                                5.verticalSpace,
+                                25.verticalSpace,
                                 SizedBox(
                                   height: 168.h,
                                   child: Stack(
@@ -557,13 +607,40 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         child: CarouselSlider(
                                           items: bannerList
                                               .map(
-                                                (item) => CachedNetworkImage(
-                                                  fadeInDuration: Duration(
-                                                      milliseconds: 100),
-                                                  imageUrl: baseUrl +
-                                                      item.image.toString(),
-                                                  fit: BoxFit.fill,
-                                                  width: double.infinity,
+                                                (item) => InkWell(
+                                                  highlightColor:
+                                                      Colors.transparent,
+                                                  splashColor:
+                                                      Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(18),
+                                                  onTap: () {
+                                                    // Navigator.push(
+                                                    //     context,
+                                                    //     PageTransition(
+                                                    //         child: CardDetailsPage(
+                                                    //             voucher:
+                                                    //                 allPopularBrands[
+                                                    //                     currentIndex],
+                                                    //             brandCode: item
+                                                    //                 .brandName
+                                                    //                 .toString()),
+                                                    //         type:
+                                                    //             PageTransitionType
+                                                    //                 .theme));
+                                                    // print(VoucherEntity());
+                                                    // print('vinod' +
+                                                    //     item.brandName
+                                                    //         .toString());
+                                                  },
+                                                  child: CachedNetworkImage(
+                                                    fadeInDuration: Duration(
+                                                        milliseconds: 100),
+                                                    imageUrl: baseUrl +
+                                                        item.image.toString(),
+                                                    fit: BoxFit.fill,
+                                                    width: double.infinity,
+                                                  ),
                                                 ),
 
                                                 //     Image.network(

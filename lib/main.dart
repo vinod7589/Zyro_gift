@@ -1,17 +1,15 @@
-import 'dart:io';
-
 import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/splash_screen_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:upgrader/upgrader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Upgrader.clearSavedSettings();
+  CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
+  // await Upgrader.clearSavedSettings();
   await UserPreferences.init();
 
   runApp(ProviderScope(child: const MyApp()));
@@ -19,7 +17,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -39,7 +36,7 @@ class MyApp extends StatelessWidget {
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),
-              home: UpgradeAlert(upgrader: Upgrader(), child: SplashScreen()));
+              home: SplashScreen());
         });
   }
 }

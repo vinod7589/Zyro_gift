@@ -7,7 +7,7 @@ import 'bottomNavigationBar_tabs/pofile_page.dart';
 import 'home_page/home_page.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({Key? key}) : super(key: key);
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -25,7 +25,6 @@ class _LandingPageState extends State<LandingPage> {
         index: _selectedIndex,
         children: const [
           HomePage(),
-
           MyCardPage(
             isfrombottom: true,
             // Isfrombottom: true,
@@ -40,7 +39,7 @@ class _LandingPageState extends State<LandingPage> {
             _selectedIndex = value;
           });
         },
-        backgroundColor: Color.fromRGBO(35, 35, 35, 1),
+        backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
         currentIndex: _selectedIndex,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.white,
@@ -56,7 +55,7 @@ class _LandingPageState extends State<LandingPage> {
           fontSize: 13.sp,
           fontWeight: FontWeight.w500,
         ),
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Customicon.home,

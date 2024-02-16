@@ -32,7 +32,6 @@ class _CustomerEnterDetailsState extends ConsumerState<CustomerEnterDetails> {
   AuthRepo auth = AuthRepo();
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     // _fullName.clear();
     // _email.clear();

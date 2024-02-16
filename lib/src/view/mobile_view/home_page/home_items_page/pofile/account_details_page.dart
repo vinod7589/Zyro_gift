@@ -1,15 +1,14 @@
-// ignore_for_file: unrelated_type_equality_checks
+import 'dart:developer';
 
-import 'package:abc/src/model/auth/get_user_detail_model.dart';
 import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
+import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/profile_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../Packages/page_transition/enum.dart';
+import '../../../../../Packages/page_transition/page_transition.dart';
 import '../../../../../infrastructure/repository/auth_repo.dart';
-import '../../../../../model/auth/registration_model.dart';
-import '../../../../Utility/validator.dart';
 
 class AccountDetailsPage extends StatefulWidget {
   const AccountDetailsPage({super.key});
@@ -52,52 +51,86 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    String dateTimeString = UserPreferences.dob;
-    DateTime parseDateTime(String dateTimeString) {
-      // Use DateFormat to parse the time directly
+  DateTime? parseDateTime(String dateTimeString) {
+    // Use DateFormat to parse the time directly
+    try {
       DateTime dateTime =
           DateFormat("M/d/yyyy h:mm:ss a").parse(dateTimeString);
       return dateTime;
+    } on FormatException {
+      return null;
     }
+  }
 
-    String formatDate(DateTime dateTime) {
-      // Format the date as per your requirements
-      String formattedDate = DateFormat("d/M/yyyy").format(dateTime);
-      return formattedDate;
-    }
+  String formattedTime = "";
+  String formatDate(DateTime dateTime) {
+    String formattedDate = DateFormat("d/M/yyyy").format(dateTime);
+    return formattedDate;
+  }
 
-    DateTime dateTime = parseDateTime(dateTimeString);
-    String formattedTime = formatDate(dateTime);
+  @override
+  void initState() {
+    getDetails();
+    super.initState();
+  }
 
-    String dob = '';
+  getDetails() async {
+    await auth.getUserDetail();
+    setState(() {});
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    // String dateTimeString = UserPreferences.dob;
+    //
+    // DateTime? dateTime = parseDateTime(dateTimeString);
+    // if (dateTime != null) {
+    //   formattedTime = formatDate(dateTime);
+    // }
     return Scaffold(
         backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
         appBar: AppBar(
-            titleSpacing: 5,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: ProfileEditPage(),
+                          type: PageTransitionType.theme));
+                },
+                child: Text(
+                  'Edit',
+                  style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                ),
               ),
+            )
+          ],
+          titleSpacing: 5,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
             ),
-            backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-            title: Text(
-              'Account Details',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
-                height: 1.11,
-                letterSpacing: 0.08,
-              ),
-            )),
+          ),
+          backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+          title: Text(
+            'Account Details',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+              height: 1.11,
+              letterSpacing: 0.08,
+            ),
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Form(
@@ -126,7 +159,9 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      name.isEmpty ? UserPreferences.fullName : 'N/A',
+                      UserPreferences.fullName.isEmpty
+                          ? 'N/A'
+                          : UserPreferences.fullName,
                       style: TextStyle(
                         color: const Color(0xFFBEBEBE),
                         fontSize: 15.sp,
@@ -217,203 +252,6 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                           ),
                         ),
                         const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30),
-                          child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (BuildContext) {
-                                  return Container(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xFF2C2C2C),
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20))),
-                                    // Customize the content of your bottom sheet here
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 25, right: 25, bottom: 20),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      top: 12),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(
-                                                          0xFF444444),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30)),
-                                                  height: 5,
-                                                  width: 100,
-                                                ),
-                                              ],
-                                            ),
-                                            30.verticalSpace,
-                                            Text(
-                                              'Email address',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18.sp,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                                letterSpacing: 0.40,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: TextFormField(
-                                                controller:
-                                                    _emailTextEditingController,
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                                decoration: InputDecoration(
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                        color:
-                                                            Color(0xFFC7C7C7),
-                                                      ),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                        color:
-                                                            Color(0xFFC7C7C7),
-                                                      ),
-                                                    ),
-                                                    contentPadding:
-                                                        const EdgeInsets
-                                                                .symmetric(
-                                                            horizontal: 15,
-                                                            vertical: 15),
-                                                    hintStyle: TextStyle(
-                                                      color: const Color(
-                                                          0xFFBEBEBE),
-                                                      fontSize: 15.sp,
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                    hintText:
-                                                        "Enter your email address",
-                                                    border: OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                        color:
-                                                            Color(0xFFC7C7C7),
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                    )),
-                                                validator: (value) {
-                                                  return Validator
-                                                      .validateEmail(
-                                                    value ?? "",
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            20.verticalSpace,
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            top: 20),
-                                                    height: 51,
-                                                    child: ElevatedButton(
-                                                        onPressed: () async {
-                                                          if (_formKey
-                                                              .currentState!
-                                                              .validate()) {
-                                                            _formKey
-                                                                .currentState!
-                                                                .save();
-                                                            Signup? res =
-                                                                await auth.signUp(
-                                                                    '',
-                                                                    _emailTextEditingController
-                                                                        .text,
-                                                                    dob,
-                                                                    '',
-                                                                    context);
-                                                            if (res?.status ==
-                                                                'success') {
-                                                              await auth
-                                                                  .getUserDetail();
-                                                              Navigator.pop(
-                                                                  context);
-                                                              // Navigator.pushReplacement(
-                                                              //     context,
-                                                              //     MaterialPageRoute(
-                                                              //         builder: (context) =>
-                                                              //             LandingPage()));
-                                                            }
-                                                          }
-                                                        },
-                                                        child: Text(
-                                                          'Update',
-                                                          style: TextStyle(
-                                                            color: const Color(
-                                                                0xFF2C2C2C),
-                                                            fontSize: 16.sp,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            letterSpacing: 0.08,
-                                                          ),
-                                                        )),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            15.verticalSpace,
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: isEmail
-                                ? Text(
-                                    'Add',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: const Color(0xFFAC61FF),
-                                        fontSize: 15.sp),
-                                  )
-                                : const Text(''),
-                          ),
-                        )
                       ],
                     )
                   ],
@@ -448,7 +286,9 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         SizedBox(
                           width: 260,
                           child: Text(
-                            isDob ? 'N/A' : formattedTime,
+                            UserPreferences.dob == ""
+                                ? "N/A"
+                                : UserPreferences.dob,
                             style: TextStyle(
                               color: const Color(0xFFBEBEBE),
                               fontSize: 15.sp,
@@ -458,227 +298,6 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                           ),
                         ),
                         const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30),
-                          child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xFF2C2C2C),
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20))),
-                                    // Customize the content of your bottom sheet here
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 25, right: 25, bottom: 20),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      top: 12),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(
-                                                          0xFF444444),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30)),
-                                                  height: 5,
-                                                  width: 100,
-                                                ),
-                                              ],
-                                            ),
-                                            30.verticalSpace,
-                                            Text(
-                                              'Date Of Birth',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18.sp,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                                letterSpacing: 0.40,
-                                              ),
-                                            ),
-                                            20.verticalSpace,
-                                            InkWell(
-                                              onTap: () {
-                                                _selectDate(context);
-                                              },
-                                              child: Container(
-                                                width: double.infinity,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.grey),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.calendar_today,
-                                                      color: Colors.white,
-                                                    ),
-                                                    15.horizontalSpace,
-                                                    Text(
-                                                      'Add your Date of Birth',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 14.sp),
-                                                    )
-                                                  ],
-                                                ),
-                                                height: 47.h,
-                                              ),
-                                            ),
-                                            // Padding(
-
-                                            //   padding:
-                                            //       const EdgeInsets.only(top: 10),
-                                            //   child: TextFormField(
-                                            //     controller:
-                                            //         _dobTextEditingController,
-                                            //     style: const TextStyle(
-                                            //         color: Colors.white),
-                                            //     decoration: InputDecoration(
-                                            //         enabledBorder:
-                                            //             OutlineInputBorder(
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(
-                                            //                   8),
-                                            //           borderSide:
-                                            //               const BorderSide(
-                                            //             color: Color(0xFFC7C7C7),
-                                            //           ),
-                                            //         ),
-                                            //         focusedBorder:
-                                            //             OutlineInputBorder(
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(
-                                            //                   8),
-                                            //           borderSide:
-                                            //               const BorderSide(
-                                            //             color: Color(0xFFC7C7C7),
-                                            //           ),
-                                            //         ),
-                                            //         contentPadding:
-                                            //             const EdgeInsets
-                                            //                     .symmetric(
-                                            //                 horizontal: 15,
-                                            //                 vertical: 15),
-                                            //         hintStyle: TextStyle(
-                                            //           color:
-                                            //               const Color(0xFFBEBEBE),
-                                            //           fontSize: 15.sp,
-                                            //           fontFamily: 'Poppins',
-                                            //           fontWeight: FontWeight.w500,
-                                            //         ),
-                                            //         hintText:
-                                            //             "Enter your Date of birth",
-                                            //         border: OutlineInputBorder(
-                                            //           borderSide:
-                                            //               const BorderSide(
-                                            //             color: Color(0xFFC7C7C7),
-                                            //           ),
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(
-                                            //                   8),
-                                            //         )),
-                                            //   ),
-                                            // ),
-                                            20.verticalSpace,
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            top: 20),
-                                                    height: 51,
-                                                    child: ElevatedButton(
-                                                        onPressed: () async {
-                                                          // if (_formKey
-                                                          //     .currentState!
-                                                          //     .validate()) {
-                                                          //   _formKey
-                                                          //       .currentState!
-                                                          //       .save();
-                                                          //   Signup? res = await auth.signUp(
-                                                          //       UserPreferences
-                                                          //           .fullName,
-                                                          //       UserPreferences
-                                                          //           .email,
-                                                          //       _dobTextEditingController
-                                                          //           .text,
-                                                          //       '',
-                                                          //       context);
-                                                          //   if (res?.status ==
-                                                          //       'success') {
-                                                          //     UserPreferences.setDob(
-                                                          //         dob: _dobTextEditingController
-                                                          //             .text);
-                                                          //
-                                                          //     Navigator.pop(
-                                                          //         context);
-                                                          //   }
-                                                          // }
-                                                          // Navigator.pop(
-                                                          //     context);
-                                                        },
-                                                        child: Text(
-                                                          'Update',
-                                                          style: TextStyle(
-                                                            color: const Color(
-                                                                0xFF2C2C2C),
-                                                            fontSize: 16.sp,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            letterSpacing: 0.08,
-                                                          ),
-                                                        )),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            15.verticalSpace,
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: isEmail
-                                ? Text(
-                                    'Add',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: const Color(0xFFAC61FF),
-                                        fontSize: 15.sp),
-                                  )
-                                : const Text(''),
-                          ),
-                        )
                       ],
                     )
                   ],

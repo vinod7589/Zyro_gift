@@ -165,42 +165,45 @@ class _SearchBrandPaginationPageState
                           },
                           child: Row(
                             children: [
-                              CachedNetworkImage(
-                                fadeInDuration: Duration(milliseconds: 100),
-                                imageUrl: baseUrl +
-                                    filteredBrandPaginationProvider
-                                        .filteredBrandList[index].defaultImage
-                                        .toString(),
-                                fit: BoxFit.fill,
-                                height: 130.h,
-                                errorWidget: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    'assets/images/errorimages1.png',
-                                  );
-                                },
-                                placeholder: (context, url) => Skeleton(
-                                  shimmerGradient: const LinearGradient(
-                                    colors: [
-                                      Colors.black54,
-                                      Colors.white70,
-                                      Colors.black54,
-                                    ],
-                                    stops: [
-                                      0.1,
-                                      0.5,
-                                      1,
-                                    ],
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(14),
+                                child: CachedNetworkImage(
+                                  fadeInDuration: Duration(milliseconds: 100),
+                                  imageUrl: baseUrl +
+                                      filteredBrandPaginationProvider
+                                          .filteredBrandList[index].defaultImage
+                                          .toString(),
+                                  fit: BoxFit.fill,
+                                  height: 130.h,
+                                  errorWidget: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/errorimages1.png',
+                                    );
+                                  },
+                                  placeholder: (context, url) => Skeleton(
+                                    shimmerGradient: const LinearGradient(
+                                      colors: [
+                                        Colors.black54,
+                                        Colors.white70,
+                                        Colors.black54,
+                                      ],
+                                      stops: [
+                                        0.1,
+                                        0.5,
+                                        1,
+                                      ],
+                                    ),
+                                    isLoading: filteredBrandPaginationProvider
+                                            .isLoading ==
+                                        true,
+                                    skeleton: const SizedBox(),
+                                    child: SkeletonAvatar(
+                                        style: SkeletonAvatarStyle(
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                            width: 152.h,
+                                            height: 132.h)),
                                   ),
-                                  isLoading: filteredBrandPaginationProvider
-                                          .isLoading ==
-                                      true,
-                                  skeleton: const SizedBox(),
-                                  child: SkeletonAvatar(
-                                      style: SkeletonAvatarStyle(
-                                          borderRadius:
-                                              BorderRadius.circular(14),
-                                          width: 152.h,
-                                          height: 132.h)),
                                 ),
                               ),
                               20.horizontalSpace,

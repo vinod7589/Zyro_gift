@@ -9,10 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   CachedNetworkImage.logLevel = CacheManagerLogLevel.debug;
-  // await Upgrader.clearSavedSettings();
   await UserPreferences.init();
 
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -32,11 +31,19 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: isDebugMode,
               title: 'ZYRO Pay',
               theme: ThemeData(
+                appBarTheme: AppBarTheme(
+                    backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+                    elevation: 0,
+                    scrolledUnderElevation: 0,
+                    centerTitle: false,
+                    titleSpacing: 5,
+                    titleTextStyle: TextStyle(fontSize: 18.sp)),
+                scaffoldBackgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                 fontFamily: 'Poppins',
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),
-              home: SplashScreen());
+              home: const SplashScreen());
         });
   }
 }

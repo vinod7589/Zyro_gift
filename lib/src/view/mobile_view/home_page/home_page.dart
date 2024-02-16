@@ -1,15 +1,13 @@
 import 'dart:async';
-
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../Packages/animated_textfield/animated_hint_textfield.dart';
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../Packages/page_transition/enum.dart';
@@ -202,45 +200,99 @@ class _HomePageState extends ConsumerState<HomePage> {
                           scrolledUnderElevation: 0,
                           backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                           pinned: true,
-                          flexibleSpace: InkWell(
-                            borderRadius: BorderRadius.circular(17),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () => Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: SearchMobilePage(),
-                                    type: PageTransitionType.theme)),
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              height: 47.h,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(color: Color(0xFF545454))),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/Search.png',
-                                    ),
-                                    20.horizontalSpace,
-                                    Text(
-                                      'Search for Brands or category',
-                                      style: TextStyle(
-                                        color: const Color(0xFFB5B5B5),
-                                        fontSize: 13.42.sp,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
+                          flexibleSpace: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 18),
+                            height: constants.searchBarHeight,
+                            child: AnimatedTextField(
+                                readOnly: true,
+                                animationType: Animationtype.fade,
+                                animationDuration: Duration(milliseconds: 1000),
+                                // autocorrect: true,
+                                hintTexts: [
+                                  'Search for Brand',
+                                  'Search for Categories',
+                                ],
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      PageTransition(
+                                          child: SearchMobilePage(),
+                                          type: PageTransitionType.theme));
+                                  print('cccccccccccc');
+                                },
+                                hintTextStyle: TextStyle(color: Colors.white54),
+                                autofocus: false,
+                                style: const TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 10, left: 10),
+                                      child: Image.asset(
+                                        'assets/images/Search.png',
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                    enabledBorder: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(50),
+                                        ),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF545454))),
+                                    focusedBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF545454)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    contentPadding: const EdgeInsets.only(
+                                      left: 2,
+                                      top: 1,
+                                      bottom: 1,
+                                    ),
+                                    border: const OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50)),
+                                        borderSide: BorderSide(
+                                            color: Color(0xFF545454))))),
                           ),
+
+                          // InkWell(
+                          //   borderRadius: BorderRadius.circular(17),
+                          //   splashColor: Colors.transparent,
+                          //   highlightColor: Colors.transparent,
+                          //   onTap: () => Navigator.push(
+                          //       context,
+                          //       PageTransition(
+                          //           child: SearchMobilePage(),
+                          //           type: PageTransitionType.theme)),
+                          //   child: Container(
+                          //     margin:
+                          //         const EdgeInsets.only(left: 20, right: 20),
+                          //     height: 47.h,
+                          //     decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(30),
+                          //         border: Border.all(color: Color(0xFF545454))),
+                          //     child: Padding(
+                          //       padding:
+                          //           const EdgeInsets.symmetric(horizontal: 20),
+                          //       child: Row(
+                          //         children: [
+                          //           Image.asset(
+                          //             'assets/images/Search.png',
+                          //           ),
+                          //           20.horizontalSpace,
+                          //           Text(
+                          //             'Search for Brands or category',
+                          //             style: TextStyle(
+                          //               color: const Color(0xFFB5B5B5),
+                          //               fontSize: 13.42.sp,
+                          //               fontFamily: 'Poppins',
+                          //               fontWeight: FontWeight.w400,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ),
                         SliverPersistentHeader(
                           pinned: true,
@@ -1806,14 +1858,19 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                 },
                                                 child: Row(
                                                   children: [
-                                                    CachedNetworkImage(
-                                                      fadeInDuration:
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  100),
-                                                      imageUrl:
-                                                          '$baseUrl${entertainmentList[index].defaultImage.toString()}',
-                                                      height: 130.h,
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              14),
+                                                      child: CachedNetworkImage(
+                                                        fadeInDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    100),
+                                                        imageUrl:
+                                                            '$baseUrl${entertainmentList[index].defaultImage.toString()}',
+                                                        height: 130.h,
+                                                      ),
                                                     ),
                                                     // Image.network(
                                                     //   '$baseUrl${entertainmentList[index].defaultImage.toString()}',

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:abc/src/infrastructure/dio/dio_api_service.dart';
 import 'package:abc/src/model/auth/registration_model.dart';
 import 'package:abc/src/model/auth/generate_otp_model.dart';
@@ -10,6 +11,7 @@ import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/auth/get_user_detail_model.dart';
+import '../../util/date_format.dart';
 import '../../util/services/shared_preferences.dart';
 import '../../view/mobile_view/login_page/customer_enter_details.dart';
 import '../../view/mobile_view/login_page/otp_verification_page.dart';
@@ -137,9 +139,10 @@ class AuthRepo {
       if (res.status == 'success') {
         UserPreferences.setFullName(fullName: res.data?.name ?? "");
         UserPreferences.setEmail(email: res.data?.email ?? "");
-        UserPreferences.setDob(dob: res.data?.dob ?? "");
+        UserPreferences.setDob(dob: formatDateString(res.data?.dob ?? ""));
         UserPreferences.setUserId(userId: res.data?.userId ?? "");
         print(UserPreferences.userId + ' customer UserId');
+        log(UserPreferences.dob);
       } else {}
       // return res;
       print(response);

@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-const EdgeInsets pagePadding = EdgeInsets.symmetric(horizontal: 22);
+const EdgeInsets pagePadding = EdgeInsets.symmetric(horizontal: 18);

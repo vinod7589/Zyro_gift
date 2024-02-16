@@ -59,6 +59,10 @@ class UserPreferences {
     await _preferences.remove(_userId);
   }
 
+  static Future removeDob() async {
+    await _preferences.remove(_dob);
+  }
+
   static String get otpTempId => _preferences.getString(_otpRefId) ?? "";
   static String get tokenId => _preferences.getString(_token) ?? "";
   static String get fullName => _preferences.getString(_fullName) ?? "";

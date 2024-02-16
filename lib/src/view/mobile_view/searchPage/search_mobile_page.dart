@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 
+import '../../../Packages/animated_textfield/animated_hint_textfield.dart';
 import '../../../controller/internet_check_status_controller.dart';
 import '../no_internet_page.dart';
 
@@ -80,11 +81,21 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                           height: constants.searchBarHeight,
                           color: const Color.fromRGBO(35, 35, 35, 1),
                           margin: const EdgeInsets.symmetric(horizontal: 20),
-                          child: TextFormField(
-                              autofocus: true,
+                          child: AnimatedTextField(
+                              animationType: Animationtype.slide,
+                              // animationDuration: Duration(
+                              //     milliseconds:
+                              //         500), // Adjust the duration as needed
+                              autocorrect: true,
+                              hintTexts: [
+                                'Search for Brand',
+                                'Search for Categories',
+                              ],
+                              hintTextStyle: TextStyle(color: Colors.white60),
+                              autofocus: false,
                               controller: filteredBrandPaginationProvider
                                   .searchBarTextEditingController,
-                              // isEnable = true;
+// isEnable = true;
                               onChanged: (s) {
                                 filteredBrandPaginationProvider.search();
                               },
@@ -120,7 +131,6 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                                 // isEnable = true;7
                                                 filteredBrandPaginationProvider
                                                     .searchClear();
-
                                                 FocusScope.of(context)
                                                     .unfocus();
                                               },
@@ -158,13 +168,97 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                     color: Color(0xFFB5B5B5),
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  hintText: "Search for Brands",
+                                  // hintText: "Search for Brands",
                                   border: const OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(50)),
                                       borderSide: BorderSide(
                                           color: Color(0xFF545454))))),
                         ),
+                        // TextFormField(
+                        //     autofocus: true,
+                        //     controller: filteredBrandPaginationProvider
+                        //         .searchBarTextEditingController,
+                        //     // isEnable = true;
+                        //     onChanged: (s) {
+                        //       filteredBrandPaginationProvider.search();
+                        //     },
+                        //     onTapOutside: (e) =>
+                        //         FocusScope.of(context).unfocus(),
+                        //     style: const TextStyle(color: Colors.white),
+                        //     decoration: InputDecoration(
+                        //         enabledBorder: OutlineInputBorder(
+                        //             borderRadius: BorderRadius.all(
+                        //               Radius.circular(50),
+                        //             ),
+                        //             borderSide:
+                        //                 BorderSide(color: Color(0xFF545454))),
+                        //         focusedBorder: const OutlineInputBorder(
+                        //             borderSide:
+                        //                 BorderSide(color: Color(0xFF545454)),
+                        //             borderRadius: BorderRadius.all(
+                        //                 Radius.circular(50))),
+                        //         contentPadding: const EdgeInsets.only(
+                        //           left: 2,
+                        //           top: 10,
+                        //           bottom: 8,
+                        //         ),
+                        //         suffixIcon: filteredBrandPaginationProvider
+                        //                 .searchBarTextEditingController
+                        //                 .text
+                        //                 .isNotEmpty
+                        //             ? Padding(
+                        //                 padding:
+                        //                     const EdgeInsets.only(right: 8),
+                        //                 child: IconButton(
+                        //                     onPressed: () {
+                        //                       // isEnable = true;7
+                        //                       filteredBrandPaginationProvider
+                        //                           .searchClear();
+                        //
+                        //                       FocusScope.of(context)
+                        //                           .unfocus();
+                        //                     },
+                        //                     icon: const Icon(
+                        //                       Icons.clear,
+                        //                       color: Colors.white70,
+                        //                     )),
+                        //               )
+                        //             : Container(
+                        //                 width: 60,
+                        //                 padding: const EdgeInsets.all(13),
+                        //                 child: Padding(
+                        //                   padding: const EdgeInsets.only(
+                        //                       left: 0, right: 0),
+                        //                   child: Row(
+                        //                     crossAxisAlignment:
+                        //                         CrossAxisAlignment.start,
+                        //                     children: [
+                        //                       Image.asset(
+                        //                         'assets/images/Search.png',
+                        //                       ),
+                        //                     ],
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //         prefixIcon: IconButton(
+                        //             onPressed: () {
+                        //               Navigator.pop(context);
+                        //             },
+                        //             icon: Icon(
+                        //               Icons.arrow_back,
+                        //               color: Colors.white70,
+                        //             )),
+                        //         hintStyle: const TextStyle(
+                        //           color: Color(0xFFB5B5B5),
+                        //           fontWeight: FontWeight.w400,
+                        //         ),
+                        //         hintText: "Search for Brands",
+                        //         border: const OutlineInputBorder(
+                        //             borderRadius:
+                        //                 BorderRadius.all(Radius.circular(50)),
+                        //             borderSide: BorderSide(
+                        //                 color: Color(0xFF545454))))),
                       ),
                     ),
                     if (filteredBrandPaginationProvider.searchQuery != "")

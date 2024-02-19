@@ -1,19 +1,34 @@
+import 'package:abc/src/constants/height.dart';
 import 'package:abc/src/constants/page_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../../infrastructure/repository/auth_repo.dart';
+import '../../../../../model/auth/registration_model.dart';
 import '../../../../../util/services/shared_preferences.dart';
+import '../../../../Utility/validator.dart';
 
 class ProfileEditPage extends StatefulWidget {
   const ProfileEditPage({super.key});
+
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
+  /// ///////////////// <-AuthRepo-> /////////////////
+  AuthRepo auth = AuthRepo();
+
+  /// ///////////////// <-formKey-> /////////////////
+  final formKey = GlobalKey<FormState>();
+
   /// ///////////////// <-TextEditingController-> /////////////////
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController dobTextEditingController = TextEditingController();
+  TextEditingController mobileNumberTextEditingController =
+      TextEditingController();
+
   Future<void> _selectDate(context) async {
     DateTime selectedDate = DateTime.now();
 
@@ -38,6 +53,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   void initState() {
     setState(() {
       nameTextEditingController.text = UserPreferences.fullName;
+      mobileNumberTextEditingController.text = UserPreferences.userMobile;
       emailTextEditingController.text = UserPreferences.email;
       if (UserPreferences.dob.isEmpty) {
         dobTextEditingController.text = "N/A";
@@ -74,157 +90,198 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       body: Padding(
         padding: pagePadding,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 16, bottom: 12, left: 20),
-                width: double.infinity,
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xFF454545)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Full Name',
-                      style: TextStyle(
-                        color: const Color(0xFF676767),
-                        fontSize: 15.sp,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
+          scrollDirection: Axis.vertical,
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 16, bottom: 12, left: 20),
+                  width: double.infinity,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: Color(0xFF454545)),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      height: 25,
-                      child: TextFormField(
-                        controller: nameTextEditingController,
-                        autofocus: true,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Full Name',
                         style: TextStyle(
-                          color: const Color(0xFFBEBEBE),
-                          fontSize: 16.sp,
+                          color: const Color(0xFF676767),
+                          fontSize: 15.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 10),
-                            hintText: 'Name',
-                            border: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            hintStyle: TextStyle(color: Colors.white30)),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              16.verticalSpace,
-              Container(
-                padding: const EdgeInsets.only(top: 16, bottom: 12, left: 20),
-                width: double.infinity,
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xFF454545)),
-                    borderRadius: BorderRadius.circular(8),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 25,
+                        child: TextFormField(
+                          onTapOutside: (e) => FocusScope.of(context).unfocus(),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: nameTextEditingController,
+                          autofocus: true,
+                          style: TextStyle(
+                            color: const Color(0xFFBEBEBE),
+                            fontSize: 16.sp,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(bottom: 10),
+                              hintText: 'Name',
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              hintStyle: TextStyle(color: Colors.white30)),
+                          validator: (value) {
+                            return Validator.validateName(
+                                value ?? "", 1, 'Full Name');
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Email address',
-                      style: TextStyle(
-                        color: const Color(0xFF676767),
-                        fontSize: 15.sp,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
+                16.verticalSpace,
+                Container(
+                  padding: const EdgeInsets.only(top: 16, bottom: 12, left: 20),
+                  width: double.infinity,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: Color(0xFF454545)),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      height: 25,
-                      child: TextFormField(
-                        controller: emailTextEditingController,
-                        // initialValue: isEmail.isNotEmpty
-                        //     ? 'Enter your email address'
-                        //     : UserPreferences.email,
-                        //
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Email address',
                         style: TextStyle(
-                          color: const Color(0xFFBEBEBE),
-                          fontSize: 16.sp,
+                          color: const Color(0xFF676767),
+                          fontSize: 15.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 10),
-                            hintText: 'Name',
-                            border: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            hintStyle: TextStyle(color: Colors.white30)),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              16.verticalSpace,
-              Container(
-                padding: const EdgeInsets.only(top: 16, bottom: 12, left: 20),
-                width: double.infinity,
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xFF454545)),
-                    borderRadius: BorderRadius.circular(8),
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 25,
+                        child: TextFormField(
+                          onTapOutside: (e) => FocusScope.of(context).unfocus(),
+                          controller: emailTextEditingController,
+                          style: TextStyle(
+                            color: const Color(0xFFBEBEBE),
+                            fontSize: 16.sp,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(bottom: 10),
+                              hintText: 'N/A',
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              hintStyle: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Date Of Birth',
-                      style: TextStyle(
-                        color: const Color(0xFF676767),
-                        fontSize: 15.sp,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
+                16.verticalSpace,
+                Container(
+                  padding: const EdgeInsets.only(top: 16, bottom: 12, left: 20),
+                  width: double.infinity,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: Color(0xFF454545)),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      height: 25,
-                      child: TextFormField(
-                        controller: dobTextEditingController,
-                        readOnly: true,
-                        onTap: () {
-                          _selectDate(context);
-                        },
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Date Of Birth',
                         style: TextStyle(
-                          color: const Color(0xFFBEBEBE),
-                          fontSize: 16.sp,
+                          color: const Color(0xFF676767),
+                          fontSize: 15.sp,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 10),
-                            hintText: 'dob',
-                            border: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            hintStyle: TextStyle(color: Colors.white30)),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: 25,
+                        child: TextFormField(
+                          controller: dobTextEditingController,
+                          readOnly: true,
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          style: TextStyle(
+                            color: const Color(0xFFBEBEBE),
+                            fontSize: 16.sp,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(bottom: 10),
+                              hintText: 'dob',
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              hintStyle: TextStyle(color: Colors.white30)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    UserPreferences.setDob(dob: dobTextEditingController.text);
+                50.verticalSpace,
+                SizedBox(
+                  height: Height.ButtonHeight,
+                  width: 200.w,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white)),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          Signup? res = await auth.signUp(
+                              nameTextEditingController.text,
+                              emailTextEditingController.text,
+                              dobTextEditingController.text,
+                              '');
+                          if (res?.status == 'success') {
+                            UserPreferences.setFullName(
+                                fullName: nameTextEditingController.text);
+                            UserPreferences.setEmail(
+                                email: emailTextEditingController.text);
+                            UserPreferences.setDob(
+                                dob: dobTextEditingController.text);
+                            // auth.getUserDetail();
+                            Navigator.pop(context);
+                          }
+                        }
+                        ;
+                        // UserPreferences.setDob(
+                        //     dob: dobTextEditingController.text);
 
-                    // String formattedDOBAPI = asdfdobTextEditingController.text
-                    // api(formattedDOBAPI);
-                  },
-                  child: const Text("Update"))
-            ],
+                        // String formattedDOBAPI = asdfdobTextEditingController.text
+                        // api(formattedDOBAPI);
+                      },
+                      child: Text(
+                        "Update",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                            fontSize: 16.sp),
+                      )),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -2,13 +2,12 @@ import 'dart:async';
 
 import 'package:abc/src/infrastructure/repository/auth_repo.dart';
 import 'package:abc/src/view/widgets/dialogs/loading_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../util/services/shared_preferences.dart';
-import '../../widgets/dialogs/loader.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   const OtpVerificationPage();
@@ -377,18 +376,18 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     }
   }
 
-  // submitOtp() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     _formKey.currentState!.save();
-  //     for (var element in _otpControllers) {
-  //       String tempOtp = element.text;
-  //       otp = "${otp}$tempOtp";
-  //       tempOtp = "";
-  //     }
-  //     showLoading(context);
-  //     await AuthRepo().verifyOTP(
-  //         otp: otp, refId: UserPreferences.otpTempId, context: context);
-  //     otp = "";
-  //   } else {}
-  // }
+// submitOtp() async {
+//   if (_formKey.currentState!.validate()) {
+//     _formKey.currentState!.save();
+//     for (var element in _otpControllers) {
+//       String tempOtp = element.text;
+//       otp = "${otp}$tempOtp";
+//       tempOtp = "";
+//     }
+//     showLoading(context);
+//     await AuthRepo().verifyOTP(
+//         otp: otp, refId: UserPreferences.otpTempId, context: context);
+//     otp = "";
+//   } else {}
+// }
 }

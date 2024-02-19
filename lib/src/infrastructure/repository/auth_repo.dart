@@ -108,8 +108,12 @@ class AuthRepo {
     }
   }
 
-  Future<Signup?> signUp(String fullName, String email, String dob,
-      String referalCode, context) async {
+  Future<Signup?> signUp(
+    String fullName,
+    String email,
+    String dob,
+    String referalCode,
+  ) async {
     try {
       var request = {
         "name": fullName,

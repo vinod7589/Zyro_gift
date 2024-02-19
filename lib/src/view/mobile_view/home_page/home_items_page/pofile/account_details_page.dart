@@ -1,13 +1,8 @@
-import 'dart:developer';
-
 import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/profile_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../Packages/page_transition/enum.dart';
-import '../../../../../Packages/page_transition/page_transition.dart';
 import '../../../../../infrastructure/repository/auth_repo.dart';
 
 class AccountDetailsPage extends StatefulWidget {
@@ -27,10 +22,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   final TextEditingController _dobTextEditingController =
       TextEditingController();
 
-  bool isEmail = UserPreferences.email.isEmpty ? true : false;
+  // bool isEmail = UserPreferences.email.isEmpty ? true : false;
   bool isDob = UserPreferences.dob.isEmpty ? true : false;
-  bool isreferral = UserPreferences.referalCode.isEmpty ? true : false;
-  String name = "";
+
+  // bool isreferral = UserPreferences.referalCode.isEmpty ? true : false;
 
   DateTime selectedDate = DateTime.now();
 
@@ -63,6 +58,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   }
 
   String formattedTime = "";
+
   String formatDate(DateTime dateTime) {
     String formattedDate = DateFormat("d/M/yyyy").format(dateTime);
     return formattedDate;
@@ -91,16 +87,19 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
         appBar: AppBar(
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: ProfileEditPage(),
-                          type: PageTransitionType.theme));
-                },
+            InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () {
+                // Navigator.push(
+                //     context,
+                //     PageTransition(
+                //         child: ProfileEditPage(),
+                //         type: PageTransitionType.theme));
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 20, left: 20, top: 5, bottom: 5),
                 child: Text(
                   'Edit',
                   style: TextStyle(color: Colors.white, fontSize: 15.sp),
@@ -239,8 +238,8 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         SizedBox(
                           width: 260,
                           child: Text(
-                            isEmail
-                                ? 'Enter your email address'
+                            UserPreferences.email.isEmpty
+                                ? 'N/A'
                                 : UserPreferences.email,
                             style: TextStyle(
                               color: const Color(0xFFBEBEBE),

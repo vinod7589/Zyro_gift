@@ -257,14 +257,15 @@ class _CustomerEnterDetailsState extends ConsumerState<CustomerEnterDetails> {
                                       backgroundColor: MaterialStatePropertyAll(
                                           Colors.black)),
                                   onPressed: () async {
+                                    // is Loading
                                     if (_formKey.currentState!.validate()) {
                                       _formKey.currentState!.save();
                                       Signup? res = await auth.signUp(
-                                          _fullName.text,
-                                          _email.text,
-                                          _dateOfBirth.text,
-                                          _referralCode.text,
-                                          context);
+                                        _fullName.text,
+                                        _email.text,
+                                        _dateOfBirth.text,
+                                        _referralCode.text,
+                                      );
                                       if (res?.status == 'success') {
                                         await auth.getUserDetail();
                                         Navigator.pushAndRemoveUntil(

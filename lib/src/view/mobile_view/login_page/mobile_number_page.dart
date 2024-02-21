@@ -1,9 +1,9 @@
 import 'package:abc/src/constants/page_padding.dart';
-import 'package:abc/src/view/widgets/dialogs/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sms_autofill/sms_autofill.dart';
+
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
 import '../../../util/text_validation/text_validation.dart';
@@ -16,29 +16,56 @@ class MobileNumberPage extends ConsumerStatefulWidget {
   ConsumerState<MobileNumberPage> createState() => MobileNumberPageState();
 }
 
-final _formKey = GlobalKey<FormState>();
-
-TextEditingController _phoneNumerController = TextEditingController();
-
 class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
+  /// ///////////////// <-FormKey-> /////////////////
+  final _formKey = GlobalKey<FormState>();
+
+  /// ///////////////// <-TextEditingController-> /////////////////
+  TextEditingController _phoneNumerController = TextEditingController();
+
+  /// ////////////////// <-Auto cache mobile number trim in std code-> ////////////
+  void trimStdCode() {
+    String text = _phoneNumerController.text;
+    // Modify this according to your STD code format
+    // Assuming STD code is of length 4
+    if (text.length > 10) {
+      _phoneNumerController.text = text.substring(3).trim();
+      _phoneNumerController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _phoneNumerController.text.length),
+      );
+    }
+  }
+
+  /// ////////////////// <-Sms Auto Fill-> ////////////
+  final SmsAutoFill _autoFill = SmsAutoFill();
+
+  Future<void> _askPhoneHint() async {
+    String? hint = await _autoFill.hint;
+    _phoneNumerController.value = TextEditingValue(text: hint ?? '');
+    sendOtp();
+  }
+
+  /// ////////////////// <-dispose-> /////////////
   @override
   void dispose() {
     _phoneNumerController.clear();
-    // TODO: implement dispose
     super.dispose();
   }
 
+  /// ////////////////// <-initState-> /////////////
   @override
   void initState() {
-    // TODO: implement initState
+    _askPhoneHint();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _phoneNumerController.addListener(() {
+      trimStdCode();
+    });
     return Scaffold(
         backgroundColor: Colors.white,
-
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(0),
@@ -149,13 +176,15 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                     ),
                     7.verticalSpace,
                     TextFormField(
-                      keyboardType: TextInputType.number,
                       autofocus: true,
+                      keyboardType: TextInputType.number,
+                      // autofocus: true,
                       // maxLength: 10,
                       onTapOutside: (e) => FocusScope.of(context).unfocus(),
                       onChanged: (text) {
                         if (text.length == 10) {
                           FocusScope.of(context).unfocus();
+                          sendOtp();
                         }
                       },
                       controller: _phoneNumerController,

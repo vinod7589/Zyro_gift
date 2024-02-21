@@ -39,6 +39,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         } else if (_otpControllers[i].text.length == 1 &&
             i == _focusNodes.length - 1) {
           _focusNodes[i].unfocus();
+          submitOtp();
+
           // widget.onFieldSubmitted(
           _otpControllers.map((controller) => controller.text).join();
         }

@@ -54,7 +54,7 @@ dependencies:
   fast_cached_network_image: ^1.1.6
   skeletons: ^0.0.3
   in_app_update: ^4.2.2
-  otp_autofill: ^2.1.0
+  #  otp_autofill: ^2.1.0
 
 
 

@@ -464,13 +464,24 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 // 20.verticalSpace,
                                 Padding(
                                   padding: EdgeInsets.only(left: 20.w),
-                                  child: Text(
-                                    'Popular Brands',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.29,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Future.delayed(
+                                          const Duration(milliseconds: 500),
+                                          () {
+                                        setState(() {
+                                          startanimation = true;
+                                        });
+                                      });
+                                    },
+                                    child: Text(
+                                      'Popular Brands',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.29,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -529,7 +540,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               }
                                               isLoading = false;
                                             },
-                                            child: Container(
+                                            child: AnimatedContainer(
+                                              transform:
+                                                  Matrix4.translationValues(
+                                                      startanimation ? 0 : 200,
+                                                      0,
+                                                      0),
+                                              curve: Curves.easeInOut,
+                                              duration: Duration(
+                                                  milliseconds:
+                                                      600 + (index * 400)),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(17),

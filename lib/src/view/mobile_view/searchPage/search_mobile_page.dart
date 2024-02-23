@@ -1,13 +1,12 @@
 import 'dart:developer';
 
 import 'package:abc/src/controller/search_page_pagination_controller.dart';
+import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/searchPage/search_brand_pagination_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:abc/src/view/Utility/constants.dart';
 
 import '../../../Packages/animated_textfield/animated_hint_textfield.dart';
 import '../../../controller/internet_check_status_controller.dart';
@@ -92,7 +91,7 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
                                 'Search for Categories',
                               ],
                               hintTextStyle: TextStyle(color: Colors.white60),
-                              autofocus: false,
+                              // autofocus: true,
                               controller: filteredBrandPaginationProvider
                                   .searchBarTextEditingController,
 // isEnable = true;

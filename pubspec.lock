@@ -265,6 +265,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  cupertino_icons:
+    dependency: transitive
+    description:
+      name: cupertino_icons
+      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   dart_style:
     dependency: transitive
     description:
@@ -366,6 +374,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animated_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_icons
+      sha256: f9d8069c746b3723d7c9a70087913ddff8e44ea636b831bcccfc58082600afe9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_bloc:
     dependency: transitive
     description:
@@ -640,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  lottie:
+    dependency: transitive
+    description:
+      name: lottie
+      sha256: "893da7a0022ec2fcaa616f34529a081f617e86cc501105b856e5a3184c58c7c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.3"
   matcher:
     dependency: transitive
     description:

@@ -5,9 +5,11 @@ import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
 import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_icons/icons8.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Packages/Animated_Text_Kit/animated_text_kit.dart';
@@ -28,28 +30,63 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends ConsumerState<HomePage>
+    with TickerProviderStateMixin {
+  /// //////////////// <-homeRepo->///////////////////
   HomePageService homeRepo = HomePageService();
-  bool startanimation = false;
 
+  /// //////////////// <-boo,Int,String->///////////////////
+  bool isLoading = true;
+  final CarouselController carouselController = CarouselController();
+  double turns = 0.0;
+
+  /// //////////<-Controller->////////////////
+  TextEditingController searchBarTextEditingController =
+      TextEditingController();
+  late AnimationController _settingController;
+
+  /// //////////////// <-initState->///////////////////
   @override
   void initState() {
     checkForUpdateAndLaunch();
-    // checkForUpdate();
-    // print("'check' +${checkForUpdate()}");
-    getAllVouchers();
-    bannerfetch();
+    futureMethod();
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   ref.watch(CheckInternetController.notifier).startStreaming();
-    // });
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   setState(() {
-    //     startanimation = true;
-    //   });
-    // });
+    searchAnimation();
   }
 
+  /// //////////////// <-dispose->///////////////////
+  @override
+  void dispose() {
+    // _settingController.dispose();
+    super.dispose();
+  }
+
+  /// //////////////// <-futureMethod->///////////////////
+  Future futureMethod() async {
+    await getAllVouchers();
+    await bannerfetch();
+    listViewAnimation();
+  }
+
+  /// //////////////// <-Animation->///////////////////
+  bool startanimation = false;
+  bool testing = false;
+
+  void listViewAnimation() {
+    Future.delayed(Duration(milliseconds: 10), () {
+      setState(() {
+        startanimation = true;
+      });
+    });
+  }
+
+  void searchAnimation() {
+    _settingController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _settingController.repeat();
+  }
+
+  /// //////////////// <-ListItem->///////////////////
   List<VoucherEntity> allPopularBrands = [];
   List<VoucherEntity> categoriesList = [];
   List<VoucherEntity> tripTravelList = [];
@@ -58,12 +95,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   List<VoucherEntity> beautyList = [];
   List<VoucherEntity> entertainmentList = [];
 
-  bool isLoading = true;
-  final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
   List<BannerData> bannerList = [];
   List<Map<String, String>> imageList = [];
 
+  /// //////////////// <-bannerfetch->///////////////////
   Future<void> bannerfetch() async {
     List<BannerData>? banners = await homeRepo.bannerService();
     if (banners != null) {
@@ -75,6 +111,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
   }
 
+  /// //////////////// <-getAllVouchers->///////////////////
   Future<void> getAllVouchers() async {
     setState(() {
       isLoading = true;
@@ -100,13 +137,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
   }
 
-  /// ///////TextEditingController////////////////
-  TextEditingController searchBarTextEditingController =
-      TextEditingController();
-
-  /// //////////////////////////////////////////////////
-
-  /// ///////////////UPDATE APK///////////////////
+  /// ///////////////<-UPDATE APK->///////////////////
   Future<void> checkForUpdateAndLaunch() async {
     print('Checking for update');
     await InAppUpdate.checkForUpdate().then((updateInfo) {
@@ -122,6 +153,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
   }
 
+  /// ///////////////<-showUpdateDialog->///////////////////
   void showUpdateDialog(BuildContext context) {
     showDialog(
       useRootNavigator: false,
@@ -147,6 +179,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
+  /// ///////////////<-launchAppUpdate->///////////////////
   Future<void> launchAppUpdate() async {
     const String packageName =
         'com.ZyroPay'; // Package name of your app on Google Play Store
@@ -179,8 +212,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 : SafeArea(
                     child: RefreshIndicator(
                       onRefresh: () => Future.sync(() {
-                        getAllVouchers();
-                        bannerfetch();
+                        futureMethod();
                       }),
                       child: CustomScrollView(slivers: [
                         SliverAppBar(
@@ -264,9 +296,38 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   children: [
-                                    Image.asset(
-                                      'assets/images/Search.png',
+                                    ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        Color(0xFFB5B5B5), // Desired color
+                                        BlendMode.srcIn,
+                                      ),
+                                      child: Lottie.asset(
+                                          Icons8.icons8_search_19_,
+                                          height: 23
+                                              .h // Path to your Lottie animation
+                                          ),
                                     ),
+
+                                    // AnimatedRotation(
+                                    //   duration: Duration(seconds: 1)
+                                    //   turns: turns,
+                                    //   child:
+                                    //   Image.asset(
+                                    //     'assets/images/Search.png',
+                                    //   ),
+                                    // ),
+
+                                    // IconButton(
+                                    //   splashRadius: 50,
+                                    //   iconSize: 100,
+                                    //   onPressed: () {
+                                    //     _settingController.reset();
+                                    //     _settingController.forward();
+                                    //   },
+                                    //   icon: Lottie.asset(Icons8.adjust,
+                                    //       repeat: true,
+                                    //       controller: _settingController),
+                                    // ),
                                     20.horizontalSpace,
                                     Text(
                                       'Search for ',
@@ -283,7 +344,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           fontFamily: 'Horizon',
                                           color: Color(0xFFB5B5B5)),
                                       child: AnimatedTextKit(
-                                        pause: Duration(microseconds: 3),
+                                        pause: Duration(microseconds: 200),
                                         isRepeatingAnimation: true,
                                         repeatForever: true,
                                         animatedTexts: [
@@ -342,7 +403,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               type: PageTransitionType.theme));
                                       // Navigator.of(context).push(PageTransition( builder: (c) => const SearchMobilePage()));
                                     },
-                                    child: SizedBox(
+                                    child: AnimatedContainer(
+                                      transform: Matrix4.translationValues(
+                                          startanimation ? 0 : 200, 0, 0),
+                                      curve: Curves.linear,
+                                      duration: Duration(
+                                          milliseconds: 300 + (index * 200)),
                                       // width: 85,
                                       height: 80,
                                       // color: filteredBrandPaginationProvider
@@ -464,24 +530,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 // 20.verticalSpace,
                                 Padding(
                                   padding: EdgeInsets.only(left: 20.w),
-                                  child: InkWell(
-                                    onTap: () {
-                                      Future.delayed(
-                                          const Duration(milliseconds: 500),
-                                          () {
-                                        setState(() {
-                                          startanimation = true;
-                                        });
-                                      });
-                                    },
-                                    child: Text(
-                                      'Popular Brands',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17.sp,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.29,
-                                      ),
+                                  child: Text(
+                                    'Popular Brands',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17.sp,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.29,
                                     ),
                                   ),
                                 ),
@@ -549,7 +604,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                               curve: Curves.easeInOut,
                                               duration: Duration(
                                                   milliseconds:
-                                                      600 + (index * 400)),
+                                                      400 + (index * 400)),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(17),

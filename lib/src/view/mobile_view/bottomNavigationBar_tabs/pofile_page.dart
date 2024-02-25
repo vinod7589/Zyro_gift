@@ -1,13 +1,11 @@
 import 'package:abc/src/util/services/shared_preferences.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/account_details_page.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/app_setting_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/help_support_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/transactions_page.dart';
-import 'package:abc/src/view/mobile_view/bottomNavigationBar.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_icons/icons8.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
@@ -23,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   AuthRepo auth = AuthRepo();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

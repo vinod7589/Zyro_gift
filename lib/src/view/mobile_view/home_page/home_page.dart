@@ -209,41 +209,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           scrolledUnderElevation: 0,
                           backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                           pinned: true,
-                          flexibleSpace:
-                              // Container(
-                              //     decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(30),
-                              //         border: Border.all(color: Colors.white)),
-                              //     margin: EdgeInsets.symmetric(horizontal: 18),
-                              //     height: constants.searchBarHeight,
-                              //     child: Row(
-                              //       mainAxisSize: MainAxisSize.min,
-                              //       children: <Widget>[
-                              //         const Text(
-                              //           'Be',
-                              //           style: TextStyle(
-                              //               fontSize: 20.0, color: Colors.white),
-                              //         ),
-                              //         DefaultTextStyle(
-                              //           style: const TextStyle(
-                              //             fontSize: 18.0,
-                              //             fontFamily: 'Horizon',
-                              //           ),
-                              //           child: AnimatedTextKit(
-                              //             animatedTexts: [
-                              //               RotateAnimatedText('AWESOME'),
-                              //               RotateAnimatedText('OPTIMISTIC'),
-                              //               RotateAnimatedText('DIFFERENT'),
-                              //             ],
-                              //             onTap: () {
-                              //               print("Tap Event");
-                              //             },
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     )),
-
-                              InkWell(
+                          flexibleSpace: InkWell(
                             borderRadius: BorderRadius.circular(17),
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
@@ -291,7 +257,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           RotateAnimatedText('Categories'),
                                         ],
                                         onTap: () {
-                                          print("Tap Event");
+                                          //   print("Tap Event");
                                         },
                                       ),
                                     )
@@ -318,7 +284,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ]),
                               // color: Colors.red,
                               // height: 90.h,
-                              padding: EdgeInsets.only(top: 11.5.h),
+                              // padding: EdgeInsets.only(top: 50.5.h),
                               child: ListView.separated(
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(
@@ -344,7 +310,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     },
                                     child: SizedBox(
                                       // width: 85,
-                                      height: 80,
+                                      // height: 80,
                                       // color: filteredBrandPaginationProvider
                                       //             .selectedIndex ==
                                       //         index
@@ -2182,10 +2148,10 @@ class MySliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   MySliverAppBarDelegate({required this.child});
 
   @override
-  double get minExtent => 80.h; // adjust as needed
+  double get minExtent => 70.h; // adjust as needed
 
   @override
-  double get maxExtent => 80.h; // adjust as needed
+  double get maxExtent => 70.h; // adjust as needed
 
   @override
   Widget build(

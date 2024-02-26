@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../../Packages/page_transition/enum.dart';

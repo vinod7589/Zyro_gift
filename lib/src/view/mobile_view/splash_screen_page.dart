@@ -4,10 +4,12 @@ import 'package:abc/src/view/mobile_view/no_internet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../Packages/Animated_Text_Kit/animated_text_kit.dart';
 import '../../controller/internet_check_status_controller.dart';
 import '../../util/services/shared_preferences.dart';
-import 'login_page/onboarding_page.dart';
 import 'bottomNavigationBar.dart';
+import 'login_page/onboarding_page.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -37,7 +39,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
           name.isNotEmpty &&
           name != '' &&
           name != 'full_Name') {
-        await Future.delayed(const Duration(seconds: 1), () {
+        await Future.delayed(const Duration(milliseconds: 2000), () {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => LandingPage()));
         });
@@ -74,11 +76,46 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Container(
-        child: Center(
-          child: Image.asset(
-            'assets/images/zyropay.png',
-            width: 190.h,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedTextKit(
+                  pause: Duration(seconds: 2),
+                  animatedTexts: [
+                    WavyAnimatedText('ZYRO',
+                        textStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFE6C02AF))),
+                  ],
+                  onTap: () {
+                    print("Tap Event");
+                  },
+                ),
+                // TextLiquidFill(
+                //   text: 'ZYRO',
+                //   waveColor: Colors.deepPurple,
+                //   waveDuration: Duration(milliseconds: 1000),
+                //   boxBackgroundColor: Colors.black,
+                //   textStyle: TextStyle(
+                //     color: Colors.black,
+                //     fontSize: 40.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                //   boxHeight: 200.0,
+                //   boxWidth: 200,
+                // ),
+                10.horizontalSpace,
+                Image.asset(
+                  'assets/images/pay.png',
+                  width: 60.h,
+                ),
+              ],
+            ),
+          ],
         ),
       )),
     );

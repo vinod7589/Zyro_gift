@@ -49,13 +49,13 @@ dependencies:
   cached_network_image: ^3.0.1
   flutter_launcher_icons: ^0.13.1
   connectivity_plus: ^3.0.2
-  lottie: ^2.5.0
   upgrader: ^8.0.0
   fast_cached_network_image: ^1.1.6
   skeletons: ^0.0.3
+  flutter_animated_icons: ^1.0.1
   in_app_update: ^4.2.2
-  sms_autofill: ^2.3.0
-  flutter_native_splash: ^2.3.2
+  #  lottie: ^2.1.0
+  #  otp_autofill: ^2.1.0
 
 
 
@@ -74,8 +74,8 @@ flutter_launcher_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
-  
+
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

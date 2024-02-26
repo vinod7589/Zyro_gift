@@ -53,8 +53,8 @@ dependencies:
   upgrader: ^8.0.0
   fast_cached_network_image: ^1.1.6
   skeletons: ^0.0.3
-  in_app_update: ^4.2.2
   sms_autofill: ^2.3.0
+  in_app_update: ^4.2.2
 
 
 

@@ -39,12 +39,12 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
           name.isNotEmpty &&
           name != '' &&
           name != 'full_Name') {
-        await Future.delayed(const Duration(milliseconds: 2000), () {
+        await Future.delayed(const Duration(milliseconds: 1500), () {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => LandingPage()));
         });
       } else {
-        await Future.delayed(const Duration(seconds: 1), () {
+        await Future.delayed(const Duration(milliseconds: 1500), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => OnboardingPage()),

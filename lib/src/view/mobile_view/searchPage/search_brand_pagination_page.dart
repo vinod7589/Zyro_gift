@@ -1,7 +1,6 @@
 import 'package:abc/src/Packages/page_transition/enum.dart';
 import 'package:abc/src/Packages/page_transition/page_transition.dart';
 import 'package:abc/src/controller/search_page_pagination_controller.dart';
-import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,10 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../controller/internet_check_status_controller.dart';
-import '../../Utility/constants.dart';
+import '../../../constants/base_url.dart';
 import '../home_page/home_items_page/card_details_page.dart';
-import '../no_internet_page.dart';
 
 class SearchBrandPaginationPage extends ConsumerStatefulWidget {
   const SearchBrandPaginationPage({super.key});

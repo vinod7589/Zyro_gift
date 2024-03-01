@@ -1,4 +1,3 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,5 +15,3 @@ class constants {
   static int ItemCountDays = 7; //FILTER NUMBER OF DAYS TO SHOW THE RECORDS
   static String paymentLinkUrl = 'https://secure.myzyro.com/PaymentLink/';
 }
-
-const String baseUrl = "https://test-zyrogift.xoomsales.com";

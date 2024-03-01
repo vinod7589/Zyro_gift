@@ -1,23 +1,15 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:abc/src/Packages/page_transition/enum.dart';
-import 'package:abc/src/Packages/page_transition/page_transition.dart';
 import 'package:abc/src/model/CartDataModel.dart';
 import 'package:abc/src/model/homePage/voucher_entity.dart';
 import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/payment/payment_option_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../constants/base_url.dart';
 import '../../../../controller/fixed_card_controller.dart';
-import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
-import '../home_items_page/card_details_page.dart';
 import 'Home_globalPage.dart';
 
 class Denomination extends ConsumerStatefulWidget {
@@ -29,6 +21,7 @@ class Denomination extends ConsumerStatefulWidget {
   final VoucherEntity voucher;
 
   final String brandCode;
+
   @override
   ConsumerState<Denomination> createState() => _DenominationState();
 }

@@ -1,19 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:abc/src/controller/home_page_controller.dart';
-import 'package:abc/src/view/Utility/constants.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_option_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../../constants/base_url.dart';
 import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../model/homePage/voucher_entity.dart';
@@ -22,6 +21,7 @@ import '../widget/denomination_select_widget.dart';
 
 class CardDetailsPage extends ConsumerStatefulWidget {
   const CardDetailsPage({required this.brandCode, required this.voucher});
+
   final String brandCode;
   final VoucherEntity voucher;
 
@@ -39,6 +39,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
   HomePageService homeRepo = HomePageService();
   int currentValue = 0;
   bool isLoading = false;
+
   //late GetBrandDetailsList? brandData;
   late VoucherEntity brandData;
   num? availableLimit = 0;
@@ -373,7 +374,8 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                           imageUrl: baseUrl + brandData.image.toString(),
                           height: 30.h,
                           errorWidget: (context, url, error) => Image.asset(
-                            'assets/images/baranderrorimage.png', // Replace with the path to your error image
+                            'assets/images/baranderrorimage.png',
+                            // Replace with the path to your error image
                             height: 40.h,
                           ),
                         ),

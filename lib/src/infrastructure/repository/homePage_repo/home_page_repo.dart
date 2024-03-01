@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:abc/src/model/homePage/amazing_fashion_model.dart';
 import 'package:abc/src/model/homePage/beauty_budget_model.dart';
 import 'package:abc/src/model/homePage/entertainment_model.dart';
@@ -6,17 +8,17 @@ import 'package:abc/src/model/homePage/getbrand_details_model.dart';
 import 'package:abc/src/model/homePage/new_brands_model.dart';
 import 'package:abc/src/model/homePage/tripTravel_Model.dart';
 import 'package:flutter/cupertino.dart';
+
 import '../../../model/homePage/GetDashBoardBannerModel.dart';
 import '../../../model/homePage/getAll_brand_list_model.dart';
 import '../../../model/homePage/voucher_entity.dart';
-import '../../../model/search/filtered_brand_model.dart';
 import '../../../util/services/shared_preferences.dart';
-import '../../dio/dio_api_service.dart';
 import '../../dio/dio_api_service.dart';
 import 'getAllPopularBrandsModel.dart';
 
 class HomePageService {
   DioApiService dio = DioApiService();
+
   Future<List<CategoriesList>?> getAllCategoriesService() async {
     try {
       final response = await dio.AuthPost(
@@ -25,6 +27,7 @@ class HomePageService {
       );
       var res = GetAllCategoryModel.fromJson(response);
       if (res.status == 'success') {
+        log(res.data.toString());
         return res.data;
       } else {
         return null;
@@ -261,17 +264,6 @@ class HomePageService {
     }
   }
 
-  // Future<GetDashBoardBannerModel> bannerService() async {
-  //   try {
-  //     final response = await dio.AuthPost('/api/Admin/GetDashBoardBanner', {});
-  //     var res = GetDashBoardBannerModel.fromJson(response);
-  //     return res;
-  //   } catch (error, st) {
-  //     debugPrint(error.toString());
-  //     debugPrintStack(stackTrace: st);
-  //     return GetDashBoardBannerModel();
-  //   }
-  // }
   Future<List<BannerData>?> bannerService() async {
     try {
       final response = await dio.AuthPost('/api/Admin/GetDashBoardBanner', {});

@@ -1,7 +1,5 @@
-import 'package:abc/src/constants/page_padding.dart';
 import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/My_carddetails_model.dart';
-import 'package:abc/src/view/Utility/constants.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
 import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
@@ -13,14 +11,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../../../constants/base_url.dart';
 import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../../model/homePage/getbrand_details_model.dart';
-import '../../../../../model/redeem_step_model.dart';
 import '../../../Time_remove_widget.dart';
 
 class MyCardDetailsPage extends ConsumerStatefulWidget {
   final String orderId;
   final num totalCardworth;
+
   MyCardDetailsPage(
       {super.key, required this.orderId, required this.totalCardworth});
 

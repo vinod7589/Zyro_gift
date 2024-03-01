@@ -1,11 +1,9 @@
 import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/my_card_model.dart';
-import 'package:abc/src/view/widgets/dialogs/loader.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../Utility/constants.dart';
+import '../../../constants/base_url.dart';
 
 class MyCardTab extends StatefulWidget {
   const MyCardTab({super.key});
@@ -25,6 +23,7 @@ class _MyCardTabState extends State<MyCardTab> {
   }
 
   List<MyCardList> myCardListItems = [];
+
   Future<void> fetch() async {
     isLoading = true;
     myCardListItems = await drawerRepo.myCard(

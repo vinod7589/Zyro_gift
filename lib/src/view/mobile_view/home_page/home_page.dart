@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
-import 'package:abc/src/view/Utility/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_icons/icons8.dart';
@@ -17,6 +16,7 @@ import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
+import '../../../constants/base_url.dart';
 import '../../../controller/search_page_pagination_controller.dart';
 import '../../../model/homePage/voucher_entity.dart';
 import '../bottomNavigationBar_tabs/pofile_page.dart';
@@ -228,7 +228,9 @@ class _HomePageState extends ConsumerState<HomePage>
                                           type: PageTransitionType.leftToRight,
                                           child: const ProfilePage()));
                                 },
-                                child: Image.asset('assets/images/menu.png')),
+                                child: Image.asset(
+                                  'assets/images/menu.png',
+                                )),
                           ),
                           // snap: true,
                           // floating: true,
@@ -395,6 +397,12 @@ class _HomePageState extends ConsumerState<HomePage>
                                               imageUrl:
                                                   '$baseUrl${filteredBrandPaginationProvider.categoriesList[index].categoryImage}',
                                               height: 35.h,
+                                              errorWidget:
+                                                  (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  'assets/images/errorimages1.png',
+                                                );
+                                              },
                                             ),
                                             10.verticalSpace,
                                             Text(
@@ -593,6 +601,12 @@ class _HomePageState extends ConsumerState<HomePage>
                                                                   index]
                                                               .popularBrandImage!,
                                                       height: 132.h,
+                                                      errorWidget: (context,
+                                                          error, stackTrace) {
+                                                        return Image.asset(
+                                                          'assets/images/errorimages1.png',
+                                                        );
+                                                      },
                                                     ),
 //                                               Image.network(
 //                                                 baseUrl +
@@ -715,6 +729,44 @@ class _HomePageState extends ConsumerState<HomePage>
                                                   borderRadius:
                                                       BorderRadius.circular(18),
                                                   onTap: () {
+                                                    VoucherEntity? foundObject =
+                                                        allPopularBrands
+                                                            .firstWhere(
+                                                      (obj) =>
+                                                          obj.brandCode ==
+                                                          item.brandName,
+                                                      orElse: () =>
+                                                          VoucherEntity(),
+                                                    );
+                                                    isLoading;
+                                                    String brand = item
+                                                        .brandName
+                                                        .toString();
+                                                    print(brand);
+                                                    if (brand != '') {
+                                                      Navigator.push(
+                                                          context,
+                                                          PageTransition(
+                                                              child: CardDetailsPage(
+                                                                  brandCode:
+                                                                      brand,
+                                                                  voucher:
+                                                                      foundObject),
+                                                              type:
+                                                                  PageTransitionType
+                                                                      .theme));
+                                                      // Navigator.push(
+                                                      //     context,
+                                                      //     MaterialPageRoute(
+                                                      //         builder: (context) =>
+                                                      //             CardDetailsPage(
+                                                      //               brandCode: brand,
+                                                      //               voucher: allPopularBrands[
+                                                      //                   index],
+                                                      //             )));
+                                                    }
+                                                    isLoading = false;
+
                                                     // Navigator.push(
                                                     //     context,
                                                     //     PageTransition(
@@ -740,6 +792,12 @@ class _HomePageState extends ConsumerState<HomePage>
                                                         item.image.toString(),
                                                     fit: BoxFit.fill,
                                                     width: double.infinity,
+                                                    errorWidget: (context,
+                                                        error, stackTrace) {
+                                                      return Image.asset(
+                                                        'assets/images/errorimages1.png',
+                                                      );
+                                                    },
                                                   ),
                                                 ),
 
@@ -1387,15 +1445,27 @@ class _HomePageState extends ConsumerState<HomePage>
                                               },
                                               child: Row(
                                                 children: [
-                                                  CachedNetworkImage(
-                                                    fadeInDuration:
-                                                        const Duration(
-                                                            milliseconds: 100),
-                                                    imageUrl: baseUrl +
-                                                        fashionList[index]
-                                                            .defaultImage
-                                                            .toString(),
-                                                    height: 130.h,
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            14),
+                                                    child: CachedNetworkImage(
+                                                      fadeInDuration:
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  100),
+                                                      imageUrl: baseUrl +
+                                                          fashionList[index]
+                                                              .defaultImage
+                                                              .toString(),
+                                                      height: 130.h,
+                                                      errorWidget: (context,
+                                                          error, stackTrace) {
+                                                        return Image.asset(
+                                                          'assets/images/errorimages1.png',
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                   // Image.network(
                                                   //   baseUrl +
@@ -1565,40 +1635,40 @@ class _HomePageState extends ConsumerState<HomePage>
                                     ],
                                   ),
                                 ),
-                                25.verticalSpace,
-                                Padding(
-                                  padding: EdgeInsets.only(right: 17.w),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'View all ',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15.sp,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: -0.30,
-                                        ),
-                                      ),
-                                      5.horizontalSpace,
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: 22.w,
-                                        height: 22.h,
-                                        decoration: ShapeDecoration(
-                                          color: Color(0xFF76546B),
-                                          shape: OvalBorder(),
-                                        ),
-                                        child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.white,
-                                          size: 13.h,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                // 25.verticalSpace,
+                                // Padding(
+                                //   padding: EdgeInsets.only(right: 17.w),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(
+                                //         'View all ',
+                                //         style: TextStyle(
+                                //           color: Colors.white,
+                                //           fontSize: 15.sp,
+                                //           fontFamily: 'Poppins',
+                                //           fontWeight: FontWeight.w500,
+                                //           letterSpacing: -0.30,
+                                //         ),
+                                //       ),
+                                //       5.horizontalSpace,
+                                //       Container(
+                                //         alignment: Alignment.center,
+                                //         width: 22.w,
+                                //         height: 22.h,
+                                //         decoration: ShapeDecoration(
+                                //           color: Color(0xFF76546B),
+                                //           shape: OvalBorder(),
+                                //         ),
+                                //         child: Icon(
+                                //           Icons.arrow_forward_ios,
+                                //           color: Colors.white,
+                                //           size: 13.h,
+                                //         ),
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
                                 30.verticalSpace,
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1712,13 +1782,27 @@ class _HomePageState extends ConsumerState<HomePage>
                                                                         1
                                                                 ? 20
                                                                 : 5),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: baseUrl +
-                                                              beautyList[index]
-                                                                  .additionalImage
-                                                                  .toString(),
-                                                          height: 125.h,
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(14),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: baseUrl +
+                                                                beautyList[
+                                                                        index]
+                                                                    .additionalImage
+                                                                    .toString(),
+                                                            height: 125.h,
+                                                            errorWidget:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              return Image
+                                                                  .asset(
+                                                                'assets/images/errorimages1.png',
+                                                              );
+                                                            },
+                                                          ),
                                                         ),
                                                       ),
                                                       // Image.network(
@@ -1960,6 +2044,12 @@ class _HomePageState extends ConsumerState<HomePage>
                                                         imageUrl:
                                                             '$baseUrl${entertainmentList[index].defaultImage.toString()}',
                                                         height: 130.h,
+                                                        errorWidget: (context,
+                                                            error, stackTrace) {
+                                                          return Image.asset(
+                                                            'assets/images/errorimages1.png',
+                                                          );
+                                                        },
                                                       ),
                                                     ),
                                                     // Image.network(

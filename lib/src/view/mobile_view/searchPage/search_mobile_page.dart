@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Packages/animated_textfield/animated_hint_textfield.dart';
+import '../../../constants/base_url.dart';
 import '../../../controller/internet_check_status_controller.dart';
 import '../no_internet_page.dart';
 

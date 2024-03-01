@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:abc/src/view/Utility/constants.dart';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import '../../constants/base_url.dart';
 import '../../util/services/shared_preferences.dart';
 
 //final dio = Dio();
@@ -15,7 +16,7 @@ class DioApiService {
     final url = Uri.parse(baseUrl + endpoint);
     Response response;
     response = await dio.get(url.toString());
-
+    log('$response');
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.data);
       return jsonResponse;
@@ -115,46 +116,46 @@ class DioApiService {
     }
   }
 
-  // // static Future<ImageUploadResponse> uploadImage(
-  // //     File imageFile, String endpoint) async {
-  // //   try {
-  // //     // Create a Dio instance
-  // //
-  // //     final url = Uri.parse(constants.baseUrl + endpoint);
-  // //
-  // //     debugPrint("URL OF MAGE UPLOAD : " + url.toString());
-  // //
-  // //     String token = await construct_token();
-  // //
-  // //     dio.options.headers['Authorization'] = 'bearer $token';
-  // //
-  // //     var abc = imageFile.path;
-  // //
-  // //     debugPrint(abc);
-  // //
-  // //     FormData formData = FormData.fromMap({
-  // //       'file': await MultipartFile.fromFile(imageFile.path,
-  // //           filename: imageFile.path.split('\\').last),
-  // //     });
-  // //
-  // //     print(formData);
-  // //
-  // //     print(formData.toString());
-  // //
-  // //     // Send a POST request to the API endpoint
-  // //     var res = await dio.post(url.toString(), data: formData);
-  // //
-  // //     var response = ImageUploadResponse.fromJson(res.data);
-  // //
-  // //     print(response);
-  // //
-  // //     print('Image uploaded successfully');
-  // //
-  // //     return response;
-  // //   } catch (error) {
-  // //     print('Error uploading image: $error');
-  // //     print(error);
-  // //     return ImageUploadResponse(data: '');
-  // //   }
-  // }
+// // static Future<ImageUploadResponse> uploadImage(
+// //     File imageFile, String endpoint) async {
+// //   try {
+// //     // Create a Dio instance
+// //
+// //     final url = Uri.parse(constants.baseUrl + endpoint);
+// //
+// //     debugPrint("URL OF MAGE UPLOAD : " + url.toString());
+// //
+// //     String token = await construct_token();
+// //
+// //     dio.options.headers['Authorization'] = 'bearer $token';
+// //
+// //     var abc = imageFile.path;
+// //
+// //     debugPrint(abc);
+// //
+// //     FormData formData = FormData.fromMap({
+// //       'file': await MultipartFile.fromFile(imageFile.path,
+// //           filename: imageFile.path.split('\\').last),
+// //     });
+// //
+// //     print(formData);
+// //
+// //     print(formData.toString());
+// //
+// //     // Send a POST request to the API endpoint
+// //     var res = await dio.post(url.toString(), data: formData);
+// //
+// //     var response = ImageUploadResponse.fromJson(res.data);
+// //
+// //     print(response);
+// //
+// //     print('Image uploaded successfully');
+// //
+// //     return response;
+// //   } catch (error) {
+// //     print('Error uploading image: $error');
+// //     print(error);
+// //     return ImageUploadResponse(data: '');
+// //   }
+// }
 }

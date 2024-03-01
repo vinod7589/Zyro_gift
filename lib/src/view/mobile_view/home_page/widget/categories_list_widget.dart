@@ -1,9 +1,9 @@
 import 'package:abc/src/view/Utility/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../constants/base_url.dart';
 import '../../../../controller/home_page_controller.dart';
 
 class CategoriesListWidget extends ConsumerWidget {

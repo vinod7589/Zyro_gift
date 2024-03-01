@@ -1,17 +1,15 @@
 import 'dart:convert';
 
-import 'package:abc/src/view/Utility/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../controller/home_page_controller.dart';
-import '../../../../../../model/homePage/getbrand_details_model.dart';
+import '../../../../../../constants/base_url.dart';
 import '../../../../../../model/redeem_step_model.dart';
 
 class HowToRedeemWidget extends ConsumerStatefulWidget {
   const HowToRedeemWidget({required this.brandData});
+
   final String brandData;
 
   @override

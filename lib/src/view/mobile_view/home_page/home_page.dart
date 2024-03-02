@@ -57,7 +57,7 @@ class _HomePageState extends ConsumerState<HomePage>
   /// //////////////// <-dispose->///////////////////
   @override
   void dispose() {
-    // _settingController.dispose();
+    _settingController.dispose();
     super.dispose();
   }
 

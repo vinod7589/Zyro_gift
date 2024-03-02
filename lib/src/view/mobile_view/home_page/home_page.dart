@@ -373,10 +373,10 @@ class _HomePageState extends ConsumerState<HomePage>
                                     },
                                     child: AnimatedContainer(
                                       transform: Matrix4.translationValues(
-                                          startanimation ? 0 : 200, 0, 0),
+                                          startanimation ? 0 : 100, 0, 0),
                                       curve: Curves.linear,
                                       duration: Duration(
-                                          milliseconds: 300 + (index * 200)),
+                                          milliseconds: 300 + (index * 160)),
                                       // width: 85,
                                       // height: 80,
                                       // color: filteredBrandPaginationProvider

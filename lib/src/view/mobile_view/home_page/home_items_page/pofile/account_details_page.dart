@@ -87,25 +87,25 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
         backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
         appBar: AppBar(
           actions: [
-            InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {
-                // Navigator.push(
-                //     context,
-                //     PageTransition(
-                //         child: ProfileEditPage(),
-                //         type: PageTransitionType.theme));
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    right: 20, left: 20, top: 5, bottom: 5),
-                child: Text(
-                  'Edit',
-                  style: TextStyle(color: Colors.white, fontSize: 15.sp),
-                ),
-              ),
-            )
+            // InkWell(
+            //   highlightColor: Colors.transparent,
+            //   splashColor: Colors.transparent,
+            //   onTap: () {
+            //     // Navigator.push(
+            //     //     context,
+            //     //     PageTransition(
+            //     //         child: ProfileEditPage(),
+            //     //         type: PageTransitionType.theme));
+            //   },
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(
+            //         right: 20, left: 20, top: 5, bottom: 5),
+            //     child: Text(
+            //       'Edit',
+            //       style: TextStyle(color: Colors.white, fontSize: 15.sp),
+            //     ),
+            //   ),
+            // )
           ],
           titleSpacing: 5,
           leading: IconButton(

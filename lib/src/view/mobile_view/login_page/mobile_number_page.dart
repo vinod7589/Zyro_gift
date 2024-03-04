@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../Packages/gradient_app_bar/flutter_gradient_app_bar.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
@@ -245,58 +246,69 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                       padding: const EdgeInsets.only(bottom: 15),
                       child: GestureDetector(
                         onTap: () {},
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'By continuing, I agree ',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFF676767),
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        child: Wrap(
+                          children: [
+                            Text(
+                              'By continuing, I agree ',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontFamily: 'Poppins',
+                                color: Color(0xFF676767),
+                                fontWeight: FontWeight.w500,
                               ),
-                              TextSpan(
-                                text: 'terms & condition',
+                            ),
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                launchUrl(
+                                    mode: LaunchMode.inAppWebView,
+                                    Uri.parse(
+                                      'https://zyro.in/zyropay/terms',
+                                    ));
+                              },
+                              child: Text(
+                                'terms & condition ',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   color: Color(0xFF676767),
                                   fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' and ',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12.sp,
-                                  color: Color(0xFF676767),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'privacy policies',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12.sp,
-                                  color: Color(0xFF676767),
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
                                 ),
                               ),
-                              TextSpan(
-                                text: ' ',
+                            ),
+                            Text(
+                              'and',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontFamily: 'Poppins',
+                                color: Color(0xFF676767),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                launchUrl(
+                                    mode: LaunchMode.inAppWebView,
+                                    Uri.parse(
+                                      'https://zyro.in/zyropay/privacy.php',
+                                    ));
+                              },
+                              child: Text(
+                                'privacy policies',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 12.sp,
                                   color: Color(0xFF676767),
                                   fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
                     ),

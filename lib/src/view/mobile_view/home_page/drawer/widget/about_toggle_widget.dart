@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../controller/home_page_controller.dart';
-import '../../../../../../model/homePage/getbrand_details_model.dart';
-
 class AboutThePageToggleWidget extends ConsumerStatefulWidget {
   const AboutThePageToggleWidget({required this.brandData});
+
   final String brandData;
+
   @override
   ConsumerState<AboutThePageToggleWidget> createState() =>
       _AboutThePageToggleWidgetState();

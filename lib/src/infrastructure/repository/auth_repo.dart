@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:abc/src/infrastructure/dio/dio_api_service.dart';
-import 'package:abc/src/model/auth/registration_model.dart';
 import 'package:abc/src/model/auth/generate_otp_model.dart';
+import 'package:abc/src/model/auth/registration_model.dart';
 import 'package:abc/src/model/auth/verify_otp_model.dart';
-import 'package:abc/src/view/mobile_view/login_page/mobile_number_page.dart';
+import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/bottomNavigationBar.dart';
 import 'package:abc/src/view/mobile_view/login_page/onboarding_page.dart';
-import 'package:abc/src/view/mobile_view/bottomNavigationBar.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
 

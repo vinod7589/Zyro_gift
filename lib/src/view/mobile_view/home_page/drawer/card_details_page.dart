@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:abc/src/controller/home_page_controller.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/widget/about_toggle_widget.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/widget/howto_redeem_widget.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/widget/terms_condition_widget.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

@@ -1,17 +1,13 @@
 import 'package:abc/src/view/widgets/textfield_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 import '../../../constants/page_padding.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
-import '../../../model/auth/get_user_detail_model.dart';
 import '../../../model/auth/registration_model.dart';
-import '../../../util/services/shared_preferences.dart';
 import '../../Utility/validator.dart';
-import '../bottomNavigationBar.dart';
+import '../bottomNavigationBar_tabs/bottomNavigationBar.dart';
 
 class CustomerEnterDetails extends ConsumerStatefulWidget {
   CustomerEnterDetails({super.key});
@@ -30,6 +26,7 @@ TextEditingController _dateOfBirth = TextEditingController();
 
 class _CustomerEnterDetailsState extends ConsumerState<CustomerEnterDetails> {
   AuthRepo auth = AuthRepo();
+
   @override
   void dispose() {
     super.dispose();
@@ -126,8 +123,8 @@ class _CustomerEnterDetailsState extends ConsumerState<CustomerEnterDetails> {
                             TextSpan(
                               text: ' *',
                               style: TextStyle(
-                                color: Color(
-                                    0xFFB91E1E), // Change the color as per your preference
+                                color: Color(0xFFB91E1E),
+                                // Change the color as per your preference
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w500,
                               ),

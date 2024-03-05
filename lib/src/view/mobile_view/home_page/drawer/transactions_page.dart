@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../../../controller/internet_check_status_controller.dart';
-import '../../../../widgets/dialogs/loading_dialog.dart';
-import '../../../no_internet_page.dart';
+import '../../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../../controller/internet_check_status_controller.dart';
+import '../../../widgets/dialogs/loading_dialog.dart';
+import '../../no_internet_page.dart';
 
 class TransactionsPage extends ConsumerStatefulWidget {
   const TransactionsPage({super.key});
@@ -27,6 +27,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
   List<Transaction> transactionList = [];
   List<Transaction> searchTransactionList = [];
   TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +47,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
 
   bool isLoading = true;
   bool isDisable = false;
+
   @override
   Widget build(BuildContext context) {
     var checkInternetController = ref.watch(CheckInternetController);

@@ -3,10 +3,10 @@ import 'package:abc/src/constants/page_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../infrastructure/repository/auth_repo.dart';
-import '../../../../../model/auth/registration_model.dart';
-import '../../../../../util/services/shared_preferences.dart';
-import '../../../../Utility/validator.dart';
+import '../../../../infrastructure/repository/auth_repo.dart';
+import '../../../../model/auth/registration_model.dart';
+import '../../../../util/services/shared_preferences.dart';
+import '../../../Utility/validator.dart';
 
 class ProfileEditPage extends StatefulWidget {
   const ProfileEditPage({super.key});

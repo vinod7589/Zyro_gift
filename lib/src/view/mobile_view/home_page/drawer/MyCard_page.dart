@@ -1,18 +1,18 @@
 import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/my_card_model.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/My_cardDetails_page.dart';
 import 'package:abc/src/view/mobile_view/no_internet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../../../Packages/page_transition/enum.dart';
-import '../../../../../Packages/page_transition/page_transition.dart';
-import '../../../../../constants/base_url.dart';
-import '../../../../../controller/internet_check_status_controller.dart';
-import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
+import '../../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../../Packages/page_transition/enum.dart';
+import '../../../../Packages/page_transition/page_transition.dart';
+import '../../../../constants/base_url.dart';
+import '../../../../controller/internet_check_status_controller.dart';
+import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
+import 'My_cardDetails_page.dart';
 
 class MyCardPage extends ConsumerStatefulWidget {
   final bool isfrombottom;

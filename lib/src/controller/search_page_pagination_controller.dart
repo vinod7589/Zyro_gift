@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getall_categories_model.dart';
 import '../model/homePage/voucher_entity.dart';
-import '../model/search/filtered_brand_model.dart';
 
 // Provider for SearchPagePaginationController
 final searchPagePaginationProvider =
@@ -20,7 +18,7 @@ class SearchPagePaginationController extends ChangeNotifier {
   SearchPagePaginationController(
     this._read,
   ) {
-    _initState();
+    // _initState();
   }
 
   // Initialize the controller state
@@ -39,18 +37,23 @@ class SearchPagePaginationController extends ChangeNotifier {
   TextEditingController searchBarTextEditingController =
       TextEditingController();
   String _searchQuery = "";
+
   String get searchQuery => _searchQuery;
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
   // Index for the selected category and brand
   int _selectedIndex = 0;
+
   int get selectedIndex => _selectedIndex;
 
   int _selectedCategoryId = 0;
+
   int get selectedCategoryId => _selectedCategoryId;
 
   List<VoucherEntity> _filteredBrandList = [];
+
   List<VoucherEntity> get filteredBrandList => _filteredBrandList;
   List<CategoriesList> categoriesList = [];
 
@@ -89,17 +92,23 @@ class SearchPagePaginationController extends ChangeNotifier {
   bool _hasNextPage = true;
 
   bool _isFirstLoadRunning = false;
+
   bool get isFirstLoadRunning => _isFirstLoadRunning;
 
   bool _isFirstError = false;
+
   bool get isFirstError => _isFirstError;
   String _firstErrorMessage = '';
+
   String get firstErrorMessage => _firstErrorMessage;
   bool _isLoadMoreRunning = false;
+
   bool get isLoadMoreRunning => _isLoadMoreRunning;
   bool _isLoadMoreError = false;
+
   bool get isLoadMoreError => _isLoadMoreError;
   String _loadMoreErrorMessage = '';
+
   String get loadMoreErrorMessage => _loadMoreErrorMessage;
 
   // Select a category based on the index

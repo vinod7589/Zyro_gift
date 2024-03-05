@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Packages/Animated_Text_Kit/animated_text_kit.dart';
 import '../../controller/internet_check_status_controller.dart';
 import '../../util/services/shared_preferences.dart';
-import 'bottomNavigationBar.dart';
+import 'bottomNavigationBar_tabs/bottomNavigationBar.dart';
 import 'login_page/onboarding_page.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {

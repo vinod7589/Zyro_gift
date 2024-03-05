@@ -1,8 +1,8 @@
 import 'package:abc/src/infrastructure/repository/drawer_repo.dart';
 import 'package:abc/src/model/drawer_model/My_carddetails_model.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/about_toggle_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/howto_redeem_widget.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/widget/terms_condition_widget.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/widget/about_toggle_widget.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/widget/howto_redeem_widget.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/widget/terms_condition_widget.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,11 +10,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../../../constants/base_url.dart';
-import '../../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
-import '../../../../../model/homePage/getbrand_details_model.dart';
-import '../../../Time_remove_widget.dart';
+import '../../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../../constants/base_url.dart';
+import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
+import '../../../../model/homePage/getbrand_details_model.dart';
+import '../../Time_remove_widget.dart';
 
 class MyCardDetailsPage extends ConsumerStatefulWidget {
   final String orderId;

@@ -1,10 +1,10 @@
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/MyCard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../customicon_icons.dart';
-import 'bottomNavigationBar_tabs/pofile_page.dart';
-import 'home_page/home_page.dart';
+import '../../../../customicon_icons.dart';
+import 'home_page.dart';
+import 'pofile_page.dart';
+import 'voucher_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -25,10 +25,7 @@ class _LandingPageState extends State<LandingPage> {
         index: _selectedIndex,
         children: const [
           HomePage(),
-          MyCardPage(
-            isfrombottom: true,
-            // Isfrombottom: true,
-          ),
+          VoucherPage(),
           ProfilePage(),
         ],
       ),

@@ -19,18 +19,18 @@ import '../../../Packages/page_transition/page_transition.dart';
 import '../../../constants/base_url.dart';
 import '../../../controller/search_page_pagination_controller.dart';
 import '../../../model/homePage/voucher_entity.dart';
-import '../bottomNavigationBar_tabs/pofile_page.dart';
+import '../home_page/drawer/card_details_page.dart';
 import '../searchPage/search_mobile_page.dart';
-import 'home_items_page/card_details_page.dart';
+import 'pofile_page.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class VoucherPage extends ConsumerStatefulWidget {
+  const VoucherPage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  ConsumerState<VoucherPage> createState() => _VoucherPageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage>
+class _VoucherPageState extends ConsumerState<VoucherPage>
     with TickerProviderStateMixin {
   /// //////////////// <-homeRepo->///////////////////
   HomePageService homeRepo = HomePageService();
@@ -48,10 +48,10 @@ class _HomePageState extends ConsumerState<HomePage>
   /// //////////////// <-initState->///////////////////
   @override
   void initState() {
-    checkForUpdateAndLaunch();
-    futureMethod();
-    super.initState();
-    searchAnimation();
+    // checkForUpdateAndLaunch();
+    // futureMethod();
+    // super.initState();
+    // searchAnimation();
   }
 
   /// //////////////// <-dispose->///////////////////

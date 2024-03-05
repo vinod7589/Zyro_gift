@@ -1,16 +1,14 @@
 import 'package:abc/src/util/services/shared_preferences.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/account_details_page.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/help_support_page.dart';
-import 'package:abc/src/view/mobile_view/home_page/home_items_page/pofile/transactions_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/account_details_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/help_support_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_icons/icons8.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
-import '../home_page/home_items_page/pofile/MyCard_page.dart';
+import '../home_page/drawer/MyCard_page.dart';
+import '../home_page/drawer/transactions_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

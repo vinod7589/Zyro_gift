@@ -2,7 +2,6 @@ import 'package:abc/src/constants/page_padding.dart';
 import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/pofile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/page_transition/enum.dart';
@@ -165,18 +164,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 MyContainer(
-                  height: 34,
-                  image: 'mobile2.png',
+                  image: '123.svg',
                 ),
-                Container(
-                    alignment: Alignment.center,
-                    height: 58,
-                    width: 58,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF3C3C3C)),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: SvgPicture.asset(
-                        'assets/images/bill-payments/vinod.svg')),
               ],
             ),
           )

@@ -1,3 +1,4 @@
+import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/mycard_tab.dart';
 import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/voucher_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meta_sdk/flutter_meta_sdk.dart';
@@ -35,7 +36,7 @@ class _LandingPageState extends State<LandingPage> {
         index: _selectedIndex,
         children: const [
           HomePage(),
-          VoucherPage(),
+          MyCardTab(),
           ProfilePage(),
         ],
       ),

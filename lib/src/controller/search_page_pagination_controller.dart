@@ -18,7 +18,7 @@ class SearchPagePaginationController extends ChangeNotifier {
   SearchPagePaginationController(
     this._read,
   ) {
-    // _initState();
+    _initState();
   }
 
   // Initialize the controller state

@@ -4,8 +4,8 @@
         android:label="ZYRO Pay"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="911957763589418"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="2e44d0ef7a29d6083ae329489ded4de0"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

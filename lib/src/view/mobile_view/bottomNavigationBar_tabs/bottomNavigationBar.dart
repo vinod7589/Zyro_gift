@@ -1,10 +1,11 @@
+import 'package:abc/src/view/mobile_view/home_page/drawer/MyCard_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_meta_sdk/flutter_meta_sdk.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../customicon_icons.dart';
 import 'home_page.dart';
 import 'pofile_page.dart';
-import 'voucher_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -19,13 +20,22 @@ class _LandingPageState extends State<LandingPage> {
   bool isfrombottom = false;
 
   @override
+  void initState() {
+    final metaSdk = FlutterMetaSdk();
+    metaSdk.logEvent(name: "User Open the App");
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
         children: const [
           HomePage(),
-          VoucherPage(),
+          MyCardPage(isfrombottom: false),
           ProfilePage(),
         ],
       ),

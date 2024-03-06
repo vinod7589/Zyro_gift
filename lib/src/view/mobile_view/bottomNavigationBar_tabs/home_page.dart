@@ -1,11 +1,13 @@
 import 'package:abc/src/constants/page_padding.dart';
 import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/pofile_page.dart';
+import 'package:abc/src/view/widgets/Navigator_push.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Packages/carousel_slider/carousel_slider.dart';
 import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
+import '../home_page/recharge_bill_payment_view_all_page.dart';
 import '../widgets/mycontainer.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> {
               },
               child: Image.asset(
                 'assets/images/menu.png',
+                height: 34,
               )),
         ),
         actions: [
@@ -50,6 +53,7 @@ class _HomePageState extends State<HomePage> {
             child: Image.asset(
               'assets/images/refer.png',
               height: 27,
+              width: 75,
             ),
           ),
         ],
@@ -74,6 +78,7 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {},
                               child: Image.asset(
                                 'assets/images/banner.png',
+                                height: 34,
                               )
                               // CachedNetworkImage(
                               //   fadeInDuration: Duration(milliseconds: 100),
@@ -83,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                               //   errorWidget: (context, error, stackTrace) {
                               //     return Image.asset(
                               //       'assets/images/errorimages1.png',
+                              // height: 34,
                               //     );
                               //   },
                               // ),
@@ -98,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                     carouselController: carouselController,
                     options: CarouselOptions(
                       enlargeCenterPage: true,
-                      scrollPhysics: BouncingScrollPhysics(),
+                      scrollPhysics: const BouncingScrollPhysics(),
                       autoPlay: true,
                       height: 170.h,
                       aspectRatio: 2,
@@ -153,7 +159,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Recharge & Bill Payments',
                   style: TextStyle(
                     color: Colors.white,
@@ -163,8 +169,61 @@ class _HomePageState extends State<HomePage> {
                     letterSpacing: 0.60,
                   ),
                 ),
-                MyContainer(
-                  image: '123.svg',
+                18.verticalSpace,
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyContainer(
+                      image: 'mobile-recharge.png',
+                      height: 34,
+                      title: 'Mobile\nRecharge',
+                    ),
+                    MyContainer(
+                      image: 'dth.png',
+                      height: 31,
+                      title: 'DTH',
+                    ),
+                    MyContainer(
+                      image: 'electricity-bill.png',
+                      height: 37,
+                      title: 'Electricity',
+                    ),
+                    MyContainer(
+                      image: 'fastTag.png',
+                      height: 31,
+                      title: 'FASTag\nRecharge',
+                    ),
+                  ],
+                ),
+                18.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyContainer(
+                      image: 'rent-payment.png',
+                      height: 28,
+                      title: 'Rent\nPayment ',
+                    ),
+                    MyContainer(
+                      image: 'water.png',
+                      height: 34,
+                      title: 'Water',
+                    ),
+                    MyContainer(
+                      image: 'cylinder.png',
+                      height: 34,
+                      title: 'Book a\nCylinder',
+                    ),
+                    NavigatorPush(
+                      title: RechargeBillPaymentViewAllPage(),
+                      child: MyContainer(
+                        image: 'view-more.png',
+                        height: 26,
+                        title: 'View \nmore',
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

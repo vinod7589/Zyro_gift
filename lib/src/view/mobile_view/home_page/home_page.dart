@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:io' show Platform;
 import 'package:abc/src/infrastructure/repository/homePage_repo/home_page_repo.dart';
 import 'package:abc/src/model/homePage/GetDashBoardBannerModel.dart';
 import 'package:abc/src/view/Utility/constants.dart';
@@ -57,7 +57,7 @@ class _HomePageState extends ConsumerState<HomePage>
   /// //////////////// <-dispose->///////////////////
   @override
   void dispose() {
-    // _settingController.dispose();
+    _settingController.dispose();
     super.dispose();
   }
 
@@ -202,6 +202,7 @@ class _HomePageState extends ConsumerState<HomePage>
         //   ?
         Scaffold(
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
+            drawer:Platform.isIOS? ProfilePage():null,
             body: isLoading
                 ? Center(
                     child: LoadingAnimationWidget.threeArchedCircle(
@@ -216,7 +217,7 @@ class _HomePageState extends ConsumerState<HomePage>
                       }),
                       child: CustomScrollView(slivers: [
                         SliverAppBar(
-                          leading: Padding(
+                          leading:Platform.isAndroid? Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: InkWell(
                                 highlightColor: Colors.transparent,
@@ -229,7 +230,8 @@ class _HomePageState extends ConsumerState<HomePage>
                                           child: const ProfilePage()));
                                 },
                                 child: Image.asset('assets/images/menu.png')),
-                          ),
+                          ):null,
+
                           // snap: true,
                           // floating: true,
                           scrolledUnderElevation: 0,

@@ -45,10 +45,10 @@ dependencies:
   intl: ^0.17.0
   flutter_inappwebview: ^5.0.0
   getwidget: ^4.0.0
-  cached_network_image: ^3.0.1
+  cached_network_image: ^3.3.1
   flutter_launcher_icons: ^0.13.1
   connectivity_plus: ^3.0.2
-  upgrader: ^8.0.0
+#  upgrader: ^8.0.0
   fast_cached_network_image: ^1.1.6
   skeletons: ^0.0.3
   sms_autofill: ^2.3.0

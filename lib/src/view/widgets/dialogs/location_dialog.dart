@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../constants/color.dart';
 
 void askLocationDialog(BuildContext context,
@@ -31,7 +32,7 @@ void askLocationDialog(BuildContext context,
                 width: 231.w,
                 child: Text(
                   'Your location will be used to show you personalised information',
-                  style: TextStyle(fontSize: 10.sp, color: grey),
+                  style: TextStyle(fontSize: 10.sp, color: Colors.grey),
                   textAlign: TextAlign.center,
                 )),
             21.verticalSpace,

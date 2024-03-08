@@ -179,8 +179,6 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                     TextFormField(
                       autofocus: true,
                       keyboardType: TextInputType.number,
-                      // autofocus: true,
-                      // maxLength: 10,
                       onTapOutside: (e) => FocusScope.of(context).unfocus(),
                       onChanged: (text) {
                         if (text.length == 10) {

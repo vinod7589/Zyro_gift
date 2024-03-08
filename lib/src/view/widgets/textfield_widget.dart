@@ -39,6 +39,9 @@ class AppTextField extends StatelessWidget {
     this.padding = 0,
     this.isEnabled = true,
     this.maxlength,
+    this.borderColor,
+    this.borderRadius,
+    this.contentPadding,
   }) : super(key: key);
 
   final String? hintText;
@@ -73,6 +76,10 @@ class AppTextField extends StatelessWidget {
   final double padding;
   final EdgeInsets? ContentPadding;
   final bool isEnabled;
+  final Color? borderColor;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? contentPadding;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -117,18 +124,22 @@ class AppTextField extends StatelessWidget {
             prefixText: prefixText,
             errorText: errorText,
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(8.r),
               borderSide: BorderSide(
-                color: isBorder ? const Color(0xffC8C8C8) : Colors.transparent,
+                color: isBorder
+                    ? borderColor ?? Color(0xffC8C8C8)
+                    : Colors.transparent,
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
+              borderRadius: borderRadius ?? BorderRadius.circular(8.r),
               borderSide: BorderSide(
-                color: isBorder ? const Color(0xffC8C8C8) : Colors.transparent,
+                color: isBorder
+                    ? borderColor ?? Color(0xffC8C8C8)
+                    : Colors.transparent,
               ),
             ),
-            contentPadding:
+            contentPadding: contentPadding ??
                 EdgeInsets.symmetric(horizontal: 16, vertical: 16.h),
             labelStyle: const TextStyle(
               fontSize: 14,

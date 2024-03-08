@@ -1,14 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api, camel_case_types, use_build_context_synchronously
 
-import 'package:abc/src/constants/color.dart';
+import 'dart:async';
+
 import 'package:abc/src/model/payment/check_payment_status_model.dart';
 import 'package:abc/src/model/payment/purchasegift_voucher_model.dart';
 import 'package:abc/src/view/mobile_view/home_page/payment/payment_failed.dart';
 import 'package:abc/src/view/mobile_view/home_page/payment/payment_success.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:ui';
-import 'dart:async';
 
 import '../../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../../infrastructure/repository/payment_repo.dart';
@@ -18,6 +17,7 @@ class TimerCountPage extends StatefulWidget {
   final CartDataModel cartDataDetails;
   final String brandCode;
   final String merchantTransactionId;
+
   TimerCountPage(
       {required this.cartDataDetails,
       required this.brandCode,
@@ -126,6 +126,7 @@ class _timerCountPageState extends State<TimerCountPage> {
           MaterialPageRoute(builder: (context) => PaymentSuccessPage()));
     }
   }
+
   // late Timer _timer;
   // late Timer _statusTimer;
   // int _start = 5 * 60; // 5 minutes
@@ -279,7 +280,7 @@ class _timerCountPageState extends State<TimerCountPage> {
               textAlign: TextAlign.center,
               'Please go to your UPI app and approve the payment request Zyro',
               style: TextStyle(
-                  color: grey, fontFamily: "Poppins", fontSize: 13.sp),
+                  color: Colors.grey, fontFamily: "Poppins", fontSize: 13.sp),
             ),
           ),
           Spacer(),

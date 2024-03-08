@@ -48,3 +48,53 @@ class MyContainer extends StatelessWidget {
     );
   }
 }
+
+/// <-----------------------MyContainerWithBackgroundColor------------------------>///
+
+class MyContainerWithBackgroundColor extends StatelessWidget {
+  final String title;
+  final String image;
+  final double height;
+
+  const MyContainerWithBackgroundColor(
+      {required this.title, required this.image, required this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+            alignment: Alignment.center,
+            height: 58.h,
+            width: 58.w,
+            decoration: BoxDecoration(
+                color: Color(0xFF1B1B1B),
+                border: Border.all(color: Colors.transparent, width: 1.5),
+                borderRadius: BorderRadius.circular(30)),
+            child: Image.asset(
+              'assets/images/bill-payments/$image',
+              height: height.h,
+            )),
+        8.verticalSpace,
+        SizedBox(
+          height: 36.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 11.sp,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}

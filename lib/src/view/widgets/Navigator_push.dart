@@ -19,7 +19,7 @@ class NavigatorPush extends StatelessWidget {
           bottomLeft: Radius.circular(15),
           bottomRight: Radius.circular(15)),
       splashColor: Colors.transparent,
-      highlightColor: Colors.deepPurpleAccent.shade100.withOpacity(0.3),
+      highlightColor: Colors.transparent,
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => title));
       },

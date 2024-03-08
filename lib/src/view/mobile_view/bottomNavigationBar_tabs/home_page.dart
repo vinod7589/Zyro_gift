@@ -376,7 +376,7 @@ class _HomePageState extends ConsumerState<HomePage>
                                           startanimation ? 0 : 180, 0, 0),
                                       curve: Curves.linear,
                                       duration: Duration(
-                                          milliseconds: 300 + (index * 160)),
+                                          milliseconds: 500 + (index * 160)),
                                       // width: 85,
                                       // height: 80,
                                       // color: filteredBrandPaginationProvider
@@ -578,7 +578,7 @@ class _HomePageState extends ConsumerState<HomePage>
                                               curve: Curves.easeInOut,
                                               duration: Duration(
                                                   milliseconds:
-                                                      400 + (index * 400)),
+                                                      500 + (index * 400)),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(17),

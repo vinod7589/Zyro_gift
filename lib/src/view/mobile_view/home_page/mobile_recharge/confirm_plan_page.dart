@@ -1,3 +1,4 @@
+import 'package:abc/src/view/widgets/botton_animation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -218,7 +219,18 @@ class ConfirmPlanPage extends StatelessWidget {
                   )
                 ],
               ),
-            )
+            ),
+            Spacer(),
+            ButtonAnimationWidget(
+              width: 314.w,
+              title: 'Proceed To Pay',
+              textStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            20.verticalSpace,
           ],
         ),
       ),

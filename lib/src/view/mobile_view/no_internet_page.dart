@@ -24,7 +24,7 @@ Consumer NoInternetPage(Function onRetryPressed, context,
                 ),
               )
             : SizedBox(),
-      ),
+      ), //
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       body: SafeArea(
         child: Column(

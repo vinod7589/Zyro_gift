@@ -114,7 +114,7 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                                       fontWeight: FontWeight.w500,
                                       fontFamily: 'Poppins'),
                                 ),
-                                // 10.verticalSpace,
+                                10.verticalSpace,
                                 redeemSteps[index].image != ''
                                     ? Container(
                                         // height: 250,
@@ -129,7 +129,7 @@ class _HowToRedeemWidgetState extends ConsumerState<HowToRedeemWidget> {
                                                     ''
                                                 ? redeemSteps[index].image!
                                                 : '',
-                                            height: 150,
+                                            // height: 150,
                                             fit: BoxFit.fill,
                                           ),
                                         ),

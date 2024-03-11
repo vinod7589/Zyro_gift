@@ -9,7 +9,7 @@ import 'package:skeletons/skeletons.dart';
 
 import '../../../Packages/loading_packags/build_loading_animation.dart';
 import '../../../constants/base_url.dart';
-import '../home_page/drawer/card_details_page.dart';
+import '../home_page/card_details_page.dart';
 
 class SearchBrandPaginationPage extends ConsumerStatefulWidget {
   const SearchBrandPaginationPage({super.key});

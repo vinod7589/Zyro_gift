@@ -206,7 +206,6 @@ class _DenominationState extends ConsumerState<Denomination> {
                             ),
                             Container(
                                 height: 35,
-                                width: 113,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7),
@@ -240,7 +239,7 @@ class _DenominationState extends ConsumerState<Denomination> {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 0),
                                       child: SizedBox(
-                                        width: 15,
+                                        width: 17.w,
                                         child: Text(
                                           fixedCardProvider.denominationVariant[
                                                       fixedCardProvider

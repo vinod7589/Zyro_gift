@@ -19,7 +19,7 @@ import '../../../Packages/page_transition/page_transition.dart';
 import '../../../constants/base_url.dart';
 import '../../../controller/search_page_pagination_controller.dart';
 import '../../../model/homePage/voucher_entity.dart';
-import '../home_page/drawer/card_details_page.dart';
+import '../home_page/card_details_page.dart';
 import '../searchPage/search_mobile_page.dart';
 import 'pofile_page.dart';
 

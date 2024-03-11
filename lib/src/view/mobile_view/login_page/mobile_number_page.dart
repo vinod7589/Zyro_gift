@@ -181,25 +181,12 @@ class MobileNumberPageState extends ConsumerState<MobileNumberPage> {
                     TextFormField(
                       autofocus: true,
                       keyboardType: TextInputType.number,
-                      // autofocus: true,
                       // maxLength: 10,
                       onTapOutside: (e) => FocusScope.of(context).unfocus(),
                       onChanged: (text) {
                         if (text.length == 10) {
                           FocusScope.of(context).unfocus();
-                          if (text == "7506225177") {
-                            UserPreferences.setUserId(userId: "Vinod");
-                            UserPreferences.setFullName(
-                                fullName: "Vinod Maurya");
-                            UserPreferences.setTokenId(
-                                token:
-                                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiODg3OTcyMjUyMSIsImV4cCI6MTczNzk2Mjk5MSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzOTAiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDM5MCJ9.um6YP4EAddQ6G48uX8oziOlwK2u7kxuOkoUZIyIAVo8");
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (c) => HomePage()));
-                            showToast(message: "Succesfully Login");
-                          } else {
                             sendOtp();
-                          }
                         }
                       },
                       controller: _phoneNumerController,

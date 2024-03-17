@@ -221,7 +221,7 @@ class ConfirmPlanPage extends StatelessWidget {
               ),
             ),
             Spacer(),
-            ButtonAnimationWidget(
+            AnimationButton(
               width: 314.w,
               title: 'Proceed To Pay',
               textStyle: TextStyle(

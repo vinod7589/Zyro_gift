@@ -24,6 +24,22 @@ class _SelectOperatorPageState extends State<SelectOperatorPage> {
     {'title': 'BSNL Prepaid', 'image': 'assets/images/bill-payments/bsnl.png'},
     {'title': 'Vi Prepaid', 'image': 'assets/images/bill-payments/mtnl.png'},
   ];
+  bool startAnimation = false;
+
+  void listViewAnimation() {
+    Future.delayed(Duration(milliseconds: 10), () {
+      setState(() {
+        startAnimation = true;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    listViewAnimation();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +65,7 @@ class _SelectOperatorPageState extends State<SelectOperatorPage> {
                         'Select Operator',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.18,
                         ),
@@ -78,8 +94,20 @@ class _SelectOperatorPageState extends State<SelectOperatorPage> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Container(
-                      height: 70.h,
+                    child: AnimatedContainer(
+                      transform: Matrix4.translationValues(
+                        startAnimation
+                            ? 0
+                            : MediaQuery.of(context)
+                                .size
+                                .width, // Off-screen right
+                        0,
+                        0,
+                      ),
+                      transformAlignment: Alignment(200, 100),
+                      curve: Curves.easeInOut,
+                      duration: Duration(milliseconds: 300 + (index * 100)),
+                      height: 75.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -95,7 +123,7 @@ class _SelectOperatorPageState extends State<SelectOperatorPage> {
                                   '${selectOperators[index]['title']}',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 14,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w400,
                                     letterSpacing: 0.14,
                                   ),

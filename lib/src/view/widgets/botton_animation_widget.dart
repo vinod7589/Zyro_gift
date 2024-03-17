@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ButtonAnimationWidget extends StatefulWidget {
+class AnimationButton extends StatefulWidget {
   final Function? onPress;
   final Color? color_1;
   final Color? color_2;
@@ -13,7 +13,7 @@ class ButtonAnimationWidget extends StatefulWidget {
   final double? width;
   final double? height;
 
-  const ButtonAnimationWidget(
+  const AnimationButton(
       {this.onPress,
       required this.title,
       this.textStyle,
@@ -23,10 +23,10 @@ class ButtonAnimationWidget extends StatefulWidget {
       this.height});
 
   @override
-  State<ButtonAnimationWidget> createState() => _ButtonAnimationWidgetState();
+  State<AnimationButton> createState() => AnimationButtonState();
 }
 
-class _ButtonAnimationWidgetState extends State<ButtonAnimationWidget> {
+class AnimationButtonState extends State<AnimationButton> {
   static const double _shadowHeight = 4;
   double _position = 4;
 
@@ -75,7 +75,7 @@ class _ButtonAnimationWidgetState extends State<ButtonAnimationWidget> {
             children: [
               Positioned(
                 bottom: 0,
-                right: 29.w,
+                // right: 29.w,
                 child: Container(
                   width: widget.width,
                   height: _height,

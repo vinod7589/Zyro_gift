@@ -106,7 +106,9 @@ class AppTextField extends StatelessWidget {
           keyboardType: keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           style: textTheme.bodyLarge!.copyWith(
-              fontSize: 16, fontWeight: FontWeight.w500, color: textColor),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: textColor == null ? Colors.white : textColor),
           textCapitalization: textCapitalization,
           textInputAction: textInputAction,
           decoration: InputDecoration(

@@ -1,6 +1,7 @@
 import 'package:abc/src/constants/color.dart';
-import 'package:abc/src/view/mobile_view/home_page/mobile_recharge/select_operator_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/mobile_recharge/select_mobile_recharge_operator_page.dart';
 import 'package:abc/src/view/mobile_view/home_page/mobile_recharge/select_paln_widget/PopularWidget.dart';
+import 'package:abc/src/view/mobile_view/home_page/mobile_recharge/select_state_page.dart';
 import 'package:abc/src/view/widgets/Navigator_push.dart';
 import 'package:abc/src/view/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,8 @@ class SelectPlanPage extends StatelessWidget {
                   ),
                 ),
                 InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     showModalBottomSheet(
                       elevation: 0,
@@ -164,33 +167,44 @@ class SelectPlanPage extends StatelessWidget {
                                   ),
                                 ),
                                 17.verticalSpace,
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 22),
-                                  height: 68.h,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFF1B1B1B),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(6)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Delhi NCR',
-                                        style: TextStyle(
-                                          color: Color(0xFFE1E1E1),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SelectStatePage()));
+                                  },
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 22),
+                                    height: 68.h,
+                                    decoration: ShapeDecoration(
+                                      color: Color(0xFF1B1B1B),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(6)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Delhi NCR',
+                                          style: TextStyle(
+                                            color: Color(0xFFE1E1E1),
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.white,
-                                          ))
-                                    ],
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.white,
+                                            ))
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 30.verticalSpace,

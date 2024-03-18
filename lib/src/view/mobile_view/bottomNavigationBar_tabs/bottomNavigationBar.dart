@@ -1,11 +1,11 @@
-import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/card_Page.dart';
-import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/voucher_page.dart';
+import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/card_bottom_tab_page.dart';
+import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/voucher_bottom_tab_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meta_sdk/flutter_meta_sdk.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../customicon_icons.dart';
-import 'home_page.dart';
+import 'home_bottom_tab_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -34,9 +34,9 @@ class _LandingPageState extends State<LandingPage> {
       body: IndexedStack(
         index: _selectedIndex,
         children: const [
-          HomePage(),
-          VoucherPage(),
-          CardPage(),
+          HomeBottomTabPage(),
+          VoucherBottomTabPage(),
+          CardBottomTabPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -4,11 +4,11 @@ import 'package:abc/src/view/mobile_view/home_page/drawer/help_support_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../Packages/page_transition/enum.dart';
-import '../../../Packages/page_transition/page_transition.dart';
-import '../../../infrastructure/repository/auth_repo.dart';
-import '../home_page/drawer/MyCard_page.dart';
-import '../home_page/drawer/transactions_page.dart';
+import '../../../../Packages/page_transition/enum.dart';
+import '../../../../Packages/page_transition/page_transition.dart';
+import '../../../../infrastructure/repository/auth_repo.dart';
+import 'MyCard_page.dart';
+import 'transactions_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

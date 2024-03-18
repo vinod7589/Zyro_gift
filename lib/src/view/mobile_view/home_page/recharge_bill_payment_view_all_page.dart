@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Packages/animated_textfield/animated_hint_textfield.dart';
 import '../../../constants/height.dart';
 import '../../../constants/page_padding.dart';
-import '../bottomNavigationBar_tabs/card_Page.dart';
+import '../bottomNavigationBar_tabs/card_bottom_tab_page.dart';
 import 'dth_recharge/select_dth_operator_page.dart';
 
 class RechargeBillPaymentViewAllPage extends StatelessWidget {
@@ -190,7 +190,7 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (c) => CardPage()));
+                                        builder: (c) => CardBottomTabPage()));
                               },
                               child: MyContainerWithBackgroundColor(
                                   title: 'FASTag\nRecharge',

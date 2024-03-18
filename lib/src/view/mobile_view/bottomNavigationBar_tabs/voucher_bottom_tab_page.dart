@@ -20,17 +20,18 @@ import '../../../constants/base_url.dart';
 import '../../../controller/search_page_pagination_controller.dart';
 import '../../../model/homePage/voucher_entity.dart';
 import '../home_page/drawer/card_details_page.dart';
+import '../home_page/drawer/pofile_page.dart';
 import '../searchPage/search_mobile_page.dart';
-import 'pofile_page.dart';
 
-class VoucherPage extends ConsumerStatefulWidget {
-  const VoucherPage({super.key});
+class VoucherBottomTabPage extends ConsumerStatefulWidget {
+  const VoucherBottomTabPage({super.key});
 
   @override
-  ConsumerState<VoucherPage> createState() => _VoucherPageState();
+  ConsumerState<VoucherBottomTabPage> createState() =>
+      _VoucherBottomTabPageState();
 }
 
-class _VoucherPageState extends ConsumerState<VoucherPage>
+class _VoucherBottomTabPageState extends ConsumerState<VoucherBottomTabPage>
     with TickerProviderStateMixin {
   /// //////////////// <-homeRepo->///////////////////
   HomePageService homeRepo = HomePageService();

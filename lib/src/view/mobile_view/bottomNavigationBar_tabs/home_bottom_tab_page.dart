@@ -1,5 +1,5 @@
 import 'package:abc/src/constants/page_padding.dart';
-import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/pofile_page.dart';
+import 'package:abc/src/view/mobile_view/home_page/drawer/pofile_page.dart';
 import 'package:abc/src/view/widgets/Navigator_push.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,14 +10,14 @@ import '../../../Packages/page_transition/page_transition.dart';
 import '../home_page/recharge_bill_payment_view_all_page.dart';
 import '../widgets/mycontainer.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeBottomTabPage extends StatefulWidget {
+  const HomeBottomTabPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeBottomTabPage> createState() => _HomeBottomTabPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeBottomTabPageState extends State<HomeBottomTabPage> {
   int currentIndex = 0;
 
   /// <------------------ <-controller->------------------->

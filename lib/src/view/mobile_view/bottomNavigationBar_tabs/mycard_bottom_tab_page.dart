@@ -11,6 +11,7 @@ import '../../../Packages/page_transition/enum.dart';
 import '../../../Packages/page_transition/page_transition.dart';
 import '../../../constants/base_url.dart';
 import '../../../controller/internet_check_status_controller.dart';
+import '../../../controller/my_card_list_controller.dart';
 import '../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../home_page/drawer/My_cardDetails_page.dart';
 
@@ -37,24 +38,26 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.watch(CheckInternetController.notifier).startStreaming();
-      fetch();
+      // fetch();
     });
   }
 
-  List<MyCardList> myCardListItems = [];
-
-  Future<void> fetch() async {
-    isLoading = true;
-    myCardListItems = await drawerRepo.myCard(
-          "",
-        ) ??
-        [];
-    isLoading = false;
-    setState(() {});
-  }
+  // List<MyCardList> myCardListItems = [];
+  //
+  // Future<void> fetch() async {
+  //   isLoading = true;
+  //   myCardListItems = await drawerRepo.myCard(
+  //         "",
+  //       ) ??
+  //       [];
+  //   isLoading = false;
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
+    var myCardListPageController = ref.watch(myCardListPageProvider);
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor:
           Color.fromRGBO(35, 35, 35, 1), // Set your desired color here
@@ -80,14 +83,14 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                     letterSpacing: 0.08,
                   ),
                 )),
-            body: isLoading
+            body: myCardListPageController.isLoading
                 ? Center(
                     child: LoadingAnimationWidget.threeArchedCircle(
                       color: Colors.white,
                       size: 50,
                     ),
                   )
-                : (myCardListItems.isEmpty)
+                : (myCardListPageController.myCardListItems.isEmpty)
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -115,18 +118,21 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                     : ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          if (index < myCardListItems.length) {
+                          if (index <
+                              myCardListPageController.myCardListItems.length) {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     PageTransition(
                                         child: MyCardDetailsPage(
-                                          orderId: myCardListItems[index]
-                                              .orderId
+                                          orderId: myCardListPageController
+                                              .myCardListItems[index].orderId
                                               .toString(),
-                                          totalCardworth: myCardListItems[index]
-                                              .totalVoucherAmount!,
+                                          totalCardworth:
+                                              myCardListPageController
+                                                  .myCardListItems[index]
+                                                  .totalVoucherAmount!,
                                         ),
                                         type: PageTransitionType.theme));
                               },
@@ -154,8 +160,8 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                                     // ),
                                     Image.network(
                                       baseUrl +
-                                          myCardListItems[index]
-                                              .brandImage
+                                          myCardListPageController
+                                              .myCardListItems[index].brandImage
                                               .toString(),
                                       height: 40,
                                       errorBuilder:
@@ -167,8 +173,8 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                                     ),
                                     14.verticalSpace,
                                     Text(
-                                      myCardListItems[index]
-                                          .brandName
+                                      myCardListPageController
+                                          .myCardListItems[index].brandName
                                           .toString(),
                                       style: TextStyle(
                                         color: Colors.white,
@@ -181,7 +187,7 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                                       height: 5,
                                     ),
                                     Text(
-                                      '₹${myCardListItems[index].totalVoucherAmount}',
+                                      '₹${myCardListPageController.myCardListItems[index].totalVoucherAmount}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 23.14,
@@ -206,7 +212,7 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Valid Till : ${myCardListItems[index].expiryOn.toString()}',
+                                                  'Valid Till : ${myCardListPageController.myCardListItems[index].expiryOn.toString()}',
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 12.50.sp,
@@ -236,11 +242,14 @@ class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
                           }
                           return null;
                         },
-                        itemCount: myCardListItems.length,
+                        itemCount:
+                            myCardListPageController.myCardListItems.length,
                       ),
           )
         : NoInternetPage(() {
-            fetch();
+            ref.refresh(myCardListPageProvider);
+            myCardListPageController.refresh();
+
           }, context, showBackButton: false);
     // : SizedBox();
   }

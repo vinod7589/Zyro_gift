@@ -45,7 +45,7 @@ class _SearchMobilePageState extends ConsumerState<SearchMobilePage> {
           .watch(searchPagePaginationProvider.notifier)
           .searchBarTextEditingController
           .clear();
-      ref.watch(searchPagePaginationProvider.notifier)..searchClear();
+      ref.watch(searchPagePaginationProvider.notifier).searchClear();
     });
   }
 

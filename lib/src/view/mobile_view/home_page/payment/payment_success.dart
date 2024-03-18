@@ -1,14 +1,30 @@
 import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/bottomNavigationBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../controller/my_card_list_controller.dart';
 import '../drawer/MyCard_page.dart';
 
-class PaymentSuccessPage extends StatelessWidget {
+class PaymentSuccessPage extends ConsumerStatefulWidget {
   const PaymentSuccessPage({super.key});
 
   @override
+  ConsumerState<PaymentSuccessPage> createState() => _PaymentSuccessPageState();
+}
+
+class _PaymentSuccessPageState extends ConsumerState<PaymentSuccessPage> {
+  @override
+  void initState() {
+    ref.read(myCardListPageProvider).refreshFromInt();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    ref.watch(myCardListPageProvider);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
       body: SafeArea(

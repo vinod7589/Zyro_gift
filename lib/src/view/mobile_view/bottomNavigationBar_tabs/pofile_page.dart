@@ -9,6 +9,7 @@ import '../../../Packages/page_transition/page_transition.dart';
 import '../../../infrastructure/repository/auth_repo.dart';
 import '../home_page/drawer/MyCard_page.dart';
 import '../home_page/drawer/transactions_page.dart';
+import '../home_page/payment/payment_success.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -325,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.push(
                             context,
                             PageTransition(
-                                child: HelpSupportPage(),
+                                child: PaymentSuccessPage(),
                                 type: PageTransitionType.theme));
                       },
                       child: Row(

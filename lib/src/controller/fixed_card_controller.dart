@@ -9,7 +9,7 @@ import '../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../model/homePage/getbrand_details_model.dart';
 
 final fixedCardController =
-    ChangeNotifierProvider.family<FixedCardController, VoucherEntity>(
+    ChangeNotifierProvider.autoDispose.family<FixedCardController, VoucherEntity>(
         (ref, brandCode) {
   return FixedCardController((ref.read), brand: brandCode);
 });

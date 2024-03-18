@@ -67,6 +67,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       //       Icons.arrow_forward_ios_rounded,
                       //       color: Colors.white,
                       //     ))
+                      IconButton(
+                        icon: Icon(Icons.arrow_forward),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )
                     ],
                   ),
                   SizedBox(
@@ -83,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.11,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -174,9 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                           context,
                           PageTransition(
-                              child: MyCardPage(
-                                isfrombottom: false,
-                              ),
+                              child: MyCardPage(),
                               type: PageTransitionType.theme));
                     },
                     child: Padding(

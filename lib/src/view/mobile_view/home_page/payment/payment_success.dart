@@ -44,13 +44,12 @@ class PaymentSuccessPage extends StatelessWidget {
             30.verticalSpace,
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => MyCardPage(
-                              isfrombottom: true,
-                            )),
+                    MaterialPageRoute(builder: (context) => MyCardPage()),
                   );
                 },
                 child: Container(
@@ -79,6 +78,8 @@ class PaymentSuccessPage extends StatelessWidget {
               ),
               14.horizontalSpace,
               InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 onTap: () {
                   Navigator.pushReplacement(
                     context,

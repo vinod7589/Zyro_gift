@@ -6,25 +6,26 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../../Packages/page_transition/enum.dart';
-import '../../../../Packages/page_transition/page_transition.dart';
-import '../../../../constants/base_url.dart';
-import '../../../../controller/internet_check_status_controller.dart';
-import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
-import 'My_cardDetails_page.dart';
+import '../../../Packages/loading_packags/build_loading_animation.dart';
+import '../../../Packages/page_transition/enum.dart';
+import '../../../Packages/page_transition/page_transition.dart';
+import '../../../constants/base_url.dart';
+import '../../../controller/internet_check_status_controller.dart';
+import '../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
+import '../home_page/drawer/My_cardDetails_page.dart';
 
-class MyCardPage extends ConsumerStatefulWidget {
-  const MyCardPage({
+class MyCardBottomTabPage extends ConsumerStatefulWidget {
+  const MyCardBottomTabPage({
     super.key,
     // required bool Isfrombottom,
   });
 
   @override
-  ConsumerState<MyCardPage> createState() => _MyCardPageState();
+  ConsumerState<MyCardBottomTabPage> createState() =>
+      _MyCardBottomTabPageState();
 }
 
-class _MyCardPageState extends ConsumerState<MyCardPage> {
+class _MyCardBottomTabPageState extends ConsumerState<MyCardBottomTabPage> {
   HomePageService homeRepo = HomePageService();
   DrawerRepoService drawerRepo = DrawerRepoService();
 
@@ -66,16 +67,8 @@ class _MyCardPageState extends ConsumerState<MyCardPage> {
             backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
             appBar: AppBar(
                 scrolledUnderElevation: 0,
-                titleSpacing: 5,
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                ),
+                leadingWidth: 0,
+                titleSpacing: 20,
                 backgroundColor: const Color.fromRGBO(35, 35, 35, 1),
                 title: Text(
                   'My Cards',
@@ -117,21 +110,6 @@ class _MyCardPageState extends ConsumerState<MyCardPage> {
                                 color: Colors.white),
                           ),
                           58.verticalSpace,
-                          Container(
-                            height: 51.h,
-                            width: 162.w,
-                            child: ElevatedButton(
-                              style: ButtonStyle(),
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(
-                                'Back',
-                                style: TextStyle(
-                                    color: Color(0xFE2D2D2D),
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          )
                         ],
                       )
                     : ListView.builder(

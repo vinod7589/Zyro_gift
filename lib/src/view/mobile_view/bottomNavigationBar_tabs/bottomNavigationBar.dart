@@ -1,4 +1,4 @@
-import 'package:abc/src/view/mobile_view/home_page/drawer/MyCard_page.dart';
+import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/mycard_bottom_tab_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meta_sdk/flutter_meta_sdk.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +23,6 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     final metaSdk = FlutterMetaSdk();
     metaSdk.logEvent(name: "User Open the App");
-
     // TODO: implement initState
     super.initState();
   }
@@ -35,7 +34,7 @@ class _LandingPageState extends State<LandingPage> {
         index: _selectedIndex,
         children: const [
           HomePage(),
-          MyCardPage(isfrombottom: true),
+          MyCardBottomTabPage(),
           ProfilePage(),
         ],
       ),

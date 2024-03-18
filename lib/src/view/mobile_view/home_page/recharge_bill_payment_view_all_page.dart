@@ -61,18 +61,18 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                           onTapOutside: (e) => FocusScope.of(context).unfocus(),
                           style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(50),
                                   ),
                                   borderSide:
                                       BorderSide(color: Color(0xFF545454))),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xFF545454)),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(50))),
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                 left: 20,
                                 top: 10,
                                 bottom: 8,
@@ -117,11 +117,11 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
 
                               hintStyle: TextStyle(
                                 fontSize: 14.sp,
-                                color: Color(0xFFB5B5B5),
+                                color: const Color(0xFFB5B5B5),
                                 fontWeight: FontWeight.w400,
                               ),
                               // hintText: "Search for Brands",
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(50)),
                                   borderSide:
@@ -143,7 +143,7 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 13),
+                      padding: const EdgeInsets.only(left: 13),
                       child: Text(
                         'Recharges',
                         style: TextStyle(
@@ -156,20 +156,21 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                     ),
                     14.verticalSpace,
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       alignment: Alignment.center,
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF292929)),
+                          side: const BorderSide(
+                              width: 1, color: Color(0xFF292929)),
                           borderRadius: BorderRadius.circular(9),
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            NavigatorPush(
+                            const NavigatorPush(
                               title: EnterMobileNumberPage(),
                               child: MyContainerWithBackgroundColor(
                                   title: 'Mobile\nRecharge',
@@ -177,7 +178,7 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                                   height: 34),
                             ),
                             20.horizontalSpace,
-                            NavigatorPush(
+                            const NavigatorPush(
                               title: SelectDthOperatorPage(),
                               child: MyContainerWithBackgroundColor(
                                   title: 'DTH/\nCable TV',
@@ -190,9 +191,10 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (c) => CardBottomTabPage()));
+                                        builder: (c) =>
+                                            const CardBottomTabPage()));
                               },
-                              child: MyContainerWithBackgroundColor(
+                              child: const MyContainerWithBackgroundColor(
                                   title: 'FASTag\nRecharge',
                                   image: 'fastTag.png',
                                   height: 34),
@@ -203,7 +205,7 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                       ),
                     ),
                     23.verticalSpace,
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 13),
                       child: Text(
                         'Housing & Utilities',
@@ -217,18 +219,19 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                     ),
                     14.verticalSpace,
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF292929)),
+                          side: const BorderSide(
+                              width: 1, color: Color(0xFF292929)),
                           borderRadius: BorderRadius.circular(9),
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
                           children: [
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 MyContainerWithBackgroundColor(
@@ -250,7 +253,7 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                               ],
                             ),
                             20.verticalSpace,
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 MyContainerWithBackgroundColor(
@@ -276,7 +279,7 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                       ),
                     ),
                     23.verticalSpace,
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 13),
                       child: Text(
                         'Finance & Tax',
@@ -290,14 +293,15 @@ class RechargeBillPaymentViewAllPage extends StatelessWidget {
                     ),
                     14.verticalSpace,
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF292929)),
+                          side: const BorderSide(
+                              width: 1, color: Color(0xFF292929)),
                           borderRadius: BorderRadius.circular(9),
                         ),
                       ),
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

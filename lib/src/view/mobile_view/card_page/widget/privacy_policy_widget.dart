@@ -1,3 +1,4 @@
+import 'package:abc/src/view/mobile_view/card_page/kyc_page/kyc_option_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +10,7 @@ class CardPrivacyPolicyPage extends StatefulWidget {
 }
 
 class _CardPrivacyPolicyPageState extends State<CardPrivacyPolicyPage> {
-  bool _isChecked = false;
+  bool _isChecked = true;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,22 @@ class _CardPrivacyPolicyPageState extends State<CardPrivacyPolicyPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    alignment: AlignmentDirectional.topEnd,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    )),
+              ],
+            ),
             Text(
               'Privacy & Policy',
               style: TextStyle(
@@ -39,7 +56,7 @@ class _CardPrivacyPolicyPageState extends State<CardPrivacyPolicyPage> {
               children: [
                 5.horizontalSpace,
                 Container(
-                  height: 26,
+                  height: 28,
                   // width: 50,
                   child: Checkbox(
                     shape: RoundedRectangleBorder(
@@ -69,22 +86,31 @@ class _CardPrivacyPolicyPageState extends State<CardPrivacyPolicyPage> {
               ],
             ),
             30.verticalSpace,
-            Container(
-              alignment: Alignment.center,
-              width: 181,
-              height: 42.93,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(66),
+            InkWell(
+              onTap: () {
+                if (_isChecked) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (c) => KycOptionPage()));
+                } else {}
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: 181,
+                height: 42.93,
+                decoration: ShapeDecoration(
+                  color:
+                      _isChecked == false ? Colors.grey.shade600 : Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(66),
+                  ),
                 ),
-              ),
-              child: Text(
-                'Proceed',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+                child: Text(
+                  'Proceed',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             )

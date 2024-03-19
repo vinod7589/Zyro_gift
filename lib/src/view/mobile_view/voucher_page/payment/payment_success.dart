@@ -2,7 +2,7 @@ import 'package:abc/src/view/mobile_view/bottomNavigationBar_tabs/bottomNavigati
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../drawer/MyCard_page.dart';
+import '../../home_page/drawer/MyCard_page.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   const PaymentSuccessPage({super.key});

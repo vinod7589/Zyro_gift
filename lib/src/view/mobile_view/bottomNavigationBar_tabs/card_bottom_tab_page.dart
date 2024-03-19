@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../home_page/card_page/widget/privacy_policy_widget.dart';
+import '../card_page/widget/privacy_policy_widget.dart';
 
 class CardBottomTabPage extends StatefulWidget {
   const CardBottomTabPage({super.key});
@@ -32,6 +32,7 @@ class _CardBottomTabPageState extends State<CardBottomTabPage> {
                       builder: (BuildContext context) {
                         return Theme(
                             data: ThemeData(
+                              fontFamily: 'Poppins',
                               useMaterial3: false,
                             ),
                             child: AlertDialog(
@@ -44,7 +45,7 @@ class _CardBottomTabPageState extends State<CardBottomTabPage> {
                                 contentPadding: EdgeInsets.only(
                                   right: 20,
                                   bottom: 40,
-                                  top: 40,
+                                  top: 10,
                                 ),
                                 backgroundColor: Color(0xFF1E1E1E),
                                 content: CardPrivacyPolicyPage()));

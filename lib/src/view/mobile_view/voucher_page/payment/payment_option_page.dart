@@ -1,24 +1,20 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:async';
-import 'package:abc/src/Packages/page_transition/enum.dart';
 import 'package:abc/src/infrastructure/repository/payment_repo.dart';
-import 'package:abc/src/model/payment/check_payment_status_model.dart';
 import 'package:abc/src/model/payment/payment_model.dart';
-import 'package:abc/src/model/payment/purchasegift_voucher_model.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_timer_count.dart';
+import 'package:abc/src/view/mobile_view/voucher_page/payment/payment_timer_count.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../../Packages/page_transition/page_transition.dart';
-import '../../../../controller/fixed_card_controller.dart';
 import '../../../../model/CartDataModel.dart';
 
 class PaymentOptionPage extends ConsumerStatefulWidget {
   final CartDataModel cartDataDetails;
   final String brandCode;
+
   const PaymentOptionPage(
       {super.key, required this.cartDataDetails, required this.brandCode});
 
@@ -31,6 +27,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
   bool isLoading = false;
   num amount = 0;
   num discount = 0;
+
   @override
   void dispose() {
     super.dispose();
@@ -90,6 +87,7 @@ class _PaymentOptionPageState extends ConsumerState<PaymentOptionPage> {
   bool isUpiValid = true;
   final TextEditingController _upiTextEditingController =
       TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     //var paymentOption = ref.watch(fixedCardController(widget.brandCode));

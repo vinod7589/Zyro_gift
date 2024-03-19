@@ -4,8 +4,8 @@ import 'dart:async';
 
 import 'package:abc/src/model/payment/check_payment_status_model.dart';
 import 'package:abc/src/model/payment/purchasegift_voucher_model.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_failed.dart';
-import 'package:abc/src/view/mobile_view/home_page/payment/payment_success.dart';
+import 'package:abc/src/view/mobile_view/voucher_page/payment/payment_failed.dart';
+import 'package:abc/src/view/mobile_view/voucher_page/payment/payment_success.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -37,7 +37,7 @@ class AnimationButtonState extends State<AnimationButton> {
 
   @override
   Widget build(BuildContext context) {
-    final double _height = 60.h - _shadowHeight;
+    final double _height = 57.h - _shadowHeight;
     return Center(
       child: GestureDetector(
         // onLongPress: () {
@@ -113,7 +113,7 @@ class AnimationButtonState extends State<AnimationButton> {
                       padding: const EdgeInsets.symmetric(horizontal: 14),
                       child: Text(widget.title,
                           style: widget.textStyle ??
-                              TextStyle(fontSize: 14.sp, color: Colors.white)),
+                              TextStyle(fontSize: 14.sp, color: Colors.black)),
                     ),
                   ),
                 ),

@@ -6,6 +6,7 @@ import 'package:abc/src/view/mobile_view/home_page/drawer/widget/howto_redeem_wi
 import 'package:abc/src/view/mobile_view/home_page/drawer/widget/terms_condition_widget.dart';
 import 'package:abc/src/view/widgets/dialogs/toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,7 @@ import '../../../../infrastructure/repository/checkli_maxlit_repo.dart';
 import '../../../../infrastructure/repository/homePage_repo/home_page_repo.dart';
 import '../../../../model/homePage/voucher_entity.dart';
 import '../../../custom_keyboard/custom_keyboard.dart';
-import '../widget/denomination_select_widget.dart';
+import '../../voucher_page/widget/denomination_select_widget.dart';
 
 class CardDetailsPage extends ConsumerStatefulWidget {
   const CardDetailsPage({required this.brandCode, required this.voucher});
@@ -156,7 +157,7 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Container(
+                                SizedBox(
                                   // color:
                                   //     Colors.red,
                                   width: 140.w,
@@ -282,7 +283,9 @@ class _CardDetailsPageState extends ConsumerState<CardDetailsPage> {
       }
     } catch (error) {
       // Handle any errors that occur during the service call
-      print('Error: $error');
+      if (kDebugMode) {
+        print('Error: $error');
+      }
     }
   }
 

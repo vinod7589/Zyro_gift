@@ -326,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.push(
                             context,
                             PageTransition(
-                                child: PaymentSuccessPage(),
+                                child: HelpSupportPage(),
                                 type: PageTransitionType.theme));
                       },
                       child: Row(

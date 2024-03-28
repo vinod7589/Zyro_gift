@@ -26,8 +26,6 @@ class _CardPageState extends State<PrepaidAndCreditCardPage>
 
   @override
   void initState() {
-    // prepaidCardFetch();
-    // transactionFetch();
     isLoadingPage();
     tabController = TabController(
       initialIndex: 0,
@@ -609,10 +607,5 @@ class _CardPageState extends State<PrepaidAndCreditCardPage>
               ),
             ),
     );
-  }
-
-  prepaidCardFetch() async {
-    await PineLabPrepaidCardRepo()
-        .prepaidCardDetailsService('5683785967', UserPreferences.userId);
   }
 }

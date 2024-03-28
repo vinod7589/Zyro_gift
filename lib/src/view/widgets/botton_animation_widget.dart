@@ -12,15 +12,18 @@ class AnimationButton extends StatefulWidget {
   final TextStyle? textStyle;
   final double? width;
   final double? height;
+  final Widget? loader;
 
   const AnimationButton(
-      {this.onPress,
+      {super.key,
+      this.onPress,
       required this.title,
       this.textStyle,
       this.color_1,
       this.color_2,
       this.width,
-      this.height});
+      this.height,
+      this.loader});
 
   @override
   State<AnimationButton> createState() => AnimationButtonState();
@@ -29,15 +32,16 @@ class AnimationButton extends StatefulWidget {
 class AnimationButtonState extends State<AnimationButton> {
   static const double _shadowHeight = 4;
   double _position = 4;
+  late AnimationController _animationController;
 
   haptics() {
     HapticFeedback.mediumImpact();
-    sleep(Duration(microseconds: 100));
+    sleep(const Duration(microseconds: 100));
   }
 
   @override
   Widget build(BuildContext context) {
-    final double _height = 57.h - _shadowHeight;
+    final double height = 57.h - _shadowHeight;
     return Center(
       child: GestureDetector(
         // onLongPress: () {
@@ -69,7 +73,7 @@ class AnimationButtonState extends State<AnimationButton> {
           });
         },
         child: SizedBox(
-          height: _height + _shadowHeight,
+          height: height + _shadowHeight,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -78,10 +82,10 @@ class AnimationButtonState extends State<AnimationButton> {
                 // right: 29.w,
                 child: Container(
                   width: widget.width,
-                  height: _height,
+                  height: height,
                   decoration: BoxDecoration(
                     color: widget.color_1 ?? Colors.grey,
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(30),
                     ),
                   ),
@@ -98,22 +102,30 @@ class AnimationButtonState extends State<AnimationButton> {
               AnimatedPositioned(
                 curve: Curves.easeInOutCubic,
                 bottom: _position,
-                duration: Duration(milliseconds: 70),
+                duration: const Duration(milliseconds: 70),
                 child: Container(
-                  height: _height,
+                  height: height,
                   width: widget.width,
                   decoration: BoxDecoration(
                     color: widget.color_2 ?? Colors.white,
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(30),
                     ),
                   ),
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Text(widget.title,
-                          style: widget.textStyle ??
-                              TextStyle(fontSize: 14.sp, color: Colors.black)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(widget.title,
+                              style: widget.textStyle ??
+                                  TextStyle(
+                                      fontSize: 14.sp, color: Colors.black)),
+                          10.horizontalSpace,
+                          widget.loader ?? const SizedBox(),
+                        ],
+                      ),
                     ),
                   ),
                 ),

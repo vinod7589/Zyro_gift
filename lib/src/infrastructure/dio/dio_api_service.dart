@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../constants/base_url.dart';
@@ -44,11 +45,15 @@ class DioApiService {
     //dio.options.headers['Authorization'] = 'Bearer your_token_here';
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.post(url.toString(), data: body);
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response.statusCode == 200) {
       return response.data;
     } else if (response.statusCode == 400) {
-      print('Bad request');
+      if (kDebugMode) {
+        print('Bad request');
+      }
       log('Response body: ${response.data}');
       // print('Response body: ${response.data}');
       return response.data;
@@ -76,7 +81,7 @@ class DioApiService {
         // },
         ));
 
-    dio.options.headers['Authorization'] = 'bearer ' + UserPreferences.tokenId;
+    dio.options.headers['Authorization'] = 'bearer ${UserPreferences.tokenId}';
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.post(url.toString(),
         queryParameters: queryParameters, data: body);
@@ -100,9 +105,71 @@ class DioApiService {
     final url = Uri.parse(baseUrl + endpoint);
     dio.interceptors
         .add(PrettyDioLogger(requestBody: true, responseBody: true));
-    dio.options.headers['Authorization'] = 'bearer ' + UserPreferences.tokenId;
+    dio.options.headers['Authorization'] = 'bearer ${UserPreferences.tokenId}';
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.get(url.toString());
+    if (response.statusCode == 200) {
+      return response.data;
+    } else if (response.statusCode == 400) {
+      log('Bad request');
+      log('Response body: ${response.data}');
+      return response.data;
+    } else {
+      log('Request successful');
+      log('Response body: ${response.data}');
+      return response.data;
+    }
+  }
+
+  /// ///////////////<---PineLab_Post_type--->//////////////////
+
+  Future<Map<String, dynamic>> pineLabPost(
+      String endpoint, dynamic body) async {
+    final dio = Dio();
+    final url = Uri.parse(pineLabBaseUrl + endpoint);
+    dio.interceptors
+        .add(PrettyDioLogger(responseBody: true, requestBody: true));
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.post(url.toString(), data: body);
+    if (kDebugMode) {
+      print(response);
+    }
+    if (response.statusCode == 200) {
+      return response.data;
+    } else if (response.statusCode == 400) {
+      if (kDebugMode) {
+        print('Bad request');
+      }
+      log('Response body: ${response.data}');
+      // print('Response body: ${response.data}');
+      return response.data;
+    } else {
+      if (kDebugMode) {
+        print('Request successful');
+      }
+      log('Response body: ${response.data}');
+      // print('Response body: ${response.data}');
+      return response.data;
+    }
+  }
+
+  /// ///////////////<---PineLab_AuthPost_type--->//////////////////
+
+  Future<Map<String, dynamic>> pineLabAuthPost(String endpoint, dynamic body,
+      {Map<String, dynamic>? queryParameters}) async {
+    final dio = Dio();
+    final url = Uri.parse(pineLabBaseUrl + endpoint);
+
+    dio.interceptors
+        .add(PrettyDioLogger(requestBody: true, responseBody: true));
+
+    dio.options.headers['Authorization'] =
+        'bearer ${UserPreferences.pineLabKycToken}';
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.post(url.toString(),
+        queryParameters: queryParameters, data: body);
+    // log(response.toString());
+
     if (response.statusCode == 200) {
       return response.data;
     } else if (response.statusCode == 400) {

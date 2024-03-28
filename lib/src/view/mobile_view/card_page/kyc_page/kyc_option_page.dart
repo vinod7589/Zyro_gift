@@ -1,23 +1,25 @@
 import 'package:abc/src/constants/height.dart';
 import 'package:abc/src/constants/page_padding.dart';
-import 'package:abc/src/view/mobile_view/card_page/kyc_page/kyc_user_details_page.dart';
+import 'package:abc/src/controller/pinelab_kyc_controller.dart';
 import 'package:abc/src/view/widgets/botton_animation_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class KycOptionPage extends StatefulWidget {
+import '../../../widgets/radio_Button.dart';
+import 'kyc_complete_page.dart';
+
+class KycOptionPage extends ConsumerStatefulWidget {
   const KycOptionPage({super.key});
 
   @override
-  State<KycOptionPage> createState() => _KycOptionPageState();
+  ConsumerState<KycOptionPage> createState() => _KycOptionPageState();
 }
 
-class _KycOptionPageState extends State<KycOptionPage> {
-  bool minKycChecked = true;
-  bool fullKycChecked = false;
-
+class _KycOptionPageState extends ConsumerState<KycOptionPage> {
   @override
   Widget build(BuildContext context) {
+    var pineLabCtr = ref.watch(pineLabController);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -80,22 +82,14 @@ class _KycOptionPageState extends State<KycOptionPage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Container(
-                          height: 28,
-                          // width: 50,
-                          child: Checkbox(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            fillColor: MaterialStatePropertyAll(Colors.white),
-                            checkColor: Colors.black,
-                            value: minKycChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                minKycChecked = value!;
-                              });
-                            },
-                          ),
-                        ),
+                        RadioButtonWidget(
+                          onTap: () {
+                            pineLabCtr.changeMinKycChecked(true);
+                          },
+                          isTapped: pineLabCtr.minKycChecked,
+                          inSideFillColor: Colors.grey,
+                          outSideBorderColor: Colors.white,
+                        )
                       ],
                     ),
                     8.verticalSpace,
@@ -103,7 +97,7 @@ class _KycOptionPageState extends State<KycOptionPage> {
                       'Don’t have a document now?\nClick to get started',
                       style: TextStyle(
                         color: Color(0xFFC4C4C4),
-                        fontSize: 11,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     )
@@ -137,22 +131,14 @@ class _KycOptionPageState extends State<KycOptionPage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Container(
-                          height: 28,
-                          // width: 50,
-                          child: Checkbox(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            fillColor: MaterialStatePropertyAll(Colors.white),
-                            checkColor: Colors.black,
-                            value: fullKycChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                fullKycChecked = value!;
-                              });
-                            },
-                          ),
-                        ),
+                        RadioButtonWidget(
+                          onTap: () {
+                            pineLabCtr.changeFullKycChecked(true);
+                          },
+                          isTapped: pineLabCtr.fullKycChecked,
+                          inSideFillColor: Colors.grey,
+                          outSideBorderColor: Colors.white,
+                        )
                       ],
                     ),
                     8.verticalSpace,
@@ -171,10 +157,14 @@ class _KycOptionPageState extends State<KycOptionPage> {
             Spacer(),
             AnimationButton(
               onPress: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => KycUserDetailsPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => KycCompletePage()));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => KycUserDetailsPage(
+                //               isSelected: pineLabCtr.minKycChecked,
+                //             )));
               },
               width: Height.ButtonWidth,
               title: 'Continue',
@@ -215,7 +205,7 @@ class _KycOptionPageState extends State<KycOptionPage> {
                 ],
               ),
             ),
-            25.verticalSpace,
+            15.verticalSpace,
           ],
         ),
       ),

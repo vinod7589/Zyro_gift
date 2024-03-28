@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../Packages/loading_packags/build_loading_animation.dart';
-import '../../../constants/color.dart';
 
-void showLoading(BuildContext context, {String? message}) {
+void showLoading(
+  BuildContext context,
+) {
   showDialog(
     context: context,
     barrierDismissible: false,

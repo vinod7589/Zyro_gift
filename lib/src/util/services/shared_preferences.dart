@@ -14,6 +14,7 @@ class UserPreferences {
   static const _dob = 'date_Of_Birth';
   static const _userId = 'user_Id';
   static const _referalCode = 'referalCode';
+  static const _pineLabToken = 'pineLabToken';
 
   static Future setTempOtpId({required String id}) async {
     await _preferences.setString(_otpRefId, id);
@@ -47,6 +48,10 @@ class UserPreferences {
     await _preferences.setString(_referalCode, referaCode);
   }
 
+  static Future setPineLabToken({required String pineLabToken}) async {
+    await _preferences.setString(_pineLabToken, pineLabToken);
+  }
+
   static Future removeRefId() async {
     await _preferences.remove(_otpRefId);
   }
@@ -63,14 +68,28 @@ class UserPreferences {
     await _preferences.remove(_dob);
   }
 
+  static Future removePineLabKycController() async {
+    await _preferences.remove(_pineLabToken);
+  }
+
   static String get otpTempId => _preferences.getString(_otpRefId) ?? "";
+
   static String get tokenId => _preferences.getString(_token) ?? "";
+
   static String get fullName => _preferences.getString(_fullName) ?? "";
+
   static String get email => _preferences.getString(_email) ?? "";
+
   static String get dob => _preferences.getString(_dob) ?? "";
+
   static String get referalCode => _preferences.getString(_referalCode) ?? "";
+
   static String get userMobile => _preferences.getString(_userMobile) ?? "";
+
   static String get userId => _preferences.getString(_userId) ?? "";
+
+  static String get pineLabKycToken =>
+      _preferences.getString(_pineLabToken) ?? "";
 
   static Future clearUserData() async {
     await _preferences.remove(_otpRefId);

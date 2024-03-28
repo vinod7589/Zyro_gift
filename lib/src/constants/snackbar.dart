@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
-SnackBar getSnackBar({required String content, Color color = Colors.red}) {
-  return SnackBar(
-    duration: const Duration(seconds: 2),
-    content: Text(content),
-    backgroundColor: color,
-  );
+class CustomSnackbar {
+  static void show(
+      {BuildContext? context, required String message, Color? color}) {
+    ScaffoldMessenger.of(context!).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 2),
+        content: Text(message),
+        backgroundColor: color,
+      ),
+    );
+  }
 }
